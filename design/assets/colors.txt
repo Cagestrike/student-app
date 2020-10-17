@@ -1,0 +1,4 @@
+main light blue: #3498DB
+light grey: #EEEEEE
+black: #000000 with opacity @ 87%
+modal background layer: #8D8D8D
