@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from './authentication.service';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'student-app';
+  isLoggedIn;
+
+  constructor(
+    private authService: AuthenticationService,
+    private router: Router
+  ) {
+    this.isLoggedIn = this.authService.isLoggedIn();
+    router.events.subscribe((val) => {
+      if(val instanceof NavigationEnd) {
+        this.isLoggedIn = this.authService.isLoggedIn();
+      }
+  });
+  }
 }

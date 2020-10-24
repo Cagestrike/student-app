@@ -1,0 +1,60 @@
+.hero-image {
+    background: url("/assets/login_page_bg.jpg") no-repeat 50% 50%;
+    background-size: cover;
+    width: 100%;
+    height: 100vh;
+}
+
+.bg-blur {
+    background: rgba(255, 255, 255, 0);
+    backdrop-filter: blur(8px); 
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    width: 70%;
+    height: 80%;
+    display: flex;
+}
+
+.social-login-wrapper {
+    background: #3498DB;
+    width: 50%;
+    height: 100%;
+    border-radius: 19px 0 0 19px;
+}
+
+.login-wrapper {
+    background: #EEEEEE;
+    width: 50%;
+    height: 100%;
+    border-radius: 0 19px 19px 0;
+}
+
+.action-buttons {
+    height: 70px;
+    margin-right: 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.action-button {
+    border: solid #707070 1px;
+    border-radius: 0;
+    height: 50%;
+}
+
+.action-button.active {
+    border: none;
+    color: #EEEEEE;
+    background-color: #3498DB;
+}
+
+.form-wrapper {
+    /* border: solid red 1px; */
+}
