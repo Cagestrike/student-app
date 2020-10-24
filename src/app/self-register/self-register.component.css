@@ -1,0 +1,16 @@
+.self-register {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.input-field {
+    width: 100%;
+}
+
+.action-button {
+    border: none;
+    color: #EEEEEE;
+    background-color: #3498DB;
+    border-radius: 0;
+    width: 100%;
+}
