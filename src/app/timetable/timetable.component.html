@@ -1,0 +1,70 @@
+<div class="center" *ngIf="currentStage == 'no timetable'">
+    <svg-icon src="/assets/icons/notebook.svg" svgClass="svg-icon"></svg-icon>
+    <h2>Brak aktualnego planu zajęć</h2>
+    <p>Tutaj będą widoczne twoje przedmioty oraz plan zajęć</p>
+    <button mat-flat-button color="primary" class="button" (click)="startTimetableCreation()">Stwórz nowy plan zajęć</button>
+</div>
+
+<div class="center" *ngIf="currentStage == 'create new timetable'">
+    <div class="modal-box">
+        <div class="modal-box__title center">
+            <h3>Nowy plan zajęć</h3>
+        </div>
+        <form action="" [formGroup]="newTimetableForm" class="timetable__form">
+            <mat-form-field>
+              <mat-label>Nazwa</mat-label>
+              <input matInput type="text" [(ngModel)]="timetableName" [formControl]="timetableNameControl" [errorStateMatcher]="matcher" name="timetableName" placeholder="Nazwa planu zajęć, np. Semestr V" required>
+              <mat-error *ngIf="timetableNameControl.hasError('required')">
+                Nazwa jest <strong>wymagana</strong>
+              </mat-error>
+            </mat-form-field>
+            <div class="modal-box__form-row">
+                <mat-form-field style="flex: 1; margin-right: 16px;">
+                    <mat-label>Początek</mat-label>
+                    <input matInput [(ngModel)]="timetableStartDate" [formControl]="startDateControl" [errorStateMatcher]="matcher" name="timetableStartDate" type="date" required>
+                    <mat-error *ngIf="startDateControl.hasError('required')">
+                        Data początku jest <strong>wymagana</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field style="flex: 1;">
+                    <mat-label>Koniec</mat-label>
+                    <input matInput [(ngModel)]="timetableEndDate" [formControl]="endDateControl" [errorStateMatcher]="matcher" name="timetableEndDate" type="date" required>
+                    <mat-error *ngIf="endDateControl.hasError('required')">
+                        Data końca jest <strong>wymagana</strong>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="center modal-box__form-row">
+                <button mat-stroked-button class="button cancel">Anuluj</button>
+                <button type="button" mat-flat-button color="primary" class="button" [disabled]="newTimetableForm.invalid" (click)="saveTimetable()">Zapisz</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div style="display: flex;" *ngIf="currentStage == 'current timetable'">
+    <div style="width: 75%; margin: 16px; border-radius: 19px 19px 0 0;" >
+        <h4 style="margin: 0;">Twój aktualny plan zajęć</h4>
+        <div class="timetable__header">
+            <h1 style="margin: 0; padding: 16px 0;">{{currentTimetable.name}} ({{currentTimetable.startDate + ' - ' + currentTimetable.endDate}})</h1>
+        </div>
+        <div style="background-color: white; ">
+            <full-calendar style="height: 30vh;" #calendar [options]="calendarOptions"></full-calendar>
+        </div>
+    </div>
+    <div style="width: 25%; margin: 16px; border-radius: 19px 19px 0 0;">
+        <h4 style="margin: 0;">Twoje przedmioty</h4>
+        <div class="university-classes__container">
+            <p class="university-class__row" *ngIf="!universityClasses.length">Brak przedmiotow</p>
+            <ng-template [ngIf]="universityClasses && universityClasses.length">
+                <div *ngFor="let universityClass of universityClasses" class="university-class__row">
+                    <h4 style="margin: 0;">{{universityClass.name}}</h4>
+                    <p style="margin: 0;">{{getDayOfWeek(universityClass.dayOfWeek)}}, {{universityClass.startTime}} - {{universityClass.endTime}}</p>
+                    <p>{{universityClass.classroom}}</p>
+                </div>
+            </ng-template>
+            <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="openCreateClassDialog();">Dodaj nowy przedmiot</button>
+        </div>
+    </div>
+</div>
+

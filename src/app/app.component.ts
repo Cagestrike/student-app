@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { NavigationEnd, Router } from '@angular/router';
 
@@ -9,16 +9,22 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class AppComponent {
   isLoggedIn;
+  navbarWidth = '72px';
+  activePageName = 'Strona główna';
 
   constructor(
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
   ) {
     this.isLoggedIn = this.authService.isLoggedIn();
     router.events.subscribe((val) => {
       if(val instanceof NavigationEnd) {
         this.isLoggedIn = this.authService.isLoggedIn();
       }
-  });
+    });
+  }
+
+  activePageNameChanged(activePageName) {
+    this.activePageName = activePageName;
   }
 }
