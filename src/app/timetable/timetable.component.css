@@ -1,0 +1,76 @@
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.svg-icon {
+    height: auto;
+    width: 40px;
+    fill: black;
+}
+
+.button {
+    background-color: #3498DB;
+    border-radius: 14px;
+}
+
+.button.cancel {
+    background-color: white;
+}
+
+.modal-box {
+    width: 50%;
+    height: 50%;
+    min-height: 240px;
+    background-color: white;
+    border-radius: 19px;
+}
+
+.modal-box__title {
+    border-radius: 19px 19px 0 0;
+    height: 48px;
+    background-color: #3498DB;
+    width: 100%;
+    color: white;
+    text-align: center;
+}
+
+.modal-box__title h3 {
+    margin: 0;
+}
+
+.modal-box__form-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.timetable__form {
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.timetable__header {
+    border-radius: 19px 19px 0 0;
+    background-color: #3498DB;
+    text-align: center;
+    color: white;
+}
+
+.university-classes__container {
+    background-color: white; 
+    border-radius: 19px 19px 19px 19px; 
+    display: flex; 
+    flex-direction: column;
+    height: 80vh;
+    overflow-y: scroll;
+}
+
+.university-class__row {
+    margin: 8px;
+}

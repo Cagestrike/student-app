@@ -1,3 +1,11 @@
-<p>
-  side-navbar works!
-</p>
+<div class="menu__aside-wrapper" [style.width]="navbarWidth">
+  <ul class="menu__aside">
+    <li><a routerLink="/dashboard"><svg-icon src="/assets/app-logo.svg" [svgClass]="navIcon"></svg-icon></a></li>
+    <!-- <li (click)="open();"><svg-icon src="/assets/icons/menu.svg" [svgClass]="navIcon"></svg-icon></li> -->
+    <li><a routerLink="/dashboard" (click)="setActivePage($event, 'Strona główna')"><svg-icon src="/assets/icons/home.svg" [svgClass]="navIcon"></svg-icon></a></li>
+    <li><a routerLink="/timetable" (click)="setActivePage($event, 'Plan zajęć')"><svg-icon src="/assets/icons/notebook.svg" [svgClass]="navIcon"></svg-icon></a></li>
+    <li><a routerLink="/calendar" (click)="setActivePage($event, 'Kalendarz')"><svg-icon src="/assets/icons/calendar.svg" [svgClass]="navIcon"></svg-icon></a></li>
+    <li><a routerLink="/notes" (click)="setActivePage($event, 'Notatki')"><svg-icon src="/assets/icons/list.svg" [svgClass]="navIcon"></svg-icon></a></li>
+    <li><a routerLink="/groups" (click)="setActivePage($event, 'Grupy')"><svg-icon src="/assets/icons/users.svg" [svgClass]="navIcon"></svg-icon></a></li>
+  </ul>
+</div>

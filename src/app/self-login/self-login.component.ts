@@ -10,6 +10,7 @@ import { AuthenticationService } from '../authentication.service';
 export class SelfLoginComponent implements OnInit {
   email;
   password;
+  error;
 
   constructor(private router: Router, private authentication: AuthenticationService) { }
 
@@ -22,8 +23,10 @@ export class SelfLoginComponent implements OnInit {
       if(successResponse.token) {
         this.authentication.setToken(successResponse.token);
         this.router.navigateByUrl('/dashboard');
+        this.error = null;
       }
     }, errorResponse => {
+      this.error = errorResponse.error.error;
       console.log(errorResponse.error.error);
     });
   }

@@ -9,6 +9,7 @@
       <mat-label>Hasło</mat-label>
       <input matInput [(ngModel)]="password" name="password" type="password">
     </mat-form-field>
+    <p style="color: red;">{{error}}</p>
     <button mat-stroked-button class="action-button active" (click)="tryLogin($event)">Zaloguj się</button>
     <p>Successful values: eve.holt@reqres.in, cityslicka</p>
   </form>
