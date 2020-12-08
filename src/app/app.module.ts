@@ -29,8 +29,12 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NewUniversityClassDialogComponent } from './new-university-class-dialog/new-university-class-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { NewCalendarEventDialogComponent } from './new-calendar-event-dialog/new-calendar-event-dialog.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -52,7 +56,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
       NotesComponent,
       GroupsComponent,
       CurrentTimetableComponent,
-      NewUniversityClassDialogComponent
+      NewUniversityClassDialogComponent,
+      NewCalendarEventDialogComponent
    ],
   imports: [
     BrowserModule,
@@ -67,13 +72,16 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     MatInputModule,
     MatDialogModule,
     MatSelectModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
-    FullCalendarModule
+    FullCalendarModule,
+    MatNativeDateModule
   ],
   providers: [
     AuthGuard,
-    LoggedInAuthGuard
+    LoggedInAuthGuard,
   ],
   bootstrap: [AppComponent]
 })

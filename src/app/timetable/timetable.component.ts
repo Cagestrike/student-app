@@ -10,7 +10,7 @@ import { UniversityClassService } from '../university-class.service';
 import { UniversityClass } from '../university-class';
 import { MatDialog } from '@angular/material/dialog';
 import { NewUniversityClassDialogComponent } from '../new-university-class-dialog/new-university-class-dialog.component';
-import { getDayOfWeekByValue } from "../days-of-week";
+import { getDayOfWeekByValue } from '../days-of-week';
 // import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
 
 /** Error when invalid control is dirty, touched, or submitted. */
@@ -46,14 +46,14 @@ export class TimetableComponent implements OnInit {
 
     @ViewChild('calendar') calendarComponent: FullCalendarComponent;
     calendarOptions: CalendarOptions = {
+        allDaySlot: false,
         height: '70vh',
         initialView: 'timeGridWeek',
-        allDaySlot: false,
         nowIndicator: true,
         locale: 'pl',
-        slotMinTime: "06:00:00",
-        slotMaxTime: "21:00:00",
-        slotDuration: "00:15:00",
+        slotMinTime: '06:00:00',
+        slotMaxTime: '21:00:00',
+        slotDuration: '00:15:00',
         firstDay: 1,
         dayHeaderFormat: { weekday: 'long' },
         headerToolbar: {
@@ -74,7 +74,7 @@ export class TimetableComponent implements OnInit {
         this.getCurrentTimetable();
     }
 
-    getDayOfWeek(val) {
+    getDayOfWeek(val): string {
         return getDayOfWeekByValue(val);
     }
 
@@ -103,8 +103,8 @@ export class TimetableComponent implements OnInit {
         } as Timetable;
 
         this.timetableService.addTimetable(timetable)
-            .subscribe(timetable => {
-                if (timetable) {
+            .subscribe(resultTimetable => {
+                if (resultTimetable) {
                     this.getCurrentTimetable();
                 }
             });
@@ -116,7 +116,7 @@ export class TimetableComponent implements OnInit {
         dialogRef.afterClosed().subscribe(result => {
             this.universityClassService.addUniversityClass(result)
                 .subscribe(uniClassResult => {
-                    if(uniClassResult) {
+                    if (uniClassResult) {
                         this.addUniversityClass(uniClassResult);
                     }
                 });
@@ -134,7 +134,7 @@ export class TimetableComponent implements OnInit {
         });
     }
 
-    addUniversityClass(universityClass: UniversityClass) {
+    addUniversityClass(universityClass: UniversityClass): void {
         this.universityClasses.push(universityClass);
         const calendarEvent = this.mapUniversityClassToEvent(universityClass);
         this.calendarComponent.getApi().addEvent(calendarEvent);

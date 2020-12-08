@@ -1,3 +1,9 @@
 <div class="top-bar">
-  <h2>{{activePageName}}</h2>
+    <h2>{{activePageName}}</h2>
+    <div *ngIf="currentRouterOutletComponent?.calendar" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+        <button mat-flat-button (click)="calendarPrevious();"><</button>
+        <h2 style="margin: 0;">{{currentRouterOutletComponent.getDate()}}</h2>
+        <button mat-flat-button (click)="calendarNext();">></button>
+        <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="calendarCreateEvent();">Stwórz nowe wydarzenie</button>
+    </div>
 </div>

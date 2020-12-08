@@ -8,14 +8,14 @@
         <div class="modal-box__form-row">
             <mat-form-field style="flex: 1 1 0px;   margin-right: 16px;">
                 <mat-label>Nazwa</mat-label>
-                <input matInput type="text" name="className" [(ngModel)]="className" [formControl]="classNameControl" [errorStateMatcher]="matcher" required>
+                <input matInput type="text" name="className" [formControl]="classNameControl" [errorStateMatcher]="matcher" required>
                 <mat-error *ngIf="classNameControl.hasError('required')">
                     Nazwa jest <strong>wymagana</strong>
                 </mat-error>
             </mat-form-field>
             <mat-form-field style="flex: 1 1 0px;">
                 <mat-label>Sala</mat-label>
-                <input matInput type="text" name="classRoom" [(ngModel)]="classRoom" [formControl]="classRoomControl" [errorStateMatcher]="matcher" required>
+                <input matInput type="text" name="classRoom" [formControl]="classRoomControl" [errorStateMatcher]="matcher" required>
                 <!-- <mat-error *ngIf="timetableNameControl.hasError('required')">
                         Nazwa jest <strong>wymagana</strong>
                       </mat-error> -->
@@ -24,14 +24,14 @@
         <div class="modal-box__form-row">
             <mat-form-field style="flex: 1; margin-right: 16px;">
                 <mat-label>Początek</mat-label>
-                <input matInput name="classStartTime" type="time" [(ngModel)]="classStartTime" [formControl]="classStartTimeControl" [errorStateMatcher]="matcher" required>
+                <input matInput name="classStartTime" type="time" [formControl]="classStartTimeControl" [errorStateMatcher]="matcher" required>
                 <!-- <mat-error *ngIf="startDateControl.hasError('required')">
                             Data początku jest <strong>wymagana</strong>
                         </mat-error> -->
             </mat-form-field>
             <mat-form-field style="flex: 1; margin-right: 16px;">
                 <mat-label>Koniec</mat-label>
-                <input matInput name="classEndTime" type="time" [(ngModel)]="classEndTime" [formControl]="classEndTimeControl" [errorStateMatcher]="matcher" required>
+                <input matInput name="classEndTime" type="time" [formControl]="classEndTimeControl" [errorStateMatcher]="matcher" required>
                 <!-- <mat-error *ngIf="endDateControl.hasError('required')">
                             Data końca jest <strong>wymagana</strong>
                         </mat-error> -->
