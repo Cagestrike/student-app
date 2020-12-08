@@ -1,0 +1,76 @@
+<h2 mat-dialog-title>Nowe Wydarzenie</h2>
+
+<form action="" class="timetable__form" [formGroup]="newCalendarEventForm">
+
+    <mat-dialog-content>
+        <div class="modal-box__form-row">
+            <mat-form-field style="flex: 1 1 0px;   margin-right: 16px;">
+                <mat-label>Nazwa</mat-label>
+                <input matInput type="text" name="eventName" [formControl]="eventNameControl" [errorStateMatcher]="matcher" required>
+                <mat-error *ngIf="eventNameControl.hasError('required')">
+                    Nazwa jest <strong>wymagana</strong>
+                </mat-error>
+            </mat-form-field>
+
+            <mat-checkbox (change)="handleAllDayEventCheckbox($event)" style="align-self:center;" name="allDayEvent" [formControl]="allDayEventControl">Wydarzenie całodniowe?</mat-checkbox>
+        </div>
+        <div class="modal-box__form-row">
+            <mat-form-field style="flex: 1; margin-right: 16px;">
+                <mat-label>Początek</mat-label>
+                <input matInput [formControl]="eventStartDateControl" [errorStateMatcher]="matcher" name="eventStartDate" type="date" required>
+                <!-- <input matInput name="eventStartDate" [matDatepicker]="startDatePicker" [formControl]="eventStartDateControl">
+                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker> -->
+                <!-- <mat-error *ngIf="startDateControl.hasError('required')">
+                            Data początku jest <strong>wymagana</strong>
+                        </mat-error> -->
+            </mat-form-field>
+            <mat-form-field style="flex: 1; margin-right: 16px;">
+                <input matInput name="eventStartTime" type="time" [formControl]="eventStartTimeControl" [errorStateMatcher]="matcher" required>
+                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
+                            Data końca jest <strong>wymagana</strong>
+                        </mat-error> -->
+            </mat-form-field>
+        </div>
+        <div class="modal-box__form-row">
+            <mat-form-field style="flex: 1; margin-right: 16px;">
+                <mat-label>Koniec</mat-label>
+                <input matInput [formControl]="eventEndDateControl" [errorStateMatcher]="matcher" name="eventEndDate" type="date" required>
+
+                <!-- <input matInput name="eventEndDate" [matDatepicker]="endDatePicker" [formControl]="eventEndDateControl">
+                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker></mat-datepicker> -->
+                <!-- <mat-error *ngIf="startDateControl.hasError('required')">
+                            Data początku jest <strong>wymagana</strong>
+                        </mat-error> -->
+            </mat-form-field>
+            <mat-form-field style="flex: 1; margin-right: 16px;">
+                <input matInput name="eventEndTime" type="time" [formControl]="eventEndTimeControl" [errorStateMatcher]="matcher" required>
+                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
+                            Data końca jest <strong>wymagana</strong>
+                        </mat-error> -->
+            </mat-form-field>
+        </div>
+        <div class="center modal-box__form-row">
+            <mat-form-field style="flex: 1; margin-right: 16px;">
+                <mat-label>Lokalizacja</mat-label>
+                <input matInput name="eventLocation" type="text" [formControl]="eventLocationControl" [errorStateMatcher]="matcher">
+                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
+                            Data końca jest <strong>wymagana</strong>
+                        </mat-error> -->
+            </mat-form-field>
+        </div>
+        <div class="center modal-box__form-row">
+            <mat-form-field style="flex: 1; margin-right: 16px;">
+                <mat-label>Opis</mat-label>
+                <input matInput name="eventDescription" type="text" [formControl]="eventDescriptionControl" [errorStateMatcher]="matcher">
+            </mat-form-field>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Anuluj</button>
+        <button mat-flat-button (click)="createEvent();" cdkFocusInitial color="primary" class="button">Zapisz</button>
+        <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+    </mat-dialog-actions>
+</form>

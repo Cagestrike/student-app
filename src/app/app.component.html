@@ -1,9 +1,13 @@
 <div [class.app-container]="isLoggedIn">
-    <app-side-navbar *ngIf="isLoggedIn" [navbarWidth]="navbarWidth" (activePageChanged)="activePageNameChanged($event)"></app-side-navbar>
-    <div style="display: flex; flex-direction: column; width: 100%; min-height: 100vh; background-color: #eeeeee;" [style.margin-left]="isLoggedIn ? navbarWidth : '0px'">
-        <app-top-bar *ngIf="isLoggedIn" [activePageName]="activePageName"></app-top-bar>
+    <app-side-navbar *ngIf="isLoggedIn" [navbarWidth]="navbarWidth" (activePageChanged)="activePageNameChanged($event)">
+    </app-side-navbar>
+    <div style="display: flex; flex-direction: column; width: 100%; min-height: 100vh; background-color: #eeeeee;"
+        [style.margin-left]="isLoggedIn ? navbarWidth : '0px'">
+        <app-top-bar *ngIf="isLoggedIn" [activePageName]="activePageName"
+            [currentRouterOutletComponent]="currentRouterOutletComponent">
+        </app-top-bar>
         <div [class.main-content_wrapper]="isLoggedIn">
-            <router-outlet></router-outlet>
+            <router-outlet (activate)="onRouterOutletActivate($event)"></router-outlet>
         </div>
     </div>
 </div>

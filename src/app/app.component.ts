@@ -1,30 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { CalendarComponent } from "./calendar/calendar.component";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css'],
 })
 export class AppComponent {
-  isLoggedIn;
-  navbarWidth = '72px';
-  activePageName = 'Strona główna';
+    isLoggedIn;
+    navbarWidth = '72px';
+    activePageName = 'Strona główna';
+    currentRouterOutletComponent;
 
-  constructor(
-    private authService: AuthenticationService,
-    private router: Router,
-  ) {
-    this.isLoggedIn = this.authService.isLoggedIn();
-    router.events.subscribe((val) => {
-      if(val instanceof NavigationEnd) {
+    constructor(
+        private authService: AuthenticationService,
+        private router: Router,
+    ) {
         this.isLoggedIn = this.authService.isLoggedIn();
-      }
-    });
-  }
+        router.events.subscribe((val) => {
+            if (val instanceof NavigationEnd) {
+                this.isLoggedIn = this.authService.isLoggedIn();
+            }
+        });
+    }
 
-  activePageNameChanged(activePageName) {
-    this.activePageName = activePageName;
-  }
+    activePageNameChanged(activePageName) {
+        this.activePageName = activePageName;
+    }
+
+    onRouterOutletActivate(event) {
+        this.currentRouterOutletComponent = event;
+    }
 }

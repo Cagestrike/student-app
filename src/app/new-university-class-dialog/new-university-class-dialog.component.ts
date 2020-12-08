@@ -21,10 +21,10 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     styleUrls: ['./new-university-class-dialog.component.css']
 })
 export class NewUniversityClassDialogComponent implements OnInit {
-    className;
-    classRoom;
-    classStartTime;
-    classEndTime;
+    // className;
+    // classRoom;
+    // classStartTime;
+    // classEndTime;
     classDay;
     classNameControl = new FormControl('', [Validators.required]);
     classRoomControl = new FormControl('', [Validators.required]);
@@ -51,11 +51,11 @@ export class NewUniversityClassDialogComponent implements OnInit {
 
     createUniversityClass(): void {
         const newUniversityClass = {
-            classroom: this.classRoom,
+            classroom: this.classRoomControl.value,
             dayOfWeek: this.classDay,
-            name: this.className,
-            startTime: this.classStartTime,
-            endTime: this.classEndTime
+            name: this.classNameControl.value,
+            startTime: this.classStartTimeControl.value,
+            endTime: this.classEndTimeControl.value
         } as UniversityClass;
 
         this.dialogRef.close(newUniversityClass);
