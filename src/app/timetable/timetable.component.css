@@ -73,4 +73,9 @@
 
 .university-class__row {
     margin: 8px;
+    display: flex;
+}
+
+.action-button {
+    width: 10%;
 }

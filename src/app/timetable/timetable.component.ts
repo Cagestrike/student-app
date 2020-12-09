@@ -61,6 +61,7 @@ export class TimetableComponent implements OnInit {
             center: '',
             end: ''
         },
+        eventClick: (event) => {this.onEventClick(event);},
     };
 
     constructor(
@@ -123,6 +124,28 @@ export class TimetableComponent implements OnInit {
         });
     }
 
+    onEventClick(event): void {
+        const universityClassToEdit: UniversityClass = event.event.extendedProps.universityClass;
+        this.openEditClassDialog(universityClassToEdit);
+    }
+
+    openEditClassDialog(universityClassToEdit): void {
+        const dialogRef = this.dialog.open(NewUniversityClassDialogComponent, {
+            data: {
+                universityClassToEdit
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.universityClassService.updateUniversityClass(result)
+                .subscribe(() => {
+                    this.updateUniversityClass(result);
+                }, error => {
+                    console.log(error);
+                })
+        });
+    }
+
     getInitialRelatedUniversityClasses(): void {
         this.universityClassService.getUniversityClasses().subscribe(universityClasses => {
             this.universityClasses = universityClasses;
@@ -140,12 +163,23 @@ export class TimetableComponent implements OnInit {
         this.calendarComponent.getApi().addEvent(calendarEvent);
     }
 
+    updateUniversityClass(universityClass) {
+        const universityClassIndexToUpdate = this.universityClasses.findIndex(uniClass => uniClass.id === universityClass.id);
+        this.universityClasses[universityClassIndexToUpdate] = universityClass;
+        this.calendarComponent.getApi().getEventById(universityClass.id).remove();
+        this.calendarComponent.getApi().addEvent(this.mapUniversityClassToEvent(universityClass));
+    }
+
     mapUniversityClassToEvent(universityClass: UniversityClass): {} {
         return {
+            id: universityClass.id,
             title: universityClass.name,
             startTime: universityClass.startTime,
             endTime: universityClass.endTime,
             daysOfWeek: [universityClass.dayOfWeek],
+            universityClass,
+            backgroundColor: universityClass.color,
+            borderColor: universityClass.color
         };
     }
 
