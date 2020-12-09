@@ -10,7 +10,7 @@ import { Event } from './event';
 export class InMemoryDataService implements InMemoryDbService {
   createDb(): {} {
     const timetable: Timetable[] = [
-      {id: 1, startDate: '17-11-2020', endDate: '17-12-2021', name: 'Semestr VII'}
+    //   {id: 1, startDate: '17-11-2020', endDate: '17-12-2021', name: 'Semestr VII'}
     ];
 
     const universityClasses: UniversityClass[] = [
