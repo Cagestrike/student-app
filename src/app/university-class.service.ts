@@ -5,20 +5,24 @@ import { UniversityClass } from './university-class';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class UniversityClassService {
-  private universityClassesUrl = 'api/universityClasses';
+    private universityClassesUrl = 'api/universityClasses';
 
-  constructor(
-    private http: HttpClient
-  ) { }
+    constructor(
+        private http: HttpClient
+    ) { }
 
-  getUniversityClasses(): Observable<UniversityClass[]> {
-    return this.http.get<UniversityClass[]>(this.universityClassesUrl);
-  }
+    getUniversityClasses(): Observable<UniversityClass[]> {
+        return this.http.get<UniversityClass[]>(this.universityClassesUrl);
+    }
 
-  addUniversityClass(universityClass: UniversityClass) {
-    return this.http.post<UniversityClass>(this.universityClassesUrl, universityClass);
-  }
+    addUniversityClass(universityClass: UniversityClass) {
+        return this.http.post<UniversityClass>(this.universityClassesUrl, universityClass);
+    }
+
+    updateUniversityClass(universityClass: UniversityClass) {
+        return this.http.put<UniversityClass>(this.universityClassesUrl, universityClass);
+    }
 }
