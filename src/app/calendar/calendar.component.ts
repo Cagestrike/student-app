@@ -5,7 +5,6 @@ import { formatDate } from '@fullcalendar/core';
 import { NewCalendarEventDialogComponent } from '../new-calendar-event-dialog/new-calendar-event-dialog.component';
 import { EventService } from '../event.service';
 import { Event } from '../event';
-import { start } from 'repl';
 
 @Component({
     selector: 'app-calendar',
