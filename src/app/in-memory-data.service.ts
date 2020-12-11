@@ -21,8 +21,24 @@ export class InMemoryDataService implements InMemoryDbService {
     const tomorrow = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + (todayDate.getDate() + 1);
 
     const events: Event[] = [
-        {id: 1, name: 'Jakieś kolokwium', startDatetime: new Date(tomorrow + ' 10:00'), endDatetime: new Date(tomorrow + ' 13:00'), allDayEvent: false, description: 'kolokwium z czegos tam', location: 'politechnika lubelska'},
-        {id: 2, name: 'All Day Test Event', startDatetime: new Date(), endDatetime: new Date(), allDayEvent: true}
+        {
+            id: 1, 
+            color: '#3498DB', 
+            name: 'Jakieś kolokwium', 
+            startDatetime: new Date(tomorrow + ' 10:00'), 
+            endDatetime: new Date(tomorrow + ' 13:00'), 
+            allDayEvent: false, 
+            description: 'kolokwium z czegos tam', 
+            location: 'politechnika lubelska'
+        },
+        {
+            id: 2, 
+            color: '#3498DB', 
+            name: 'All Day Test Event', 
+            startDatetime: new Date(), 
+            endDatetime: new Date(), 
+            allDayEvent: true
+        }
     ];
 
     return {timetable, universityClasses, events};

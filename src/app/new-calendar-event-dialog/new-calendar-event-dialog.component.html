@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Nowe Wydarzenie</h2>
+<h2 mat-dialog-title>{{dialogHeader}}</h2>
 
 <form action="" class="timetable__form" [formGroup]="newCalendarEventForm">
 
@@ -66,11 +66,21 @@
                 <input matInput name="eventDescription" type="text" [formControl]="eventDescriptionControl" [errorStateMatcher]="matcher">
             </mat-form-field>
         </div>
+        <div class="center modal-box__form-row">
+            <mat-form-field>
+                <mat-label>Kolor</mat-label>
+                <input matInput name="classColor" type="color" [formControl]="eventColorControl" [errorStateMatcher]="matcher" required>
+                <!-- <input matInput name="classDay" type="time" [(ngModel)]="classDay" [formControl]="classDayControl" [errorStateMatcher]="matcher" required> -->
+                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
+                            Data końca jest <strong>wymagana</strong>
+                        </mat-error> -->
+            </mat-form-field>
+        </div>
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Anuluj</button>
-        <button mat-flat-button (click)="createEvent();" cdkFocusInitial color="primary" class="button">Zapisz</button>
+        <button mat-flat-button (click)="saveEvent();" cdkFocusInitial color="primary" class="button">Zapisz</button>
         <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
     </mat-dialog-actions>
 </form>
