@@ -22,4 +22,8 @@ export class EventService {
     getEvents(): Observable<Event[]> {
         return this.http.get<Event[]>(this.eventUrl);
     }
+
+    updateEvent(event: Event) {
+        return this.http.put<Event>(this.eventUrl, event);
+    }
 }

@@ -26,7 +26,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
             center: '',
             end: ''
         },
-        eventClick: this.onEventClick,
+        eventClick: (event) => {this.onEventClick(event);},
     };
 
     constructor(
@@ -43,9 +43,33 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
 
     onEventClick(clickedEvent) {
-        console.log(clickedEvent);
+        const eventToEdit: Event = clickedEvent.event.extendedProps.calendarEvent;
+        this.openEditEventDialog(eventToEdit);
     }
 
+    openEditEventDialog(eventToEdit: Event) {
+        const dialogRef = this.dialog.open(NewCalendarEventDialogComponent, {
+            data: {
+                eventToEdit
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.eventService.updateEvent(result)
+                .subscribe(() => {
+                    this.updateEvent(result);
+                }, error => {
+                    console.log(error);
+                });
+        })
+    }
+
+    updateEvent(event: Event) {
+        const eventIndexToUpdate = this.events.findIndex(ev => ev.id === event.id);
+        this.events[eventIndexToUpdate] = event;
+        this.calendar.getApi().getEventById(event.id).remove();
+        this.calendar.getApi().addEvent(this.mapToCalendarEvent(event));
+    }
 
     getEvents() {
         this.eventService.getEvents().subscribe(events => {
@@ -65,12 +89,16 @@ export class CalendarComponent implements OnInit, AfterViewInit {
             endDatetime = new Date(endDatetime.getFullYear(), endDatetime.getMonth(), endDatetime.getDate() + 1);
         }
         return {
+            id: event.id,
             title: event.name,
             description: event.description,
             location: event.location,
             start: startDatetime,
             end: endDatetime,
-            allDay: event.allDayEvent
+            allDay: event.allDayEvent,
+            calendarEvent: event,
+            backgroundColor: event.color,
+            borderColor: event.color
         };
     }
 

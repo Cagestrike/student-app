@@ -4,6 +4,7 @@ export interface Event {
     allDayEvent;
     startDatetime;
     endDatetime;
+    color;
     location?;
     description?;
 }
