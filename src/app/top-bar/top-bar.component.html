@@ -6,4 +6,7 @@
         <button mat-flat-button (click)="calendarNext();">></button>
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="calendarCreateEvent();">Stwórz nowe wydarzenie</button>
     </div>
+    <div *ngIf="currentRouterOutletComponent?.openCreateNoteDialog" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+        <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="noteCreate();">Nowa Notatka</button>
+    </div>
 </div>

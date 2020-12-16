@@ -1,0 +1,21 @@
+<h2 mat-dialog-title>
+    <mat-form-field>
+        <mat-label>Nazwa</mat-label>
+        <input matInput type="text" name="noteTitle" [formControl]="noteTitleControl" [errorStateMatcher]="matcher"
+            required>
+        <mat-error *ngIf="noteTitleControl.hasError('required')">
+            Tytuł jest <strong>wymagany</strong>
+        </mat-error>
+    </mat-form-field>
+</h2>
+
+<mat-dialog-content>
+    <div id="editor" style="height: 50vh;"></div>
+    <!-- <quill-editor #editor [(ngModel)]="htmlNoteContent" [modules]="quillConfig" [styles]="{height: '50vh'}">
+    </quill-editor> -->
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Anuluj</button>
+    <button mat-flat-button (click)="saveNote();" color="primary" class="button">Zapisz</button>
+</mat-dialog-actions>

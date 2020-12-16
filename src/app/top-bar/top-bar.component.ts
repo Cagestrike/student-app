@@ -36,4 +36,8 @@ export class TopBarComponent implements OnInit {
     calendarCreateEvent() {
         this.currentRouterOutletComponent.openCreateEventDialog();
     }
+
+    noteCreate() {
+        this.currentRouterOutletComponent.openCreateNoteDialog();
+    }
 }

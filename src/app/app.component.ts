@@ -32,5 +32,6 @@ export class AppComponent {
 
     onRouterOutletActivate(event) {
         this.currentRouterOutletComponent = event;
+        console.log(this.currentRouterOutletComponent);
     }
 }

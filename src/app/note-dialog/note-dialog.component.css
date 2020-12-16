@@ -1,0 +1,8 @@
+mat-dialog-content {
+    overflow: unset;
+}
+
+.button {
+    background-color: #3498DB;
+    border-radius: 14px;
+}
