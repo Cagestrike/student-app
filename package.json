@@ -26,6 +26,12 @@
     "@fullcalendar/timegrid": "^5.4.0",
     "angular-in-memory-web-api": "^0.11.0",
     "angular-svg-icon": "^10.0.0",
+    "imagesloaded": "^4.1.4",
+    "masonry-layout": "^4.2.2",
+    "ng-masonry-grid": "^1.3.0",
+    "ngx-masonry": "^10.0.6",
+    "ngx-quill": "^13.0.1",
+    "quill": "^1.3.7",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"

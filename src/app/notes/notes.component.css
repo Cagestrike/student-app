@@ -1,0 +1,17 @@
+::ng-deep .my-custom-dialog-class mat-dialog-container{
+    overflow: unset;
+}
+
+.flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.note-container {
+    width: 28%;
+    margin: 24px;
+    background-color: white;
+    border-radius: 19px;
+    max-height: 400px;
+    overflow: hidden;
+}

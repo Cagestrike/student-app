@@ -35,6 +35,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NewCalendarEventDialogComponent } from './new-calendar-event-dialog/new-calendar-event-dialog.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { NoteDialogComponent } from './note-dialog/note-dialog.component';
+import { QuillModule } from 'ngx-quill';
+import { SafeHtmlPipe } from './safe-html.pipe';
+// import { NgMasonryGridModule } from 'ng-masonry-grid';
+import { NgxMasonryModule } from 'ngx-masonry';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -57,7 +62,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
       GroupsComponent,
       CurrentTimetableComponent,
       NewUniversityClassDialogComponent,
-      NewCalendarEventDialogComponent
+      NewCalendarEventDialogComponent,
+      NoteDialogComponent,
+      SafeHtmlPipe,
    ],
   imports: [
     BrowserModule,
@@ -77,7 +84,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     FormsModule,
     ReactiveFormsModule,
     FullCalendarModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    QuillModule.forRoot(),
+    // NgMasonryGridModule,
+    NgxMasonryModule,
   ],
   providers: [
     AuthGuard,

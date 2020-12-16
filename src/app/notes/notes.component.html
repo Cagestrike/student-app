@@ -1,1 +1,17 @@
-<p>notes works!</p>
+<!-- <div class="flex">
+    <div *ngFor="let note of notes" class="note-container">
+        <div style="background-color: #3498DB;">
+            <h2 style="margin-left: 8px; color: white; font-weight: 100;">{{note.title}}</h2>
+        </div>
+        <div [innerHTML]="note.htmlContent | safeHtml"></div>
+    </div>
+</div> -->
+
+<ngx-masonry [ordered]="true">
+    <div ngxMasonryItem *ngFor="let note of notes" class="note-container" (click)="openEditNoteDialog(note);">
+        <div style="background-color: #3498DB;">
+            <h2 style="margin-left: 8px; color: white; font-weight: 100;">{{note.title}}</h2>
+        </div>
+        <div [innerHTML]="note.htmlContent | safeHtml"></div>
+    </div>
+</ngx-masonry>
