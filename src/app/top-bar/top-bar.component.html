@@ -1,5 +1,5 @@
 <div class="top-bar">
-    <h2>{{activePageName}}</h2>
+    <h2 style="margin: 0; align-self: center; flex-grow: 1;">{{activePageName}}</h2>
     <div *ngIf="currentRouterOutletComponent?.calendar" style="display: flex; justify-content: center; align-items: center; width: 100%;">
         <button mat-flat-button (click)="calendarPrevious();"><</button>
         <h2 style="margin: 0;">{{currentRouterOutletComponent.getDate()}}</h2>
@@ -8,5 +8,8 @@
     </div>
     <div *ngIf="currentRouterOutletComponent?.openCreateNoteDialog" style="display: flex; justify-content: center; align-items: center; width: 100%;">
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="noteCreate();">Nowa Notatka</button>
+    </div>
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="logout();">Wyloguj</button>
     </div>
 </div>

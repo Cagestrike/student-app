@@ -20,6 +20,7 @@ export class InMemoryDataService implements InMemoryDbService {
 
     const todayDate = new Date();
     const tomorrow = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + (todayDate.getDate() + 1);
+    const nextWeek = todayDate.getFullYear() + '-' + (todayDate.getMonth() + 1) + '-' + (todayDate.getDate() + 7);
 
     const events: Event[] = [
         {
@@ -38,8 +39,25 @@ export class InMemoryDataService implements InMemoryDbService {
             name: 'All Day Test Event', 
             startDatetime: new Date(), 
             endDatetime: new Date(), 
+            allDayEvent: true,
+            location: 'Rdzewiak C102'
+        },
+        {
+            id: 3, 
+            color: '#3498DB', 
+            name: 'Next week event', 
+            startDatetime: new Date(nextWeek + ' 12:15'), 
+            endDatetime: new Date(nextWeek + ' 13:00'), 
+            allDayEvent: false
+        },
+        {
+            id: 4, 
+            color: '#3498DB', 
+            name: 'All Day Test Event second', 
+            startDatetime: new Date(), 
+            endDatetime: new Date(), 
             allDayEvent: true
-        }
+        },
     ];
 
     const notes: Note[] = [
