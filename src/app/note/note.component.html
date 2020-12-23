@@ -1,0 +1,4 @@
+<div style="background-color: #3498DB;">
+    <h2 style="margin-left: 8px; color: white; font-weight: 100;">{{note.title}}</h2>
+</div>
+<div [innerHTML]="note.htmlContent | safeHtml"></div>

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
+import { AuthenticationService } from '../authentication.service';
 registerLocaleData(localePl, 'pl');
 
 @Component({
@@ -12,15 +13,22 @@ registerLocaleData(localePl, 'pl');
 export class TopBarComponent implements OnInit {
     @Input() activePageName;
     @Input() currentRouterOutletComponent;
+    activePageNameByRoute = new Map().set('dashboard', 'Strona główna')
+                                     .set('timetable', 'Plan zajęć')
+                                     .set('calendar', 'Kalendarz')
+                                     .set('notes', 'Notatki')
+                                     .set('groups', 'Grupy')
 
     constructor(
-        private router: Router
+        private router: Router,
+        private authenticationService: AuthenticationService
     ) { }
 
     ngOnInit() {
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
                 this.activePageName = this.router.url;
+                this.activePageName = this.activePageNameByRoute.get(this.router.url.split('/')[1]);
             }
         });
     }
@@ -39,5 +47,9 @@ export class TopBarComponent implements OnInit {
 
     noteCreate() {
         this.currentRouterOutletComponent.openCreateNoteDialog();
+    }
+
+    logout() {
+        this.authenticationService.logout();
     }
 }

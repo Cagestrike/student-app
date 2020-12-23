@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {AuthenticationResultModel} from './model/authenticationResultModel.model';
+import { Router } from '@angular/router';
 
 const TOKEN = 'authentication_token';
 
@@ -11,7 +12,8 @@ const TOKEN = 'authentication_token';
 export class AuthenticationService {
 
     constructor(
-      private http: HttpClient
+      private http: HttpClient,
+      private router: Router
     ) { }
 
     login(email, password): Observable<AuthenticationResultModel>{
@@ -21,8 +23,17 @@ export class AuthenticationService {
       });
     }
 
+    logout() {
+        this.clearToken();
+        this.router.navigateByUrl('/login');
+    }
+
     setToken(token): void {
       localStorage.setItem(TOKEN, token);
+    }
+
+    clearToken() {
+        localStorage.removeItem(TOKEN);
     }
 
     isLoggedIn(): boolean {

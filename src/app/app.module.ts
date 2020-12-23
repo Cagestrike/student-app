@@ -40,6 +40,8 @@ import { QuillModule } from 'ngx-quill';
 import { SafeHtmlPipe } from './safe-html.pipe';
 // import { NgMasonryGridModule } from 'ng-masonry-grid';
 import { NgxMasonryModule } from 'ngx-masonry';
+import { NoteComponent } from './note/note.component';
+import { DashboardEventDetailsComponent } from './dashboard-event-details/dashboard-event-details.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -65,6 +67,8 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
       NewCalendarEventDialogComponent,
       NoteDialogComponent,
       SafeHtmlPipe,
+      NoteComponent,
+      DashboardEventDetailsComponent,
    ],
   imports: [
     BrowserModule,
