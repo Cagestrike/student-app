@@ -1,26 +1,72 @@
 <div class="self-register">
-  <h2>Załóż konto</h2>
-  <form action="" class="login-form">
-    <mat-form-field class="input-field">
-      <mat-label>Imię</mat-label>
-      <input matInput placeholder="Jan">
-    </mat-form-field>
-    <mat-form-field class="input-field">
-      <mat-label>Nazwisko</mat-label>
-      <input matInput placeholder="Kowalski">
-    </mat-form-field>
-    <mat-form-field class="input-field">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" placeholder="email@domena.pl">
-    </mat-form-field>
-    <mat-form-field class="input-field">
-      <mat-label>Hasło</mat-label>
-      <input matInput type="password">
-    </mat-form-field>
-    <mat-form-field class="input-field">
-      <mat-label>Powtórz hasło</mat-label>
-      <input matInput type="password">
-    </mat-form-field>
-    <button mat-stroked-button class="action-button active">Załóż konto</button>
-  </form>
+    <h2 style="margin: 0;">Załóż konto</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <mat-error *ngIf="registerForm.hasError('apiErrors')">
+            {{this.apiErrors.message}}
+        </mat-error>
+
+        <div style="display: flex; justify-content: space-between;">
+            <mat-form-field class="input-field" style="width: 48%;">
+                <mat-label>Imię</mat-label>
+                <input matInput placeholder="Jan" type="text" name="name" [formControl]="nameControl" required>
+                <mat-error *ngIf="nameControl.hasError('required')">
+                    Imię jest <strong>wymagane</strong>
+                </mat-error>
+                <mat-error *ngIf="nameControl.hasError('apiErrors')">
+                    {{this.apiErrors.name}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input-field" style="width: 48%;">
+                <mat-label>Nazwisko</mat-label>
+                <input matInput placeholder="Kowalski" type="text" name="surname" [formControl]="surnameControl" required>
+                <mat-error *ngIf="surnameControl.hasError('required')">
+                    Nazwisko jest <strong>wymagane</strong>
+                </mat-error>
+                <mat-error *ngIf="surnameControl.hasError('apiErrors')">
+                    {{this.apiErrors.secondName}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field class="input-field">
+            <input matInput name="birthdate" type="date" [formControl]="birthdateControl" required>
+            <mat-error *ngIf="birthdateControl.hasError('required')">
+                Data urodzenia jest <strong>wymagana</strong>
+            </mat-error>
+            <mat-error *ngIf="birthdateControl.hasError('apiErrors')">
+                {{this.apiErrors.birthday}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="input-field">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" placeholder="email@domena.pl" name="email" [formControl]="emailControl"  required>
+            <mat-error *ngIf="emailControl.hasError('required')">
+                Email jest <strong>wymagany</strong>
+            </mat-error>
+            <mat-error *ngIf="emailControl.hasError('apiErrors')">
+                {{this.apiErrors.email}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="input-field">
+            <mat-label>Hasło</mat-label>
+            <input matInput type="password" name="password" [formControl]="passwordControl"  required>
+            <mat-error *ngIf="passwordControl.hasError('required')">
+                Hasło jest <strong>wymagane</strong>
+            </mat-error>
+            <mat-error *ngIf="passwordControl.hasError('apiErrors')">
+                {{this.apiErrors.password}}
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field class="input-field">
+            <mat-label>Powtórz hasło</mat-label>
+            <input matInput type="password" name="confirmPassword" [formControl]="confirmationPasswordControl"  required>
+            <mat-error *ngIf="this.registerForm.controls.confirmationPassword.errors?.mustMatch">
+                Hasła się nie zgadzają
+            </mat-error>
+            <mat-error *ngIf="confirmationPasswordControl.hasError('apiErrors')">
+                {{this.apiErrors.passwordConfirmation}}
+            </mat-error>
+        </mat-form-field>
+        <button mat-stroked-button class="action-button active" type="submit">Załóż konto</button>
+    </form>
 </div>

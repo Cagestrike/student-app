@@ -3,6 +3,7 @@ import { EventService } from '../event.service';
 import { NoteService } from '../note.service';
 import { TimetableService } from '../timetable.service';
 import { Event } from '../event';
+import { UserService } from '../user.service';
 
 @Component({
     selector: 'app-dashboard',
@@ -16,15 +17,23 @@ export class DashboardComponent implements OnInit {
     nextWeekEvents;
     currentTimetable;
     latestNote;
+    user;
 
     constructor(
         private eventService: EventService,
         private noteService: NoteService,
-        private timetableService: TimetableService
+        private timetableService: TimetableService,
+        private userService: UserService,
     ) { }
 
     ngOnInit(): void {
+        this.getCurrentUserData();
         this.getDashboardData();
+    }
+
+    getCurrentUserData() {
+        this.user = this.userService.getCurrentUser();
+        console.log(this.user);
     }
 
     getDashboardData() {
