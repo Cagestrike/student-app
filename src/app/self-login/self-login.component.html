@@ -1,16 +1,31 @@
 <div class="self-login">
-  <h2>Zaloguj się</h2>
-  <form action="">
-    <mat-form-field class="input-field">
-      <mat-label>Email</mat-label>
-      <input matInput type="email" [(ngModel)]="email" name="email" placeholder="email@domena.pl">
-    </mat-form-field>
-    <mat-form-field class="input-field">
-      <mat-label>Hasło</mat-label>
-      <input matInput [(ngModel)]="password" name="password" type="password">
-    </mat-form-field>
-    <p style="color: red;">{{error}}</p>
-    <button mat-stroked-button class="action-button active" (click)="tryLogin($event)">Zaloguj się</button>
-    <p>Successful values: eve.holt@reqres.in, cityslicka</p>
-  </form>
+    <h2>Zaloguj się</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-error *ngIf="loginForm.hasError('apiErrors')" style="margin-bottom: 16px;">
+            {{this.apiErrors.error}}
+        </mat-error>
+
+            <mat-form-field class="input-field">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" placeholder="email@domena.pl" name="email" [formControl]="emailControl"
+                    required>
+                <mat-error *ngIf="emailControl.hasError('required')">
+                    Email jest <strong>wymagany</strong>
+                </mat-error>
+                <mat-error *ngIf="emailControl.hasError('apiErrors')">
+                    {{this.apiErrors.email}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field class="input-field">
+                <mat-label>Hasło</mat-label>
+                <input matInput type="password" name="password" [formControl]="passwordControl" required>
+                <mat-error *ngIf="passwordControl.hasError('required')">
+                    Hasło jest <strong>wymagane</strong>
+                </mat-error>
+                <mat-error *ngIf="passwordControl.hasError('apiErrors')">
+                    {{this.apiErrors.password}}
+                </mat-error>
+            </mat-form-field>
+            <button mat-stroked-button class="action-button active" type="submit">Zaloguj się</button>
+    </form>
 </div>
