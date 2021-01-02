@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Nowy plan zajęć</h2>
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<mat-dialog-content>
+    <form action="" [formGroup]="newTimetableForm">
+        <mat-error *ngIf="newTimetableForm.hasError('apiErrors')" style="margin-bottom: 16px;">
+            {{this.newTimetableErrors}}
+        </mat-error>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Nazwa</mat-label>
+            <input matInput type="text" maxlength="35" [(ngModel)]="timetableName" [formControl]="timetableNameControl"
+                name="timetableName" placeholder="Nazwa planu zajęć, np. Semestr V" required>
+            <mat-error *ngIf="timetableNameControl.hasError('required')">
+                Nazwa jest <strong>wymagana</strong>
+            </mat-error>
+        </mat-form-field>
+        <div class="modal-box__form-row">
+            <mat-form-field style="flex: 1; margin-right: 16px;">
+                <mat-label>Początek</mat-label>
+                <input matInput [(ngModel)]="timetableStartDate" [formControl]="startDateControl"
+                    name="timetableStartDate" type="date" required>
+                <mat-error *ngIf="startDateControl.hasError('required')">
+                    Data początku jest <strong>wymagana</strong>
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field style="flex: 1;">
+                <mat-label>Koniec</mat-label>
+                <input matInput [(ngModel)]="timetableEndDate" [formControl]="endDateControl" name="timetableEndDate"
+                    type="date" required>
+                <mat-error *ngIf="endDateControl.hasError('required')">
+                    Data końca jest <strong>wymagana</strong>
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-stroked-button class="button cancel" (click)="close();">Anuluj</button>
+    <button mat-flat-button color="primary" class="button" [disabled]="newTimetableForm.invalid"
+        (click)="saveTimetable()">Zapisz</button>
+</mat-dialog-actions>

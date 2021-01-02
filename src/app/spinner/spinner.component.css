@@ -1,0 +1,32 @@
+.wrapper {
+    background: rgba(0, 0, 0, 0.4);
+    width: 100%;
+    height: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+}
+
+.inner {
+    position: absolute;
+    margin: auto;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  /* .mat-spinner {
+
+  position: fixed;
+  z-index: 999;
+  overflow: show;
+  margin: auto;
+
+  width: 50px;
+  height: 50px;
+
+} */

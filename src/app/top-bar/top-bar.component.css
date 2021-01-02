@@ -11,3 +11,10 @@
     background-color: #3498DB;
     border-radius: 14px;
 }
+
+.action-buttons {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 100%;
+}

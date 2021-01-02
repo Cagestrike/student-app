@@ -2,27 +2,42 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UniversityClass } from './university-class';
-
+import { BASE_API_URL } from './api-utils';
+import { UniversityClassDate } from './university-class-date';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UniversityClassService {
-    private universityClassesUrl = 'api/universityClasses';
-
+    private universityClassesUrl = `${BASE_API_URL}/activities`;
+    private universityClassDatesUrl = `${BASE_API_URL}/activitiesDate`;
+    private universityClassUrl = `${BASE_API_URL}/activity`;
     constructor(
         private http: HttpClient
     ) { }
 
-    getUniversityClasses(): Observable<UniversityClass[]> {
-        return this.http.get<UniversityClass[]>(this.universityClassesUrl);
+    getUniversityClasses(timetableId): Observable<any> {
+        return this.http.get<any>(`${this.universityClassesUrl}/${timetableId}`);
     }
 
-    addUniversityClass(universityClass: UniversityClass) {
-        return this.http.post<UniversityClass>(this.universityClassesUrl, universityClass);
+    addUniversityClass(universityClass: UniversityClass, timetableId) {
+        return this.http.post<UniversityClass>(`${this.universityClassesUrl}/${timetableId}`, universityClass);
     }
 
-    updateUniversityClass(universityClass: UniversityClass) {
-        return this.http.put<UniversityClass>(this.universityClassesUrl, universityClass);
+    updateUniversityClass(universityClass: UniversityClass, id) {
+        return this.http.put<UniversityClass>(`${this.universityClassesUrl}/${id}`, universityClass);
+    }
+
+    deleteUniversityClass(universityClassId) {
+        return this.http.delete(`${this.universityClassesUrl}/${universityClassId}`);
+    }
+
+    addUniversityClassDate(universityClassDate: UniversityClassDate, timetableId, universityClassId): Observable<any> {
+        // activitiesDate/{planId}/{activityId}
+        return this.http.post(`${this.universityClassDatesUrl}/${timetableId}/${universityClassId}`, universityClassDate);
+    }
+
+    getUniversityClassDates(universityClassId, timetableId): Observable<any> {
+        return this.http.get(`${this.universityClassUrl}/${universityClassId}/${timetableId}`);
     }
 }

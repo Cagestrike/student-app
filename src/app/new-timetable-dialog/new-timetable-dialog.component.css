@@ -14,9 +14,6 @@
 
 .button {
     background-color: #3498DB;
-}
-
-.button-radius {
     border-radius: 14px;
 }
 
@@ -83,8 +80,4 @@
 
 .action-button {
     width: 10%;
-}
-
-.button-delete {
-    border-radius: 0;
 }

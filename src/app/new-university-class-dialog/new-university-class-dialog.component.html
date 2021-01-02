@@ -1,73 +1,84 @@
-<h2 mat-dialog-title>{{dialogHeader}}</h2>
+<div mat-dialog-title style="display: flex;">
+    <h2 style="flex-grow: 1;">{{dialogHeader}}</h2>
+    <button *ngIf="universityClassToEdit" mat-mini-fab color="primary" (click)="deleteUniversityClass();">
+        <mat-icon>delete</mat-icon>
+    </button>
+</div>
+
+<app-spinner *ngIf="isLoading"></app-spinner>
 
 <form action="" class="timetable__form" [formGroup]="newUniversityClassForm">
 
     <mat-dialog-content>
-        <!-- <div class="center">
-        <div class="modal-box"> -->
+        <mat-error *ngIf="newUniversityClassForm.hasError('genericError')">
+            {{genericError}}
+        </mat-error>
         <div class="modal-box__form-row">
-            <mat-form-field style="flex: 1 1 0px;   margin-right: 16px;">
+            <mat-form-field style=" margin-right: 16px;">
                 <mat-label>Nazwa</mat-label>
-                <input matInput type="text" name="className" [formControl]="classNameControl" [errorStateMatcher]="matcher" required>
+                <input matInput type="text" maxlength="100" maxlength="200" name="className" class="form__item"
+                    [formControl]="classNameControl" required>
                 <mat-error *ngIf="classNameControl.hasError('required')">
                     Nazwa jest <strong>wymagana</strong>
                 </mat-error>
+                <mat-error *ngIf="classNameControl.hasError('apiErrors')">
+                    {{this.apiErrors.name}}
+                </mat-error>
             </mat-form-field>
-            <mat-form-field style="flex: 1 1 0px;">
-                <mat-label>Sala</mat-label>
-                <input matInput type="text" name="classRoom" [formControl]="classRoomControl" [errorStateMatcher]="matcher" required>
-                <!-- <mat-error *ngIf="timetableNameControl.hasError('required')">
-                        Nazwa jest <strong>wymagana</strong>
-                      </mat-error> -->
+            <mat-form-field style="margin-right: 16px;">
+                <mat-label>Miejsce</mat-label>
+                <input matInput type="text" maxlength="100" name="classRoom" [formControl]="classRoomControl" required>
+                <mat-error *ngIf="classRoomControl.hasError('required')">
+                    Miejsce jest <strong>wymagane</strong>
+                </mat-error>
+                <mat-error *ngIf="classRoomControl.hasError('apiErrors')">
+                    {{this.apiErrors.place}}
+                </mat-error>
             </mat-form-field>
+            <mat-form-field style="width: 15%;">
+                <mat-label>Kolor</mat-label>
+                <input matInput name="classColor" type="color" [formControl]="classColorControl">
+                <mat-error *ngIf="classColorControl.hasError('apiErrors')">
+                    {{this.apiErrors.colour}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="modal-box__form-row">
+            <mat-form-field style=" margin-right: 16px;">
+                <mat-label>Opis</mat-label>
+                <input matInput type="text" maxlength="255" name="classDescription"
+                    [formControl]="classDescriptionControl">
+                <mat-error *ngIf="classDescriptionControl.hasError('apiErrors')">
+                    {{this.apiErrors.description}}
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <!-- <div class="modal-box__form-row">
+            <mat-form-field style="margin-right: 16px;">
+                <mat-label>Kiedy zaczyna się przedmiot?</mat-label>
+                <input matInput name="classStartDate"  type="date" [formControl]="classStartDateControl"  required>
+            </mat-form-field>
+
+            <mat-form-field style="margin-right: 16px; width: 15%;">
+                <mat-label>Początek</mat-label>
+                <input matInput name="classStartTime" type="time" [formControl]="classStartTimeControl"  required>
+            </mat-form-field>
+
+            <mat-form-field style=" margin-right: 16px; width: 15%;">
+                <mat-label>Koniec</mat-label>
+            </mat-form-field>
+
         </div>
         <div class="modal-box__form-row">
-            <mat-form-field style="flex: 1; margin-right: 16px;">
-                <mat-label>Początek</mat-label>
-                <input matInput name="classStartTime" type="time" [formControl]="classStartTimeControl" [errorStateMatcher]="matcher" required>
-                <!-- <mat-error *ngIf="startDateControl.hasError('required')">
-                            Data początku jest <strong>wymagana</strong>
-                        </mat-error> -->
-            </mat-form-field>
-            <mat-form-field style="flex: 1; margin-right: 16px;">
-                <mat-label>Koniec</mat-label>
-                <input matInput name="classEndTime" type="time" [formControl]="classEndTimeControl" [errorStateMatcher]="matcher" required>
-                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
-                            Data końca jest <strong>wymagana</strong>
-                        </mat-error> -->
-            </mat-form-field>
-            <mat-form-field>
-                <mat-label>Dzień</mat-label>
-                <mat-select matInput [formControl]="classDayControl">
-                    <mat-option *ngFor="let dayOfWeek of daysOfWeek" [value]="dayOfWeek.value">
-                      {{dayOfWeek.viewValue}}
-                    </mat-option>
-                </mat-select>
-                <!-- <input matInput name="classDay" type="time" [(ngModel)]="classDay" [formControl]="classDayControl" [errorStateMatcher]="matcher" required> -->
-                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
-                            Data końca jest <strong>wymagana</strong>
-                        </mat-error> -->
-            </mat-form-field>
-
-        </div>
-        <div class="center modal-box__form-row">
-
-            <mat-form-field>
-                <mat-label>Kolor</mat-label>
-                <input matInput name="classColor" type="color" [formControl]="classColorControl" [errorStateMatcher]="matcher" required>
-                <!-- <input matInput name="classDay" type="time" [(ngModel)]="classDay" [formControl]="classDayControl" [errorStateMatcher]="matcher" required> -->
-                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
-                            Data końca jest <strong>wymagana</strong>
-                        </mat-error> -->
-            </mat-form-field>
-        </div>
-        <!-- </div>
-    </div> -->
+            <mat-checkbox (change)="handleWeeklyCheckbox($event)" style="align-self:center;" name="allDayEvent" [formControl]="weeklyCheckboxControl">Powtarza się co tydzień?</mat-checkbox>
+        </div> -->
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
+        <button *ngIf="isEditMode" mat-button style="margin-right: auto;" (click)="openEditUniversityClassDatesDialog();">Zarządzaj datami</button>
         <button mat-button mat-dialog-close>Anuluj</button>
-        <button mat-flat-button (click)="saveUniversityClass();" [disabled]="newUniversityClassForm.invalid" cdkFocusInitial color="primary" class="button">Zapisz</button>
-        <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+        <button mat-flat-button (click)="saveUniversityClass();" color="primary" class="button">Zapisz</button>
     </mat-dialog-actions>
 </form>
