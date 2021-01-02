@@ -45,6 +45,14 @@ export class TopBarComponent implements OnInit {
         this.currentRouterOutletComponent.openCreateEventDialog();
     }
 
+    timetableCreate() {
+        this.currentRouterOutletComponent.startTimetableCreation();
+    }
+
+    onTimetableSelectChange(event) {
+        this.currentRouterOutletComponent.setCurrentTimetable(event.value);
+    }
+
     noteCreate() {
         this.currentRouterOutletComponent.openCreateNoteDialog();
     }

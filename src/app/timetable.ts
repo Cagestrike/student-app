@@ -1,6 +1,6 @@
 export interface Timetable {
     id;
     name;
-    startDate;
-    endDate;
+    start_date;
+    end_date;
 }

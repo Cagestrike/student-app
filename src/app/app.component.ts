@@ -22,6 +22,9 @@ export class AppComponent {
         router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
                 this.isLoggedIn = this.authService.isLoggedIn();
+                if(this.isLoggedIn) {
+                    this.authService.startRefreshTokenTimer();
+                }
             }
         });
     }

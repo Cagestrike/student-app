@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
     }
 
     getTimetable() {
-        this.timetableService.getCurrentTimetable().subscribe(currentTimetable => {
+        this.timetableService.getTimetables().subscribe(currentTimetable => {
             if (!currentTimetable.length) {
                 return;
             }

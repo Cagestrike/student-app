@@ -1,0 +1,82 @@
+<div mat-dialog-title style="display: flex;">
+    <h2 style="flex-grow: 1;">Zarządzaj datami</h2>
+</div>
+
+<app-spinner *ngIf="isDialogLoading"></app-spinner>
+
+<mat-dialog-content>
+
+    <form action="" class="timetable__form" [formGroup]="newDateForm">
+        <mat-error *ngIf="newDateForm.hasError('genericError')">
+            {{genericError}}
+        </mat-error>
+        <div class="modal-box__form-row">
+            <mat-form-field style="margin-right: 16px;">
+                <mat-label>Kiedy zaczyna się przedmiot?</mat-label>
+                <input matInput [min]="minClassStartDate" [max]="maxClassEndDate" name="classStartDate" type="date"
+                    [formControl]="classStartDateControl" required>
+
+            </mat-form-field>
+
+            <mat-form-field style="margin-right: 16px; width: 15%;">
+                <mat-label>Początek</mat-label>
+                <input matInput name="classStartTime" type="time" [formControl]="classStartTimeControl" required>
+                <mat-error *ngIf="classStartTimeControl.hasError('apiErrors')">
+                    {{this.apiErrors.start_date}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field style=" margin-right: 16px; width: 15%;">
+                <mat-label>Koniec</mat-label>
+                <input matInput name="classEndTime" type="time" [formControl]="classEndTimeControl" required>
+                <mat-error *ngIf="classEndTimeControl.hasError('apiErrors')">
+                    {{this.apiErrors.end_date}}
+                </mat-error>
+            </mat-form-field>
+
+            <button mat-mini-fab color="primary" class="button" (click)="addDate();">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div class="modal-box__form-row">
+            <mat-checkbox (change)="handleWeeklyCheckbox($event)" style="align-self:center;" name="allDayEvent"
+                [formControl]="weeklyCheckboxControl">Powtarza się co tydzień?</mat-checkbox>
+        </div>
+    </form>
+
+    <mat-divider style="margin: 24px 0;"></mat-divider>
+
+    <div style="position: relative;">
+        <app-spinner *ngIf="areDatesLoading"></app-spinner>
+        <mat-accordion *ngFor="let universityClassDate of currentUniversityClassDates | keyvalue">
+            <mat-expansion-panel style="margin-bottom: 16px;">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <div *ngIf="universityClassDate.value[0].periodicity == 1">
+                            Co tydzień w: {{getDayOfWeek(universityClassDate.value[0].start_date)}}
+                            {{getTime(universityClassDate.value[0].start_date)}} -
+                            {{getTime(universityClassDate.value[0].end_date)}}.
+                        </div>
+                        <div *ngIf="universityClassDate.value[0].periodicity == 0">
+                            Pojedyncze wystąpienie: {{formatDate(universityClassDate.value[0].start_date)}}
+                            {{getTime(universityClassDate.value[0].start_date)}} -
+                            {{getTime(universityClassDate.value[0].end_date)}}
+                        </div>
+                    </mat-panel-title>
+                    <mat-panel-description *ngIf="universityClassDate.value[0].periodicity == 1">
+                        Początek: {{formatDate(universityClassDate.value[0].start_date)}}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngFor="let periodicityDate of universityClassDate.value">
+                    {{formatDate(periodicityDate.start_date)}} {{getTime(periodicityDate.start_date)}} -
+                    {{getTime(periodicityDate.end_date)}}
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Zamknij</button>
+</mat-dialog-actions>

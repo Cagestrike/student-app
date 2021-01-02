@@ -40,6 +40,7 @@ export class SelfLoginComponent implements OnInit {
         this.authenticationService.login(this.emailControl.value, this.passwordControl.value)
             .subscribe(loginResult => {
                 this.authenticationService.setToken(loginResult.token);
+                this.authenticationService.startRefreshTokenTimer();
                 this.userService.setCurrentUser(loginResult["0"]);
                 this.router.navigateByUrl('/dashboard');
             }, error => {

@@ -1,13 +1,21 @@
 <div class="top-bar">
     <h2 style="margin: 0; align-self: center; flex-grow: 1;">{{activePageName}}</h2>
-    <div *ngIf="currentRouterOutletComponent?.calendar" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+    <div *ngIf="currentRouterOutletComponent?.calendar" class="action-buttons">
         <button mat-flat-button (click)="calendarPrevious();"><</button>
         <h2 style="margin: 0;">{{currentRouterOutletComponent.getDate()}}</h2>
         <button mat-flat-button (click)="calendarNext();">></button>
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="calendarCreateEvent();">Stwórz nowe wydarzenie</button>
     </div>
-    <div *ngIf="currentRouterOutletComponent?.openCreateNoteDialog" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+    <div *ngIf="currentRouterOutletComponent?.openCreateNoteDialog" class="action-buttons">
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="noteCreate();">Nowa Notatka</button>
+    </div>
+    <div *ngIf="currentRouterOutletComponent?.currentStage === 'current timetable'" class="action-buttons">
+        <mat-form-field appearance="fill">
+            <mat-select (selectionChange)="onTimetableSelectChange($event);" [value]="currentRouterOutletComponent.currentTimetable">
+                <mat-option *ngFor="let timetable of currentRouterOutletComponent?.getAvailableTimetables()" [value]="timetable">{{timetable.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="timetableCreate();">Nowy Plan Zajęć</button>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="logout();">Wyloguj</button>
