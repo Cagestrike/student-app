@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EventService } from '../event.service';
 import { NoteService } from '../note.service';
 import { TimetableService } from '../timetable.service';
-import { Event } from '../event';
+import { UserEvent } from '../user-event';
 import { UserService } from '../user.service';
 
 @Component({

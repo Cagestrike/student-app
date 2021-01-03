@@ -1,29 +1,42 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { UserEvent } from './user-event';
+import { BASE_API_URL } from './api-utils';
+import { UserEventDate } from './user-event-date';
 
 @Injectable({
     providedIn: 'root'
 })
 export class EventService {
-    private eventUrl = 'api/events';
-    httpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
+    private eventUrl = `${BASE_API_URL}/userEvents`;
+    private eventDateUrl = `${BASE_API_URL}/userEventsDate`;
 
     constructor(
         private http: HttpClient
     ) { }
 
-    addEvent(event: Event) {
-        return this.http.post<Event>(this.eventUrl, event, this.httpOptions);
+    addEvent(event: UserEvent): Observable<any> {
+        return this.http.post<any>(this.eventUrl, event);
     }
 
-    getEvents(): Observable<Event[]> {
-        return this.http.get<Event[]>(this.eventUrl);
+    addEventDate(eventDate: UserEventDate, eventId): Observable<any> {
+        return this.http.post<any>(`${this.eventDateUrl}/${eventId}`, eventDate);
     }
 
-    updateEvent(event: Event) {
-        return this.http.put<Event>(this.eventUrl, event);
+    getEvents(): Observable<any> {
+        return this.http.get<any>(this.eventUrl);
+    }
+
+    deleteEvent(eventId): Observable<any> {
+        return this.http.delete<any>(`${this.eventUrl}/${eventId}`);
+    }
+
+    updateEvent(event: UserEvent, eventId): Observable<any> {
+        return this.http.put<any>(`${this.eventUrl}/${eventId}`, event);
+    }
+
+    updateEventDate(eventDate: UserEventDate, eventDateId): Observable<any> {
+        return this.http.put<any>(`${this.eventDateUrl}/${eventDateId}`, eventDate);
     }
 }

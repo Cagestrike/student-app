@@ -20,15 +20,15 @@ export class UniversityClassService {
         return this.http.get<any>(`${this.universityClassesUrl}/${timetableId}`);
     }
 
-    addUniversityClass(universityClass: UniversityClass, timetableId) {
+    addUniversityClass(universityClass: UniversityClass, timetableId): Observable<any> {
         return this.http.post<UniversityClass>(`${this.universityClassesUrl}/${timetableId}`, universityClass);
     }
 
-    updateUniversityClass(universityClass: UniversityClass, id) {
+    updateUniversityClass(universityClass: UniversityClass, id): Observable<any> {
         return this.http.put<UniversityClass>(`${this.universityClassesUrl}/${id}`, universityClass);
     }
 
-    deleteUniversityClass(universityClassId) {
+    deleteUniversityClass(universityClassId): Observable<any> {
         return this.http.delete(`${this.universityClassesUrl}/${universityClassId}`);
     }
 

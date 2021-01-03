@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Event } from '../event';
+import { UserEvent } from '../user-event';
 
 @Component({
     selector: 'app-dashboard-event-details',
@@ -7,7 +7,7 @@ import { Event } from '../event';
     styleUrls: ['./dashboard-event-details.component.css']
 })
 export class DashboardEventDetailsComponent implements OnInit {
-    @Input() event: Event;
+    @Input() event: UserEvent;
 
     constructor() { }
 
