@@ -17,14 +17,14 @@ export class TopBarComponent implements OnInit {
                                      .set('timetable', 'Plan zajęć')
                                      .set('calendar', 'Kalendarz')
                                      .set('notes', 'Notatki')
-                                     .set('groups', 'Grupy')
+                                     .set('groups', 'Grupy');
 
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService
     ) { }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
                 this.activePageName = this.router.url;
@@ -33,31 +33,31 @@ export class TopBarComponent implements OnInit {
         });
     }
 
-    calendarNext() {
+    calendarNext(): void {
         this.currentRouterOutletComponent.calendarNext();
     }
 
-    calendarPrevious() {
+    calendarPrevious(): void {
         this.currentRouterOutletComponent.calendarPrevious();
     }
 
-    calendarCreateEvent() {
+    calendarCreateEvent(): void {
         this.currentRouterOutletComponent.openCreateEventDialog();
     }
 
-    timetableCreate() {
+    timetableCreate(): void {
         this.currentRouterOutletComponent.startTimetableCreation();
     }
 
-    onTimetableSelectChange(event) {
+    onTimetableSelectChange(event): void {
         this.currentRouterOutletComponent.setCurrentTimetable(event.value);
     }
 
-    noteCreate() {
+    noteCreate(): void {
         this.currentRouterOutletComponent.openCreateNoteDialog();
     }
 
-    logout() {
+    logout(): void {
         this.authenticationService.logout();
     }
 }

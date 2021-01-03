@@ -1,9 +1,19 @@
 .modal-box__form-row {
     display: flex;
     flex-direction: row;
+    align-items: baseline;
 }
 
 .button {
     background-color: #3498DB;
     border-radius: 14px;
+}
+
+.form__field {
+    margin-right: 16px; 
+    margin-bottom: 16px;
+}
+
+.button__color {
+    background-color: #3498DB;
 }

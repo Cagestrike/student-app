@@ -1,86 +1,118 @@
-<h2 mat-dialog-title>{{dialogHeader}}</h2>
+<div mat-dialog-title style="display: flex;">
+    <h2 style="flex-grow: 1;">{{dialogHeader}}</h2>
+    <button *ngIf="isEditMode" mat-mini-fab color="primary" class="button__color" (click)="deleteUserEvent();">
+        <mat-icon>delete</mat-icon>
+    </button>
+</div>
 
-<form action="" class="timetable__form" [formGroup]="newCalendarEventForm">
+<app-spinner *ngIf="isDialogLoading"></app-spinner>
 
+<form action="" (ngSubmit)="saveEvent()" class="timetable__form" [formGroup]="newCalendarEventForm">
     <mat-dialog-content>
+
+        <mat-error *ngIf="newCalendarEventForm.hasError('startDateAfterEndDate')">
+            Data końca musi być datą nie wcześniejszą niż data początku
+        </mat-error>
+        <mat-error *ngIf="newCalendarEventForm.hasError('genericError')">
+            {{genericError}}
+        </mat-error>
+        <mat-error *ngIf="newCalendarEventForm.hasError('genericApiErrors')">
+            {{apiErrors.message}}
+        </mat-error>
+        <mat-error *ngIf="newCalendarEventForm.hasError('apiErrors')">
+            {{apiErrors.start_date}} <br>
+            {{apiErrors.end_date}}
+        </mat-error>
         <div class="modal-box__form-row">
-            <mat-form-field style="flex: 1 1 0px;   margin-right: 16px;">
+
+            <mat-form-field class="form__field" style="flex: 1 1 0px;">
                 <mat-label>Nazwa</mat-label>
-                <input matInput type="text" name="eventName" [formControl]="eventNameControl" [errorStateMatcher]="matcher" required>
+                <input matInput type="text" name="eventName" [formControl]="eventNameControl" required>
                 <mat-error *ngIf="eventNameControl.hasError('required')">
                     Nazwa jest <strong>wymagana</strong>
                 </mat-error>
+                <mat-error *ngIf="eventNameControl.hasError('apiErrors')">
+                    {{apiErrors.name}}
+                </mat-error>
             </mat-form-field>
 
-            <mat-checkbox (change)="handleAllDayEventCheckbox($event)" style="align-self:center;" name="allDayEvent" [formControl]="allDayEventControl">Wydarzenie całodniowe?</mat-checkbox>
+            <mat-checkbox (change)="handleAllDayEventCheckbox($event)" style="align-self:center;" name="allDayEvent"
+                [formControl]="allDayEventControl">Wydarzenie całodniowe?</mat-checkbox>
+
         </div>
         <div class="modal-box__form-row">
-            <mat-form-field style="flex: 1; margin-right: 16px;">
+            <mat-form-field class="form__field" style="flex: 1;">
                 <mat-label>Początek</mat-label>
-                <input matInput [formControl]="eventStartDateControl" [errorStateMatcher]="matcher" name="eventStartDate" type="date" required>
-                <!-- <input matInput name="eventStartDate" [matDatepicker]="startDatePicker" [formControl]="eventStartDateControl">
+                <input matInput name="eventStartDate" [matDatepicker]="startDatePicker"
+                    [formControl]="eventStartDateControl">
                 <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #startDatePicker></mat-datepicker> -->
-                <!-- <mat-error *ngIf="startDateControl.hasError('required')">
-                            Data początku jest <strong>wymagana</strong>
-                        </mat-error> -->
+                <mat-datepicker #startDatePicker></mat-datepicker>
+                <mat-error *ngIf="eventStartDateControl.hasError('required')">
+                    Data początku jest <strong>wymagana</strong>
+                </mat-error>
             </mat-form-field>
-            <mat-form-field style="flex: 1; margin-right: 16px;">
-                <input matInput name="eventStartTime" type="time" [formControl]="eventStartTimeControl" [errorStateMatcher]="matcher" required>
-                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
-                            Data końca jest <strong>wymagana</strong>
-                        </mat-error> -->
+            <mat-form-field class="form__field" style="flex: 1;">
+                <input matInput name="eventStartTime" type="time" [format]="24" [formControl]="eventStartTimeControl"
+                    [ngxTimepicker]="eventStartTimePicker" readonly>
+                <ngx-material-timepicker #eventStartTimePicker></ngx-material-timepicker>
+                <mat-error *ngIf="eventStartTimeControl.hasError('required')">
+                    To pole jest wymagane
+                </mat-error>
             </mat-form-field>
         </div>
         <div class="modal-box__form-row">
-            <mat-form-field style="flex: 1; margin-right: 16px;">
+            <mat-form-field class="form__field" style="flex: 1;">
                 <mat-label>Koniec</mat-label>
-                <input matInput [formControl]="eventEndDateControl" [errorStateMatcher]="matcher" name="eventEndDate" type="date" required>
-
-                <!-- <input matInput name="eventEndDate" [matDatepicker]="endDatePicker" [formControl]="eventEndDateControl">
+                <input matInput name="eventEndDate" [matDatepicker]="endDatePicker" [formControl]="eventEndDateControl">
                 <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #endDatePicker></mat-datepicker> -->
-                <!-- <mat-error *ngIf="startDateControl.hasError('required')">
-                            Data początku jest <strong>wymagana</strong>
-                        </mat-error> -->
+                <mat-datepicker #endDatePicker></mat-datepicker>
+                <mat-error *ngIf="eventEndDateControl.hasError('required')">
+                    Data końca jest <strong>wymagana</strong>
+                </mat-error>
             </mat-form-field>
-            <mat-form-field style="flex: 1; margin-right: 16px;">
-                <input matInput name="eventEndTime" type="time" [formControl]="eventEndTimeControl" [errorStateMatcher]="matcher" required>
-                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
-                            Data końca jest <strong>wymagana</strong>
-                        </mat-error> -->
+            <mat-form-field class="form__field" style="flex: 1;">
+                <input matInput name="eventEndTime" type="time" [format]="24" [formControl]="eventEndTimeControl"
+                    [ngxTimepicker]="eventEndTimePicker" readonly>
+                <ngx-material-timepicker #eventEndTimePicker></ngx-material-timepicker>
+                <mat-error *ngIf="eventEndTimeControl.hasError('required')">
+                    To pole jest wymagane
+                </mat-error>
+                <mat-error *ngIf="newCalendarEventForm.hasError('startDateAfterEndDate')">
+                    Data końca musi być datą nie wcześniejszą niż data początku
+                </mat-error>
             </mat-form-field>
         </div>
         <div class="center modal-box__form-row">
-            <mat-form-field style="flex: 1; margin-right: 16px;">
+            <mat-form-field class="form__field" style="flex: 1;">
                 <mat-label>Lokalizacja</mat-label>
-                <input matInput name="eventLocation" type="text" [formControl]="eventLocationControl" [errorStateMatcher]="matcher">
-                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
-                            Data końca jest <strong>wymagana</strong>
-                        </mat-error> -->
+                <input matInput name="eventLocation" type="text" [formControl]="eventLocationControl">
+                <mat-error *ngIf="eventLocationControl.hasError('apiErrors')">
+                    {{apiErrors.place}}
+                </mat-error>
             </mat-form-field>
         </div>
         <div class="center modal-box__form-row">
-            <mat-form-field style="flex: 1; margin-right: 16px;">
+            <mat-form-field class="form__field" style="flex: 1;">
                 <mat-label>Opis</mat-label>
-                <input matInput name="eventDescription" type="text" [formControl]="eventDescriptionControl" [errorStateMatcher]="matcher">
+                <input matInput name="eventDescription" type="text" [formControl]="eventDescriptionControl">
+                <mat-error *ngIf="eventDescriptionControl.hasError('apiErrors')">
+                    {{apiErrors.description}}
+                </mat-error>
             </mat-form-field>
         </div>
         <div class="center modal-box__form-row">
             <mat-form-field>
                 <mat-label>Kolor</mat-label>
-                <input matInput name="classColor" type="color" [formControl]="eventColorControl" [errorStateMatcher]="matcher" required>
-                <!-- <input matInput name="classDay" type="time" [(ngModel)]="classDay" [formControl]="classDayControl" [errorStateMatcher]="matcher" required> -->
-                <!-- <mat-error *ngIf="endDateControl.hasError('required')">
-                            Data końca jest <strong>wymagana</strong>
-                        </mat-error> -->
+                <input matInput name="classColor" type="color" [formControl]="eventColorControl" required>
+                <mat-error *ngIf="eventColorControl.hasError('apiErrors')">
+                    {{apiErrors.colour}}
+                </mat-error>
             </mat-form-field>
         </div>
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Anuluj</button>
-        <button mat-flat-button (click)="saveEvent();" cdkFocusInitial color="primary" class="button">Zapisz</button>
-        <!-- <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Install</button> -->
+        <button mat-flat-button type="submit" color="primary" class="button">Zapisz</button>
     </mat-dialog-actions>
 </form>

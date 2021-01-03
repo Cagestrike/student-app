@@ -4,7 +4,10 @@ import { Calendar, CalendarOptions, FullCalendarComponent } from '@fullcalendar/
 import { formatDate } from '@fullcalendar/core';
 import { NewCalendarEventDialogComponent } from '../new-calendar-event-dialog/new-calendar-event-dialog.component';
 import { EventService } from '../event.service';
-import { Event } from '../event';
+import { UserEvent } from '../user-event';
+import { UserEventDate } from '../user-event-date';
+import { UserEventWithDates } from '../user-event-with-dates';
+import { parseEventsToUserEventsWithDates } from '../api-utils';
 
 @Component({
     selector: 'app-calendar',
@@ -12,7 +15,8 @@ import { Event } from '../event';
     styleUrls: ['./calendar.component.css']
 })
 export class CalendarComponent implements OnInit, AfterViewInit {
-    events;
+    eventsWithDates: UserEventWithDates[];
+    isLoading = true;
 
     @ViewChild('calendar') calendar: FullCalendarComponent;
     calendarOptions: CalendarOptions = {
@@ -26,112 +30,130 @@ export class CalendarComponent implements OnInit, AfterViewInit {
             center: '',
             end: ''
         },
-        eventClick: (event) => {this.onEventClick(event);},
+        eventClick: (event) => { this.onEventClick(event); },
     };
 
     constructor(
         public dialog: MatDialog,
         private eventService: EventService
-    ) {}
+    ) { }
 
     ngAfterViewInit(): void {
         this.getEvents();
     }
 
-    ngOnInit(): void {
+    ngOnInit(): void { }
 
+    onEventClick(clickedEvent): void {
+        const eventToEdit: UserEvent = clickedEvent.event.extendedProps.userEvent;
+        const eventDateToEdit: UserEventDate = clickedEvent.event.extendedProps.userEventDate;
+        const allEventDates: UserEventDate[] = clickedEvent.event.extendedProps.userEventDates;
+        const otherEventDates = allEventDates.filter(eventDate => eventDate.id !== eventDateToEdit.id);
+        this.openEditEventDialog(eventToEdit, eventDateToEdit, otherEventDates);
     }
 
-    onEventClick(clickedEvent) {
-        const eventToEdit: Event = clickedEvent.event.extendedProps.calendarEvent;
-        this.openEditEventDialog(eventToEdit);
-    }
-
-    openEditEventDialog(eventToEdit: Event) {
+    openEditEventDialog(eventToEdit: UserEvent, eventDateToEdit: UserEventDate, otherEventDates: UserEventDate[]): void {
         const dialogRef = this.dialog.open(NewCalendarEventDialogComponent, {
             data: {
-                eventToEdit
+                eventToEdit,
+                eventDateToEdit,
+                otherEventDates
             }
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.eventService.updateEvent(result)
-                .subscribe(() => {
-                    this.updateEvent(result);
-                }, error => {
-                    console.log(error);
-                });
-        })
-    }
+            if (result.deleted) {
+                this.eventsWithDates.splice(this.eventsWithDates.findIndex(userEvent => userEvent.userEvent.id === eventToEdit.id), 1);
+                this.buildCalendarEvents();
+                return;
+            }
 
-    updateEvent(event: Event) {
-        const eventIndexToUpdate = this.events.findIndex(ev => ev.id === event.id);
-        this.events[eventIndexToUpdate] = event;
-        this.calendar.getApi().getEventById(event.id).remove();
-        this.calendar.getApi().addEvent(this.mapToCalendarEvent(event));
-    }
+            if (result.userEvent && result.userEventDate) {
+                const eventIndexToUpdate = this.eventsWithDates.findIndex(userEventWithDate =>
+                    userEventWithDate.userEvent.id === result.userEvent.id
+                );
+                const eventDateIndexToUpdate = this.eventsWithDates[eventIndexToUpdate].dates.findIndex(eventDate =>
+                    eventDate.id === result.userEventDate.id
+                );
 
-    getEvents() {
-        this.eventService.getEvents().subscribe(events => {
-            this.events = events;
-            this.events.map(event => {
-                return this.mapToCalendarEvent(event);
-            }).forEach(calendarEvent => {
-                this.calendar.getApi().addEvent(calendarEvent);
-            });
+                this.eventsWithDates[eventIndexToUpdate].userEvent = result.userEvent;
+                this.eventsWithDates[eventIndexToUpdate].dates[eventDateIndexToUpdate] = result.userEventDate;
+                this.buildCalendarEvents();
+            }
         });
     }
 
-    mapToCalendarEvent(event: Event) {
-        let startDatetime = new Date(event.startDatetime);
-        let endDatetime = new Date(event.endDatetime);
-        if(event.allDayEvent) {
-            endDatetime = new Date(endDatetime.getFullYear(), endDatetime.getMonth(), endDatetime.getDate() + 1);
-        }
-        return {
-            id: event.id,
-            title: event.name,
-            description: event.description,
-            location: event.location,
-            start: startDatetime,
-            end: endDatetime,
-            allDay: event.allDayEvent,
-            calendarEvent: event,
-            backgroundColor: event.color,
-            borderColor: event.color
-        };
+    getEvents(): void {
+        this.eventService.getEvents().subscribe(events => {
+            this.eventsWithDates = parseEventsToUserEventsWithDates(events);
+            this.buildCalendarEvents();
+            this.isLoading = false;
+        }, error => {
+            this.isLoading = false;
+        });
     }
 
-    calendarNext() {
+    buildCalendarEvents(): void {
+        const eventArray = this.buildCalendarEventArrayFromUserEventsWithDates(this.eventsWithDates);
+        this.calendar.getApi().removeAllEventSources();
+        this.calendar.getApi().addEventSource(eventArray);
+    }
+
+    buildCalendarEventArrayFromUserEventsWithDates(userEventsWithDates: UserEventWithDates[]): any[] {
+        const calendarEvents = [];
+
+        userEventsWithDates.forEach(userEvent => {
+            calendarEvents.push(...this.mapUserEventsToCalendarEvents(userEvent.dates, userEvent.userEvent));
+        });
+
+        return calendarEvents;
+    }
+
+    mapUserEventsToCalendarEvents(userEventDates: UserEventDate[], userEvent: UserEvent): any[] {
+        const calendarEvents = [];
+
+        const mappedEvents = userEventDates.map(userEventDate => {
+            let endDatetime = new Date(userEventDate.end_date);
+            if (userEventDate.allDay_flag === 1) {
+                endDatetime = new Date(endDatetime.getFullYear(), endDatetime.getMonth(), endDatetime.getDate() + 1);
+            }
+
+            return {
+                id: userEventDate.id,
+                title: userEvent.name,
+                start: userEventDate.start_date,
+                end: endDatetime,
+                allDay: userEventDate.allDay_flag === 1,
+                backgroundColor: userEvent.colour,
+                borderColor: userEvent.colour,
+                userEventDate,
+                userEvent,
+                userEventDates,
+            };
+        });
+        calendarEvents.push(...mappedEvents);
+
+        return calendarEvents;
+    }
+
+    calendarNext(): void {
         this.calendar.getApi().next();
     }
 
-    calendarPrevious() {
+    calendarPrevious(): void {
         this.calendar.getApi().prev();
     }
 
-    openCreateEventDialog() {
+    openCreateEventDialog(): void {
         const dialogRef = this.dialog.open(NewCalendarEventDialogComponent);
 
         dialogRef.afterClosed().subscribe(result => {
-            if(result) {
-                this.eventService.addEvent(result)
-                    .subscribe(eventResult => {
-                        if(eventResult) {
-                            this.addEvent(eventResult);
-                        }
-                    });
-            }
+            this.eventsWithDates.push({ userEvent: result.userEvent, dates: [result.userEventDate] });
+            this.buildCalendarEvents();
         });
     }
 
-    addEvent(event): void {
-        this.events.push(event);
-        const calendarEvent = this.mapToCalendarEvent(event);
-        this.calendar.getApi().addEvent(calendarEvent);
-    }
-
-    getDate() {
+    getDate(): string {
         return formatDate(this.calendar.getApi().getDate(), {
             month: 'long',
             year: 'numeric',

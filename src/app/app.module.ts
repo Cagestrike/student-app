@@ -6,7 +6,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SocialLoginComponent } from './social-login/social-login.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -34,7 +33,7 @@ import { NewUniversityClassDialogComponent } from './new-university-class-dialog
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NewCalendarEventDialogComponent } from './new-calendar-event-dialog/new-calendar-event-dialog.component';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NoteDialogComponent } from './note-dialog/note-dialog.component';
 import { QuillModule } from 'ngx-quill';
 import { SafeHtmlPipe } from './safe-html.pipe';
@@ -50,6 +49,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     dayGridPlugin,
@@ -86,9 +86,6 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         AppRoutingModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        HttpClientInMemoryWebApiModule.forRoot(
-            InMemoryDataService, { dataEncapsulation: false, passThruUnknownUrl: true }
-        ),
         AngularSvgIconModule.forRoot(),
         MatButtonModule,
         MatInputModule,
@@ -101,12 +98,13 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         FullCalendarModule,
         MatNativeDateModule,
         QuillModule.forRoot(),
-        // NgMasonryGridModule,
         NgxMasonryModule,
         MatIconModule,
         MatExpansionModule,
         MatDividerModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        NgxMaterialTimepickerModule,
+        NgxMaterialTimepickerModule.setLocale('pl-PL'),
     ],
     providers: [
         AuthGuard,
@@ -116,6 +114,10 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
             useClass: AuthInterceptor,
             multi: true
         },
+        {
+            provide: MAT_DATE_LOCALE,
+            useValue: 'en-GB',
+        }
     ],
     bootstrap: [AppComponent]
 })

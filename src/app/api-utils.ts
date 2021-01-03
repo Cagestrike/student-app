@@ -2,8 +2,11 @@ import { HttpHeaders } from '@angular/common/http';
 import { UniversityClass } from './university-class';
 import { UniversityClassDate } from './university-class-date';
 import { UniversityClassWithDates } from './university-class-with-dates';
+import { UserEvent } from './user-event';
+import { UserEventDate } from './user-event-date';
+import { UserEventWithDates } from './user-event-with-dates';
 
-export const BASE_API_URL: string = 'https://studenthelperappapi.herokuapp.com/api';
+export const BASE_API_URL = 'https://studenthelperappapi.herokuapp.com/api';
 
 export function formatDateToAPIFormat(date: Date): string {
     return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
@@ -80,4 +83,52 @@ export function parseActivitiesToUniversityClassesWithDates(universityClasses): 
         }
     });
     return universityClassWithDates;
+}
+
+export function parseEventsToUserEventsWithDates(events): UserEventWithDates[] {
+    const userEventsWithDates: UserEventWithDates[] = [];
+
+    events.forEach(event => {
+        const eventIndex = userEventsWithDates.findIndex(ev => ev.userEvent.id === event.id);
+
+        if(eventIndex === -1) {
+            const userEventToAdd = {
+                id: event.id,
+                name: event.name,
+                place: event.place,
+                category: event.category,
+                colour: event.colour,
+                description: event.description
+            } as UserEvent;
+
+            const eventDateToAdd = {
+                id: event['event_date.id'],
+                allDay_flag: event.allDay_flag,
+                start_date: event.start_date,
+                end_date: event.end_date,
+            } as UserEventDate;
+
+            const userEventWithDateToAdd = {
+                userEvent: userEventToAdd,
+                dates: [],
+            } as UserEventWithDates;
+
+            if(event['event_date.id']) {
+                userEventWithDateToAdd.dates = [eventDateToAdd]
+            }
+
+            userEventsWithDates.push(userEventWithDateToAdd);
+        } else {
+            const eventDateToAdd = {
+                id: event['event_date.id'],
+                allDay_flag: event.allDay_flag,
+                start_date: event.start_date,
+                end_date: event.end_date,
+            } as UserEventDate;
+
+            userEventsWithDates[eventIndex].dates.push(eventDateToAdd);
+        }
+    });
+
+    return userEventsWithDates;
 }

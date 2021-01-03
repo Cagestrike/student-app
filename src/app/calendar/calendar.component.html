@@ -1,4 +1,4 @@
 <div class="calendar__wrapper">
+    <app-spinner *ngIf="isLoading"></app-spinner>
     <full-calendar #calendar [options]="calendarOptions"></full-calendar>
-    <!-- <button (click)="add()">ADD</button> -->
 </div>
