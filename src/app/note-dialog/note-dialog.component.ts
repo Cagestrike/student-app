@@ -5,6 +5,8 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Note } from '../note';
 import Quill from 'quill';
+import { NoteService } from '../note.service';
+import { NoteWithFiles } from '../note-with-files';
 var DirectionAttribute = Quill.import('attributors/attribute/direction');
 Quill.register(DirectionAttribute, true);
 // var AlignClass = Quill.import('attributors/class/align');
@@ -32,12 +34,6 @@ Quill.register(FontStyle, true);
 var SizeStyle = Quill.import('attributors/style/size');
 Quill.register(SizeStyle, true);
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-        const isSubmitted = form && form.submitted;
-        return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-    }
-}
 
 @Component({
     selector: 'app-note-dialog',
@@ -46,70 +42,107 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class NoteDialogComponent implements OnInit {
     isEditMode = false;
-    dialogHeader = 'Nowa Notatka';
+    genericError;
     noteTitleControl = new FormControl('', [Validators.required]);
+    noteForm = new FormGroup({
+        title: this.noteTitleControl,
+    });
 
-    matcher = new MyErrorStateMatcher();
-
+    isLoading = false;
     htmlNoteContent;
     editor;
-    noteToEdit;
+    noteToEdit: NoteWithFiles;
 
     constructor(
         public dialogRef: MatDialogRef<NoteDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data
+        @Inject(MAT_DIALOG_DATA) public data,
+        private noteService: NoteService
     ) { }
 
     ngOnInit(): void {
         this.editor = new Quill('#editor', {
             modules: {
-              'toolbar': [
-                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                ['blockquote'],
-    
-                [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-                [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-                [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-                [{ 'direction': 'rtl' }],                         // text direction
-    
-                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-    
-                [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-                [{ 'font': [] }],
-                [{ 'align': [] }],
-    
-                ['clean'],                                         // remove formatting button
-    
-                ['link']                         // link and image, video
-              ]
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                    ['blockquote'],
+
+                    [{ header: 1 }, { header: 2 }],               // custom button values
+                    [{ list: 'ordered' }, { list: 'bullet' }],
+                    [{ script: 'sub' }, { script: 'super' }],      // superscript/subscript
+                    [{ indent: '-1' }, { indent: '+1' }],          // outdent/indent
+                    [{ direction: 'rtl' }],                         // text direction
+
+                    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+                    [{ color: [] }, { background: [] }],          // dropdown with defaults from theme
+                    [{ font: [] }],
+                    [{ align: [] }],
+
+                    ['clean'],                                         // remove formatting button
+
+                    ['link']                         // link and image, video
+                ]
             },
             theme: 'snow'
-          });
-        const noteToEdit: Note = this.data?.noteToEdit;
-        this.noteToEdit = noteToEdit;
-        if(noteToEdit) {
-            this.noteTitleControl.setValue(noteToEdit.title);
-            this.editor.root.innerHTML = noteToEdit.htmlContent;
+        });
+        const noteWithFilesToEdit: NoteWithFiles = this.data?.noteWithFiles;
+        this.noteToEdit = noteWithFilesToEdit;
+        if (this.noteToEdit) {
+            this.noteTitleControl.setValue(this.noteToEdit.note.title);
+            this.editor.root.innerHTML = this.noteToEdit.note.note;
             this.isEditMode = true;
         }
     }
 
+    deleteNote(): void {
+        this.isLoading = true;
+        this.genericError = null;
+        this.noteService.deleteNote(this.noteToEdit.note.id)
+            .subscribe(result => {
+                console.log(result);
+                this.dialogRef.close({ deleted: true, deletedNoteId: this.noteToEdit.note.id });
+            }, error => {
+                console.log(error);
+                this.genericError = error;
+            });
+    }
+
     saveNote(): void {
-        if(!this.noteTitleControl.valid) {
+        this.genericError = null;
+        if (!this.noteTitleControl.valid) {
             return;
         }
 
-        const note = { 
+        const note = {
             title: this.noteTitleControl.value,
-            htmlContent: this.editor.root.innerHTML
+            note: this.editor.root.innerHTML
         } as Note;
 
-        if(this.noteToEdit?.id) {
-            note.id = this.noteToEdit.id;
+        this.isLoading = true;
+        if (this.isEditMode) {
+            this.noteService.updateNote(note, this.noteToEdit.note.id)
+                .subscribe(result => {
+                    console.log(result);
+                    this.isLoading = false;
+                    note.id = this.noteToEdit.note.id;
+                    this.dialogRef.close(note);
+                }, error => {
+                    console.log(error);
+                    this.genericError = error;
+                    this.isLoading = false;
+                })
+        } else {
+            this.noteService.addNote(note)
+                .subscribe(result => {
+                    console.log(result);
+                    this.isLoading = false;
+                    this.dialogRef.close(note);
+                }, error => {
+                    console.log(error);
+                    this.genericError = error;
+                    this.isLoading = false;
+                });
         }
-
-        this.dialogRef.close(note);
     }
 
 }
