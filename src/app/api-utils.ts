@@ -1,4 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
+import { Note } from './note';
+import { NoteFile } from './note-file';
+import { NoteWithFiles } from './note-with-files';
 import { UniversityClass } from './university-class';
 import { UniversityClassDate } from './university-class-date';
 import { UniversityClassWithDates } from './university-class-with-dates';
@@ -20,6 +23,49 @@ export function getTimeFromDatetime(date: Date): string {
     const hours = date.getHours();
     const minutes = date.getMinutes();
     return `${hours}:${minutes.toString().padStart(2, '0')}`;
+}
+
+export function parseNotesToNotesWithFiles(notes): NoteWithFiles[] {
+    const notesWithFiles: NoteWithFiles[] = [];
+
+    notes.forEach(note => {
+        const noteIndex = notesWithFiles.findIndex(nt => nt.note.id === note.id);
+
+        if(noteIndex === -1) {
+            const noteToAdd = {
+                id: note.id,
+                title: note.title,
+                note: note.note
+            } as Note;
+
+            const fileToAdd = {
+                id: note['user_data.id'],
+                data: note['user_data.data'],
+                dataName: note.dataName
+            } as NoteFile;
+
+            const noteWithFiles = {
+                note: noteToAdd,
+                files: []
+            } as NoteWithFiles;
+
+            if(note['user_data.id']) {
+                noteWithFiles.files = [fileToAdd];
+            }
+
+            notesWithFiles.push(noteWithFiles);
+        } else {
+            const fileToAdd = {
+                id: note['user_data.id'],
+                data: note['user_data.data'],
+                dataName: note.dataName
+            } as NoteFile;
+
+            notesWithFiles[noteIndex].files.push(fileToAdd);
+        }
+    });
+
+    return notesWithFiles;
 }
 
 export function parseActivitiesToUniversityClassesWithDates(universityClasses): UniversityClassWithDates[] {

@@ -7,6 +7,8 @@ import Quill from 'quill';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SafeHtmlPipe } from '../safe-html.pipe';
 import { NgxMasonryComponent } from 'ngx-masonry';
+import { NoteWithFiles } from '../note-with-files';
+import { parseNotesToNotesWithFiles } from '../api-utils';
 
 @Component({
     selector: 'app-notes',
@@ -15,8 +17,9 @@ import { NgxMasonryComponent } from 'ngx-masonry';
     encapsulation: ViewEncapsulation.None,
 })
 export class NotesComponent implements OnInit {
-    notes: Note[] = [];
+    notes: NoteWithFiles[] = [];
     @ViewChild(NgxMasonryComponent) masonry: NgxMasonryComponent;
+    isLoading = true;
 
     constructor(
         public dialog: MatDialog,
@@ -24,11 +27,22 @@ export class NotesComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+        this.getNotes();
+    }
+
+    getNotes(): void {
+        this.isLoading = true;
         this.noteService.getNotes()
             .subscribe(notes => {
-                this.notes = notes;
+                this.notes = parseNotesToNotesWithFiles(notes);
                 this.rerenderMasonryLayout();
-            })
+                this.isLoading = false;
+                console.log(notes);
+                console.log(this.notes);
+            }, error => {
+                this.isLoading = false;
+                console.log(error);
+            });
     }
 
     rerenderMasonryLayout() {
@@ -37,9 +51,9 @@ export class NotesComponent implements OnInit {
     }
 
     updateNote(note: Note) {
-        const noteIndexToUpdate = this.notes.findIndex(noteToFind => noteToFind.id === note.id);
-        this.notes[noteIndexToUpdate] = note;
-        this.rerenderMasonryLayout();
+        // const noteIndexToUpdate = this.notes.findIndex(noteToFind => noteToFind.id === note.id);
+        // this.notes[noteIndexToUpdate] = note;
+        // this.rerenderMasonryLayout();
     }
 
     openCreateNoteDialog() {
@@ -48,30 +62,32 @@ export class NotesComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.noteService.addNote(result)
-            .subscribe(noteResult => {
-                if(noteResult) {
-                    this.notes.unshift(noteResult);
-                    this.rerenderMasonryLayout();
-                }
-            });
+            if (result) {
+                this.rerenderMasonryLayout();
+                this.getNotes();
+            }
+            // this.notes.unshift({note: result, files: []});
         })
     }
 
-    openEditNoteDialog(noteToEdit: Note) {
+    openEditNoteDialog(noteWithFiles: NoteWithFiles) {
+        console.log(noteWithFiles);
+
         const dialogRef = this.dialog.open(NoteDialogComponent, {
             data: {
-                noteToEdit
+                noteWithFiles
             }
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            this.noteService.updateNote(result)
-                .subscribe(() => {
-                    this.updateNote(result);
-                }, error => {
-                    console.log(error);
-                });
-        })
+            if (result.deleted) {
+                this.notes.splice(this.notes.findIndex(nt => nt.note.id === result.deletedNoteId), 1);
+                this.rerenderMasonryLayout();
+                return;
+            }
+
+            this.notes[this.notes.findIndex(nt => nt.note.id === result.id)].note = result;
+            this.rerenderMasonryLayout();
+        });
     }
 }

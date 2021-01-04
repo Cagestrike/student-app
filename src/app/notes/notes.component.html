@@ -6,9 +6,10 @@
         <div [innerHTML]="note.htmlContent | safeHtml"></div>
     </div>
 </div> -->
+<app-spinner *ngIf="isLoading"></app-spinner>
 
 <ngx-masonry [ordered]="true">
     <div ngxMasonryItem *ngFor="let note of notes" class="note-container" (click)="openEditNoteDialog(note);">
-        <app-note [note]="note"></app-note>
+        <app-note [note]="note.note"></app-note>
     </div>
 </ngx-masonry>

@@ -2,29 +2,31 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Note } from './note';
+import { BASE_API_URL } from './api-utils';
 
 @Injectable({
     providedIn: 'root'
 })
 export class NoteService {
-    private noteUrl = 'api/notes';
-    httpOptions = {
-        headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-    };
+    private userNotesUrl = `${BASE_API_URL}/userNotes`;
 
     constructor(
         private http: HttpClient
     ) { }
 
-    addNote(note: Note) {
-        return this.http.post<Note>(this.noteUrl, note, this.httpOptions);
+    addNote(note: Note): Observable<any> {
+        return this.http.post<Note>(this.userNotesUrl, note);
     }
 
-    getNotes(): Observable<Note[]> {
-        return this.http.get<Note[]>(this.noteUrl);
+    getNotes(): Observable<any> {
+        return this.http.get<any>(this.userNotesUrl);
     }
 
-    updateNote(note: Note) {
-        return this.http.put<Note>(this.noteUrl, note);
+    deleteNote(noteId): Observable<any> {
+        return this.http.delete<any>(`${this.userNotesUrl}/${noteId}`);
+    }
+
+    updateNote(note: Note, noteId): Observable<any> {
+        return this.http.put<any>(`${this.userNotesUrl}/${noteId}`, note);
     }
 }
