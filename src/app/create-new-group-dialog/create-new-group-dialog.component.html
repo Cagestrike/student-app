@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>Stwórz grupę</h1>
+
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<form action="" (ngSubmit)="saveGroup()" [formGroup]="newGroupForm">
+    <mat-dialog-content style="display: flex; flex-direction: column;">
+        <mat-error *ngIf="newGroupForm.hasError('genericError')">
+            Coś poszło nie tak...
+        </mat-error>
+        <mat-error *ngIf="newGroupForm.hasError('genericApiErrors')">
+            {{apiErrors.message}}
+        </mat-error>
+
+            <mat-form-field>
+                <mat-label>Nazwa</mat-label>
+                <input matInput type="text" name="groupName" [formControl]="groupNameControl" required>
+                <mat-error *ngIf="groupNameControl.hasError('required')">
+                    Nazwa jest <strong>wymagana</strong>
+                </mat-error>
+                <mat-error *ngIf="groupNameControl.hasError('apiErrors')">
+                    {{apiErrors.name}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Opis</mat-label>
+                <input matInput type="text" name="groupName" [formControl]="groupDescriptionControl" required>
+                <mat-error *ngIf="groupDescriptionControl.hasError('required')">
+                    Napisz coś o swojej grupie...
+                </mat-error>
+                <mat-error *ngIf="groupDescriptionControl.hasError('apiErrors')">
+                    {{apiErrors.description}}
+                </mat-error>
+            </mat-form-field>
+    </mat-dialog-content>
+
+    <div mat-dialog-actions align="end">
+        <button mat-button (click)="cancel();">Anuluj</button>
+        <button mat-button>Stwórz</button>
+    </div>
+</form>

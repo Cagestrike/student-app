@@ -1,1 +1,45 @@
-<p>groups works!</p>
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<div style="display: flex;">
+    <div style="width: 75%; margin: 16px; border-radius: 19px 19px 0 0; position: relative; height: 100%;">
+        <h4 style="margin: 0;">Posty</h4>
+        <div style="position: relative;">
+            <!-- <router-outlet (activate)="onOutletLoaded($event)"></router-outlet> -->
+            <app-posts [groupId]="selectedGroupId" [group]="selectedGroup" [availableGroups]="myVerifiedGroups" [availableGroupsById]="myVerifiedGroupById" (refreshGroups)="getMyGroups()"></app-posts>
+        </div>
+    </div>
+    <div style="width: 25%; margin: 16px; border-radius: 19px 19px 0 0;">
+        <div style="display: flex; align-items: center;">
+            <h4 style="margin: 0; flex-grow: 1;">Twoje grupy</h4>
+            <button mat-button (click)="createGroup();">Stwórz nową</button>
+        </div>
+        <div class="groups__container box-shadow-for-containers" style="position: relative; overflow: auto;">
+            <app-spinner *ngIf="areMyGroupsLoading"></app-spinner>
+            <p class="group__row" *ngIf="!myGroups.length">Nie należysz do żadnej grupy</p>
+            <ng-template [ngIf]="myGroups && myGroups.length">
+                <mat-tab-group mat-align-tabs="center">
+                    <mat-tab label="Wszystkie">
+                        <app-groups-list 
+                            [groups]="myGroups" 
+                            (onGroupSelect)="handleSelectedGroupId($event)"
+                            [selectedGroupId]="selectedGroupId"
+                            (onLoading)="handleGroupLoading($event)"
+                            (refreshGroups)="getMyGroups()">
+                        </app-groups-list>
+                    </mat-tab>
+                    <mat-tab label="Zarządzane przez Ciebie">
+                        <app-groups-list 
+                            [groups]="myManagedGroups" 
+                            (onGroupSelect)="handleSelectedGroupId($event)"
+                            [selectedGroupId]="selectedGroupId"
+                            (onLoading)="handleGroupLoading($event)"
+                            (refreshGroups)="getMyGroups()">
+                        </app-groups-list>
+                    </mat-tab>
+                </mat-tab-group>
+            </ng-template>
+            <button mat-flat-button color="primary" class="button button-radius" style="align-self: center;"
+                (click)="findGroups();">Znajdź grupy</button>
+        </div>
+    </div>
+</div>

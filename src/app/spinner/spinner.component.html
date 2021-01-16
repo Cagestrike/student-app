@@ -1,3 +1,17 @@
-<div class="wrapper">
-    <mat-spinner class="inner"></mat-spinner>
+<div *ngIf="showOverlay" class="wrapper">
+    <ng-template [ngIf]="diameter">
+        <mat-spinner [diameter]="diameter" class="inner"></mat-spinner>
+    </ng-template>
+    <ng-template [ngIf]="!diameter">
+        <mat-spinner class="inner"></mat-spinner>
+    </ng-template>
+</div>
+
+<div *ngIf="!showOverlay" class="wrapper">
+    <ng-template [ngIf]="diameter">
+        <mat-spinner [diameter]="diameter" class="inner"></mat-spinner>
+    </ng-template>
+    <ng-template [ngIf]="!diameter">
+        <mat-spinner class="inner"></mat-spinner>
+    </ng-template>
 </div>

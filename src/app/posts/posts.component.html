@@ -1,0 +1,49 @@
+<app-spinner *ngIf="isLoading"></app-spinner>
+<mat-card class="post__action--container">
+    <mat-card-content class="post__action--content">
+        <div class="group-name">
+            <mat-card-title *ngIf="group?.id" style="margin: 0;">
+                {{ (group.name.length > 20)? (group.name | slice:0:6)+'..':(group.name) }}
+            </mat-card-title>
+        </div>
+        <button mat-flat-button (click)="createPost()" class="create-post__button">Napisz coś...</button>
+        <!-- <button mat-flat-button (click)="log()">Log</button> -->
+        <div *ngIf="group?.id" style="display: flex;">
+            <button mat-button (click)="showMembers(group);">
+                <mat-icon>people</mat-icon>
+                <span>Wyświetl członków</span>
+            </button>
+            <button mat-button (click)="leaveGroup(group.id)" *ngIf="!isGroupGod(group.role)">
+                <mat-icon>person_remove</mat-icon>
+                <span>Odejdź z grupy</span>
+            </button>
+            <button mat-button color="warn" (click)="deleteGroup(group.id);" *ngIf="isGroupGod(group.role)">
+                <mat-icon>delete</mat-icon>
+                <span>Usuń grupę</span>
+            </button>
+            <!-- <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="showMembers(group);">
+                    <mat-icon>people</mat-icon>
+                    <span>Wyświetl członków</span>
+                </button>
+                <button mat-menu-item (click)="leaveGroup(group.id)" *ngIf="!isGroupGod(group.role)">
+                    <mat-icon>person_remove</mat-icon>
+                    <span>Odejdź z grupy</span>
+                </button>
+                <button mat-menu-item (click)="deleteGroup(group.id);" *ngIf="isGroupGod(group.role)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Usuń grupę</span>
+                </button>
+            </mat-menu> -->
+        </div>
+    </mat-card-content>
+</mat-card>
+<div *ngIf="!posts.length">
+    Brak postów :(
+</div>
+<div *ngFor="let post of posts">
+    <app-post [post]="post" [relatedGroup]="getRelatedGroupByPost(post)" (postDelete)="onPostDelete($event);"></app-post>
+</div>

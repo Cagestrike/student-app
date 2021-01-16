@@ -1,19 +1,22 @@
 <div class="hero-image">
-  <div class="bg-blur">
-    <div class="login-box">
-      <div class="social-login-wrapper">
-        <app-social-login></app-social-login>
-      </div>
-      <div class="login-wrapper">
-        <div class="action-buttons">
-          <button mat-stroked-button class="action-button" [class.active]="isLoginMode" id="login-button" (click)="onLoginButtonClick($event)">Zaloguj się</button>
-          <button mat-stroked-button class="action-button" [class.active]="!isLoginMode" (click)="onRegisterButtonClick($event)">Rejestracja</button>
+    <div class="bg-blur">
+        <div class="login-box" style="position: relative; overflow: hidden;">
+            <app-spinner *ngIf="isLoading"></app-spinner>
+            <div class="social-login-wrapper">
+                <app-social-login></app-social-login>
+            </div>
+            <div class="login-wrapper">
+                <div class="action-buttons">
+                    <button mat-stroked-button class="action-button" [class.active]="isLoginMode" id="login-button"
+                        (click)="onLoginButtonClick($event)">Zaloguj się</button>
+                    <button mat-stroked-button class="action-button" [class.active]="!isLoginMode"
+                        (click)="onRegisterButtonClick($event)">Rejestracja</button>
+                </div>
+                <div class="form-wrapper">
+                    <app-self-login *ngIf="isLoginMode" (loading)="handleLoading($event)"></app-self-login>
+                    <app-self-register *ngIf="!isLoginMode" (loading)="handleLoading($event)"></app-self-register>
+                </div>
+            </div>
         </div>
-        <div class="form-wrapper">
-          <app-self-login *ngIf="isLoginMode"></app-self-login>
-          <app-self-register *ngIf="!isLoginMode"></app-self-register>
-        </div>
-      </div>
     </div>
-  </div>
 </div>

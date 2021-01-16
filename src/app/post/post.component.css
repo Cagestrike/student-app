@@ -1,0 +1,33 @@
+.post__container {
+    border-radius: 19px;
+    width: 85%;
+    margin: 16px auto;
+}
+
+.comment__input {
+    border-radius: 19px;
+    text-align: start;
+    background-color: rgba(0,0,0,.12); 
+    /* color: rgba(0,0,0,.26); */
+    width: 80%;
+    min-height: 16px;
+}
+
+.mat-form-field-underline {
+    display: none !important;
+}
+
+textarea {
+    border: none;
+    overflow: visible;
+    outline: none;
+    font-family: inherit;
+    font-size: inherit;
+    padding: 8px;
+
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    resize: none;
+}

@@ -33,7 +33,7 @@ import { NewUniversityClassDialogComponent } from './new-university-class-dialog
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NewCalendarEventDialogComponent } from './new-calendar-event-dialog/new-calendar-event-dialog.component';
-import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import { NoteDialogComponent } from './note-dialog/note-dialog.component';
 import { QuillModule } from 'ngx-quill';
 import { SafeHtmlPipe } from './safe-html.pipe';
@@ -50,6 +50,20 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { FindGroupsDialogComponent } from './find-groups-dialog/find-groups-dialog.component';
+import { MatCardModule } from '@angular/material/card';
+import { PostsComponent } from './posts/posts.component';
+import { PostComponent } from './post/post.component';
+import { CreateNewGroupDialogComponent } from './create-new-group-dialog/create-new-group-dialog.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { GroupMembersDialogComponent } from './group-members-dialog/group-members-dialog.component';
+import { MatListModule } from '@angular/material/list';
+import { GroupMemberListItemComponent } from './group-member-list-item/group-member-list-item.component';
+import { GroupsListComponent } from './groups-list/groups-list.component';
+import { PostDialogComponent } from './post-dialog/post-dialog.component';
+import { PostCommentComponent } from './post-comment/post-comment.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     dayGridPlugin,
@@ -80,6 +94,15 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         NewTimetableDialogComponent,
         EditUniversityClassDatesDialogComponent,
         SpinnerComponent,
+        FindGroupsDialogComponent,
+        PostsComponent,
+        PostComponent,
+        CreateNewGroupDialogComponent,
+        GroupMembersDialogComponent,
+        GroupMemberListItemComponent,
+        GroupsListComponent,
+        PostDialogComponent,
+        PostCommentComponent,
     ],
     imports: [
         BrowserModule,
@@ -105,6 +128,12 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         MatProgressSpinnerModule,
         NgxMaterialTimepickerModule,
         NgxMaterialTimepickerModule.setLocale('pl-PL'),
+        MatCardModule,
+        MatRippleModule,
+        MatTabsModule,
+        MatMenuModule,
+        MatSnackBarModule,
+        MatListModule,
     ],
     providers: [
         AuthGuard,

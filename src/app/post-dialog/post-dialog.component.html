@@ -1,0 +1,53 @@
+<form [formGroup]="postForm" (submit)="savePost();">
+    <mat-error *ngIf="postForm.hasError('genericError')">
+        Coś poszło nie tak...
+    </mat-error>
+    <mat-error *ngIf="postForm.hasError('genericApiErrors')">
+        {{apiErrors.message}}
+    </mat-error>
+    <app-spinner *ngIf="isLoading"></app-spinner>
+    <div mat-dialog-title>
+        <mat-form-field style="flex-grow: 1; margin-right: 24px; width: 100%;">
+            <mat-label>Tytuł</mat-label>
+            <input matInput type="text" name="postTitle" [formControl]="postTitleControl" required>
+            <mat-error *ngIf="postTitleControl.hasError('required')">
+                Tytuł jest <strong>wymagany</strong>
+            </mat-error>
+            <mat-error *ngIf="postTitleControl.hasError('apiErrors')">
+                {{apiErrors.title}}
+            </mat-error>
+        </mat-form-field>
+        <!-- <button *ngIf="isEditMode" mat-mini-fab color="primary" style="background-color: #3498DB;" (click)="deleteNote();">
+            <mat-icon>delete</mat-icon>
+        </button> -->
+    </div>
+
+
+    <mat-dialog-content>
+        <mat-form-field style="width: 100%;">
+            <mat-label>Treść</mat-label>
+            <textarea matInput rows="10" style="background-color: #EEEEEE;" [formControl]="postContentControl"></textarea>
+            <mat-error *ngIf="postContentControl.hasError('required')">
+                Napisz coś...
+            </mat-error>
+            <mat-error *ngIf="postContentControl.hasError('apiErrors')">
+                {{apiErrors.post}}
+            </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" *ngIf="!selectedGroup && !isEditMode">
+            <mat-label>Grupa...</mat-label>
+            <mat-select (selectionChange)="onGroupSelectChange($event);" [formControl]="groupControl">
+                <mat-option *ngFor="let group of availableGroups" [value]="group.id">{{group.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="groupControl.hasError('required')">
+                Wybierz grupę...
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Anuluj</button>
+        <button mat-flat-button color="primary" style="background-color: #3498DB;" type="submit">Zapisz</button>
+    </mat-dialog-actions>
+</form>
