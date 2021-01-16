@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { read } from 'fs';
 import { formatDateToAPIFormat } from '../api-utils';
 import { AuthenticationService } from '../authentication.service';
 import { UserService } from '../user.service';

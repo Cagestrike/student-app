@@ -3,6 +3,7 @@ import { NavigationEnd, Router } from '@angular/router';
 import { registerLocaleData } from '@angular/common';
 import localePl from '@angular/common/locales/pl';
 import { AuthenticationService } from '../authentication.service';
+import { UserService } from '../user.service';
 registerLocaleData(localePl, 'pl');
 
 @Component({
@@ -13,6 +14,7 @@ registerLocaleData(localePl, 'pl');
 export class TopBarComponent implements OnInit {
     @Input() activePageName;
     @Input() currentRouterOutletComponent;
+    user;
     activePageNameByRoute = new Map().set('dashboard', 'Strona główna')
                                      .set('timetable', 'Plan zajęć')
                                      .set('calendar', 'Kalendarz')
@@ -21,10 +23,12 @@ export class TopBarComponent implements OnInit {
 
     constructor(
         private router: Router,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        private userService: UserService
     ) { }
 
     ngOnInit(): void {
+        this.user = this.userService.getCurrentUser();
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
                 this.activePageName = this.router.url;

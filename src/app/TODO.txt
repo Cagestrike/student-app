@@ -25,8 +25,6 @@
     - WYSWIETLENIE WSZYSTKICH NOTATEK Z TAGIEM
     - WYSWIETLENIE WSZYSTKICH TAGOW KTORE UZYL USEROW
 
-- NOTATKI PRZEDMIOTU???
-
                                                                                                             - WYDARZENIA:
                                                                                                                 - POKAZ POJEDYNCZE
                                                                                                                 - POKAZ WYDARZENIA
@@ -54,7 +52,7 @@ PLAN ZAJEC:
     - ZMODYFIKUJ DATY (GRUPA DAT) PRZEDMIOTU
 
 GRUPY:
-    - WYSZUKAJ GRUPĘ
+                                                                                                                - WYSZUKAJ GRUPĘ
                                                                                                                 - POKAŻ LISTĘ GRUP STUDENTA
                                                                                                                 - POKAŻ LISTĘ WSZYSTKICH GRUP
                                                                                                                 - POKAŻ POJEDYNCZĄ GRUPĘ

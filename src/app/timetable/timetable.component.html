@@ -1,7 +1,7 @@
 <app-spinner *ngIf="isPageLoading"></app-spinner>
 
 <div class="center" *ngIf="currentStage == 'no timetable'">
-    <svg-icon src="/assets/icons/notebook.svg" svgClass="svg-icon"></svg-icon>
+    <svg-icon src="./assets/icons/notebook.svg" svgClass="svg-icon"></svg-icon>
     <h2>Brak aktualnego planu zajęć</h2>
     <p>Tutaj będą widoczne twoje przedmioty oraz plan zajęć</p>
     <button mat-flat-button color="primary" class="button button-radius" (click)="startTimetableCreation()">Stwórz nowy plan zajęć</button>
