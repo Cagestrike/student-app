@@ -1,5 +1,5 @@
 <div class="top-bar">
-    <h2 style="margin: 0; align-self: center; flex-grow: 1;">{{activePageName}}</h2>
+    <h2 style="margin: 0 8px; align-self: center; flex-grow: 1;">{{activePageName}}</h2>
     <div *ngIf="currentRouterOutletComponent?.calendar" class="action-buttons">
         <button mat-flat-button (click)="calendarPrevious();"><</button>
         <h2 style="margin: 0;">{{currentRouterOutletComponent.getDate()}}</h2>
@@ -18,6 +18,13 @@
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="timetableCreate();">Nowy Plan Zajęć</button>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
-        <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="logout();">Wyloguj</button>
+        <!-- <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="logout();">Wyloguj</button> -->
+        <button mat-button [matMenuTriggerFor]="userMenu" style="align-self: center; margin-right: 16px;">{{user.name}} {{user.secondName}}
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item><mat-icon>person</mat-icon> Mój profil</button>
+            <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Wyloguj się</button>
+        </mat-menu>
     </div>
 </div>

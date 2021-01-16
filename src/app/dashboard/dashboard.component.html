@@ -2,10 +2,12 @@
 <div class="dashboard">
     <div class="container container__top">
         <h3 style="margin: 0;">Nadchodzące wydarzenia</h3>
-        <div class="white__container events">
+        <div class="white__container events box-shadow-for-containers" style="position: relative;">
+            <app-spinner *ngIf="areEventsLoading"></app-spinner>
             <div>
                 <h4>Dzisiaj</h4>
                 <div class="event__list">
+                    <div *ngIf="!todayEvents || !todayEvents.length">Dzisiaj odpoczywasz, brak wydarzeń!</div>
                     <div *ngFor="let event of todayEvents" class="event__detail">
                         <app-dashboard-event-details [event]="event"></app-dashboard-event-details>
                     </div>
@@ -14,6 +16,7 @@
             <div>
                 <h4>Jutro</h4>
                 <div class="event__list">
+                    <div *ngIf="!tomorrowEvents || !tomorrowEvents.length">Brak wydarzeń na jutro</div>
                     <div *ngFor="let event of tomorrowEvents" class="event__detail">
                         <app-dashboard-event-details [event]="event"></app-dashboard-event-details>
                     </div>
@@ -22,6 +25,8 @@
             <div>
                 <h4>Następny tydzień</h4>
                 <div class="event__list">
+                    <div *ngIf="!nextWeekEvents || !nextWeekEvents.length">Spokojny tydzień, taki bez większych wydarzeń
+                    </div>
                     <div *ngFor="let event of nextWeekEvents" class="event__detail">
                         <app-dashboard-event-details [event]="event"></app-dashboard-event-details>
                     </div>
@@ -31,22 +36,31 @@
     </div>
     <div class="col-3-grid">
         <div class="container">
-            <h3 style="margin: 0;">Twój plan zajęć</h3>
-            <div class="white__container">
-                <p>Aktualny:</p>
-                <button mat-flat-button color="primary" class="button" style="display:block; margin: 8px auto;">{{currentTimetable?.name}}</button>
+            <h3 style="margin: 0;">Twoje plany zajęć</h3>
+            <div class="white__container box-shadow-for-containers" style="overflow-y: auto; position: relative;">
+                <app-spinner *ngIf="areTimetablesLoading"></app-spinner>
+                <div *ngFor="let timetable of timetables" style="margin: 8px auto;">
+                    <p class="mat-body-strong" style="margin: 0;">{{timetable.name}}</p>
+                    <p class="mat-small">{{timetable.start_date}} - {{timetable.end_date}}</p>
+                </div>
             </div>
         </div>
         <div class="container">
             <h3 style="margin: 0;">Ostatnie notatki</h3>
-            <div class="white__container white__container-note">
+            <div class="white__container white__container-note box-shadow-for-containers" style="position: relative;">
+                <app-spinner *ngIf="isNoteLoading"></app-spinner>
                 <app-note *ngIf="latestNote" [note]="latestNote"></app-note>
             </div>
         </div>
         <div class="container">
             <h3 style="margin: 0;">Twoje grupy</h3>
-            <div class="white__container">
-                
+            <div class="white__container box-shadow-for-containers" style="overflow-y: auto; position: relative;">
+                <app-spinner *ngIf="areMyGroupsLoading"></app-spinner>
+                <p class="group__row" *ngIf="!myGroups.length">Nie należysz do żadnej grupy</p>
+                <ng-template [ngIf]="myGroups && myGroups.length">
+                    <app-groups-list [groups]="myGroups" (onGroupSelect)="handleSelectedGroupId($event)"
+                        (onLoading)="handleGroupLoading($event)" (refreshGroups)="getSocialGroups()"></app-groups-list>
+                </ng-template>
             </div>
         </div>
     </div>

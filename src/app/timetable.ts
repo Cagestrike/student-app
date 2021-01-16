@@ -3,4 +3,5 @@ export interface Timetable {
     name;
     start_date;
     end_date;
+    activeFlag?;
 }
