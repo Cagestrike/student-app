@@ -1,0 +1,122 @@
+<h1 mat-dialog-title>{{group.name}} - Lista użytkowników</h1>
+
+<app-spinner *ngIf="isLoading"></app-spinner>
+
+<mat-dialog-content>
+    <mat-error *ngIf="isUnverified">
+        {{noAccessError}}
+    </mat-error>
+    <mat-list *ngIf="!isUnverified">
+        <mat-accordion multi>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Założyciel(e)</mat-panel-title>
+                    <mat-panel-description></mat-panel-description>
+                </mat-expansion-panel-header>
+                <mat-list-item *ngFor="let member of godMembers">
+                    <div mat-line>{{member.name}} {{member.secondName}}</div>
+                    <div mat-line>{{getViewRoleByApiRole(member.role)}}</div>
+                </mat-list-item>
+            </mat-expansion-panel>
+            <!-- <div mat-subheader>Założyciel(e)</div> -->
+
+            <mat-divider></mat-divider>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Administratorzy</mat-panel-title>
+                    <mat-panel-description></mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngFor="let member of adminMembers" style="display: flex; width: 100%;">
+                    <mat-list-item style="flex-grow: 1">
+                        <div>
+                            <div mat-line>{{member.name}} {{member.secondName}}</div>
+                            <div mat-line>{{getViewRoleByApiRole(member.role)}}</div>
+                        </div>
+                    </mat-list-item>
+                    <div style="display: flex;" *ngIf="isGroupGod()">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item (click)="verifyUser(member.id);">
+                                <mat-icon>perm_identity</mat-icon>
+                                <span>Odbierz uprawnienia administratora</span>
+                            </button>
+                            <button mat-menu-item (click)="removeUser(member.id)">
+                                <mat-icon>person_remove</mat-icon>
+                                <span>Usuń użytkownika</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            <!-- <div mat-subheader>Administratorzy</div> -->
+
+            <mat-divider></mat-divider>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Użytkownicy</mat-panel-title>
+                    <mat-panel-description></mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngFor="let member of userMembers" style="display: flex; width: 100%;">
+                    <mat-list-item style="flex-grow: 1">
+                        <div>
+                            <div mat-line>{{member.name}} {{member.secondName}}</div>
+                            <div mat-line>{{getViewRoleByApiRole(member.role)}}</div>
+                        </div>
+                    </mat-list-item>
+                    <div style="display: flex;" *ngIf="isGroupGod() || isGroupAdmin()">
+                        <button mat-icon-button [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button mat-menu-item *ngIf="isGroupGod()" (click)="makeAdmin(member.id);">
+                                <mat-icon>perm_identity</mat-icon>
+                                <span>Nadaj uprawnienia administratora</span>
+                            </button>
+                            <button mat-menu-item (click)="removeUser(member.id)">
+                                <mat-icon>person_remove</mat-icon>
+                                <span>Usuń użytkownika</span>
+                            </button>
+                        </mat-menu>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+
+            <!-- <div mat-subheader>Użytkownicy</div> -->
+
+
+            <mat-divider></mat-divider>
+
+            <mat-expansion-panel style="margin-bottom: 4px;">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>Niezweryfikowani</mat-panel-title>
+                    <mat-panel-description></mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngFor="let member of unverifiedMembers" style="display: flex; width: 100%;">
+                    <mat-list-item style="flex-grow: 1">
+                        <div>
+                            <div mat-line>{{member.name}} {{member.secondName}}</div>
+                            <div mat-line>{{getViewRoleByApiRole(member.role)}}</div>
+                        </div>
+                    </mat-list-item>
+                    <div style="display: flex;" *ngIf="hasVerifyUserAccess()">
+                        <button mat-button (click)="verifyUser(member.id);">Zweryfikuj</button>
+                        <button mat-button (click)="removeUser(member.id)">Usuń</button>
+                    </div>
+                </div>
+
+            </mat-expansion-panel>
+
+            <!-- <div mat-subheader>Niezweryfikowani</div> -->
+
+        </mat-accordion>
+    </mat-list>
+
+</mat-dialog-content>
+
+<div mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Zamknij</button>
+</div>

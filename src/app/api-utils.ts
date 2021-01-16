@@ -31,7 +31,7 @@ export function parseNotesToNotesWithFiles(notes): NoteWithFiles[] {
     notes.forEach(note => {
         const noteIndex = notesWithFiles.findIndex(nt => nt.note.id === note.id);
 
-        if(noteIndex === -1) {
+        if (noteIndex === -1) {
             const noteToAdd = {
                 id: note.id,
                 title: note.title,
@@ -49,7 +49,7 @@ export function parseNotesToNotesWithFiles(notes): NoteWithFiles[] {
                 files: []
             } as NoteWithFiles;
 
-            if(note['user_data.id']) {
+            if (note['user_data.id']) {
                 noteWithFiles.files = [fileToAdd];
             }
 
@@ -137,7 +137,7 @@ export function parseEventsToUserEventsWithDates(events): UserEventWithDates[] {
     events.forEach(event => {
         const eventIndex = userEventsWithDates.findIndex(ev => ev.userEvent.id === event.id);
 
-        if(eventIndex === -1) {
+        if (eventIndex === -1) {
             const userEventToAdd = {
                 id: event.id,
                 name: event.name,
@@ -159,7 +159,7 @@ export function parseEventsToUserEventsWithDates(events): UserEventWithDates[] {
                 dates: [],
             } as UserEventWithDates;
 
-            if(event['event_date.id']) {
+            if (event['event_date.id']) {
                 userEventWithDateToAdd.dates = [eventDateToAdd]
             }
 
@@ -177,4 +177,20 @@ export function parseEventsToUserEventsWithDates(events): UserEventWithDates[] {
     });
 
     return userEventsWithDates;
+}
+
+export function getViewRoleByApiRole(apiRole): string {
+    return apiRole === 'admin' ? 'Administrator'
+        : apiRole === 'god' ? 'Założyciel'
+        : apiRole === 'user' ? 'Użytkownik'
+        : apiRole === 'unverified' ? 'Niezweryfikowany'
+        : 'Jakaś dziwna rola?';
+}
+
+export function isGroupAdmin(role) {
+    return role === 'admin';
+}
+
+export function isGroupGod(role) {
+    return role === 'god';
 }

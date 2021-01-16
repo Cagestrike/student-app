@@ -1,0 +1,24 @@
+.groups__container {
+    background-color: white; 
+    border-radius: 19px 19px 19px 19px; 
+    display: flex; 
+    flex-direction: column;
+    max-height: 80vh;
+    overflow-y: auto;
+    /* transition: 3s linear; */
+}
+
+.group__row {
+    padding: 8px;
+    display: flex;
+    cursor: pointer;
+}
+
+.button {
+    background-color: #3498DB;
+}
+
+.button-radius {
+    border-radius: 14px;
+}
+

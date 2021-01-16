@@ -1,0 +1,16 @@
+.group__card {
+    margin-bottom: 8px;
+    width: 50vw;
+}
+
+.group__details-container {
+    display: flex;
+}
+
+.group__details {
+    flex-grow: 1;
+}
+
+.group__actions {
+
+}

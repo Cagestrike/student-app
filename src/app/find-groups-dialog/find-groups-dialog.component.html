@@ -1,0 +1,65 @@
+<app-spinner *ngIf="isDialogLoading"></app-spinner>
+<div  style="display: flex;">
+    <h2 mat-dialog-title style="flex-grow: 1;">Znajdź grupę</h2>
+    <mat-form-field>
+        <mat-label>Nazwa grupy</mat-label>
+        <input type="text" matInput [(ngModel)]="searchedGroupName" (keyup)="onSearchGroupNameChange($event);">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+</div>
+
+
+<mat-dialog-content>
+    <mat-error *ngIf="genericError || apiError;">
+        <p *ngIf="genericError;">
+            Coś poszło nie tak, spróbuj ponownie...
+        </p>
+        <p *ngIf="apiError;">
+            {{apiError}}
+        </p>
+    </mat-error>
+
+    <!-- <ng-template #noError> -->
+        <mat-card *ngIf="!currentlyDisplayedGroups.length && !isDialogLoading" class="group__card">
+            <div class="group__details-container">
+                <mat-card-header class="group__details">
+                    <mat-card-title>Nie znaleziono grup :(</mat-card-title>
+                </mat-card-header>
+            </div>
+        </mat-card>
+        <mat-card *ngFor="let group of currentlyDisplayedGroups" class="group__card">
+            <div class="group__details-container">
+                <mat-card-header class="group__details">
+                    <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                    <mat-card-title>{{group.name}}</mat-card-title>
+                    <mat-card-subtitle style="margin: 0;">{{group.description}}</mat-card-subtitle>
+                </mat-card-header>
+                <div class="group__actions">
+                    <button *ngIf="!groupIdsWhereRequestSentOut.has(group.id); else requestSentOut" mat-mini-fab color="primary" style="align-self: center; margin-right: 16px; background-color: #3498DB;"
+                        (click)="joinGroup(group);">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <ng-template #requestSentOut>
+                        <p>Prośba o dołączenie została wysłana</p>
+                    </ng-template>
+                </div>
+            </div>
+
+            <!-- <mat-card-content>
+              <p>
+                The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
+                A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                bred for hunting.
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-button>LIKE</button>
+              <button mat-button>SHARE</button>
+            </mat-card-actions> -->
+        </mat-card>
+    <!-- </ng-template> -->
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="closeDialog();">Zamknij</button>
+</mat-dialog-actions>

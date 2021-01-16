@@ -1,0 +1,58 @@
+<mat-card class="post__container" style="position: relative; overflow: hidden;">
+    <app-spinner *ngIf="isPostLoading"></app-spinner>
+    <mat-card-header style="display: flex;">
+        <!-- <div mat-card-avatar class="example-header-image"></div> -->
+        <div style="flex-grow: 1;">
+            <mat-card-title>{{post.title}}</mat-card-title>
+            <mat-card-subtitle>{{post.author}} - {{post.created_at}}</mat-card-subtitle>
+        </div>
+
+        <div *ngIf="hasManageAccessToPost()">
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="editPost();">
+                    <mat-icon>edit</mat-icon>
+                    <span>Edytuj posta</span>
+                </button>
+                <button mat-menu-item (click)="deletePost();">
+                    <mat-icon>delete</mat-icon>
+                    <span>Usuń posta</span>
+                </button>
+            </mat-menu>
+        </div>
+    </mat-card-header>
+    <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+    <mat-card-content style=" margin: 0;">
+        <p style="white-space: pre-wrap;">{{post.post}}</p>
+        <div style="position: relative;">
+            <div style="height: 8px;">
+                <mat-divider></mat-divider>
+            </div>
+            <div *ngFor="let comment of comments">
+                <app-post-comment [comment]="comment" [groupRole]="relatedGroup.role" [groupId]="relatedGroup.id" (commentDelete)="onCommentDelete($event)"></app-post-comment>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions style="position: relative; margin-bottom: 0;">
+        <app-spinner *ngIf="areCommentsLoading" [diameter]="40"></app-spinner>
+        <button mat-button (click)="showComments(post);">Wyświetl komentarze</button>
+        <button mat-button (click)="setWriteCommentMode();">Napisz komentarz</button>
+    </mat-card-actions>
+    <!-- <mat-form-field> -->
+    <!-- <mat-label>Napisz coś...</mat-label> -->
+    <div *ngIf="isWriteCommentMode" style="position: relative;">
+        <app-spinner *ngIf="isCommentLoading" [diameter]="40"></app-spinner>
+        <textarea cdkTextareaAutosize class="comment__input" #commentTextarea minlength="1" maxlength="510"
+            (keydown)="onCommentKeyPress($event);" [(ngModel)]="commentText"></textarea>
+        <span style="cursor: pointer;" (click)="sendComment();">
+            <mat-icon>send</mat-icon>
+        </span>
+    </div>
+    <mat-error *ngIf="apiErrors?.comment">
+        {{apiErrors.comment}}
+    </mat-error>
+
+    <!-- </mat-form-field> -->
+</mat-card>

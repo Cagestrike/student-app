@@ -1,0 +1,5 @@
+.group__row {
+    padding: 8px;
+    display: flex;
+    cursor: pointer;
+}

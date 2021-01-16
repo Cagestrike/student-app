@@ -72,8 +72,8 @@
     border-radius: 19px 19px 19px 19px; 
     display: flex; 
     flex-direction: column;
-    height: 80vh;
-    overflow-y: scroll;
+    max-height: 80vh;
+    overflow-y: auto;
 }
 
 .university-class__row {

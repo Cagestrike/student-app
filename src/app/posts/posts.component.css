@@ -1,0 +1,33 @@
+.post__action--container {
+    border-radius: 19px;
+    margin: 0 auto 16px;
+}
+
+.post__action--content {
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr;
+}
+
+.mat-form-field-wrapper {
+    padding: 0 !important;
+}
+
+mat-form-field * {
+    padding: 0 !important;
+}
+
+.group-name {
+    max-height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.create-post__button {
+    cursor: pointer; 
+    border-radius: 19px; 
+    text-align: start; 
+    background-color: rgba(0,0,0,.12); 
+    color: rgba(0,0,0,.26);
+}

@@ -1,0 +1,20 @@
+<mat-card class="comment" style="position: relative;">
+    <app-spinner *ngIf="isCommentLoading" [diameter]="32"></app-spinner>
+    <p style="margin: 0;" class="mat-body-2">{{comment.author}}</p>
+    <mat-card-content>
+        <p style="white-space: pre-wrap;" *ngIf="!isCommentEditMode">
+            {{comment.comment}}
+        </p>
+        <textarea cdkTextareaAutosize *ngIf="isCommentEditMode" class="comment__input" #commentTextarea minlength="1" maxlength="510"
+            (keydown)="onCommentKeyPress($event);" [(ngModel)]="commentText"></textarea>
+            <span style="cursor: pointer;" *ngIf="isCommentEditMode" (click)="updateComment();">
+                <mat-icon>send</mat-icon>
+            </span>
+    </mat-card-content>
+</mat-card>
+<div style="display: flex;">
+    <p class="mat-caption" (click)="editComment()" style="cursor: pointer;" *ngIf="hasManageAccessToComment() && !isCommentEditMode">Edytuj</p>
+    <p class="mat-caption" (click)="cancelEdit()" style="cursor: pointer;" *ngIf="isCommentEditMode">Anuluj</p>
+    <p class="mat-caption" (click)="deleteComment()" style="margin: 0 8px; cursor: pointer;" *ngIf="hasManageAccessToComment()">Usuń</p>
+    <p class="mat-caption">{{comment.created_at}}</p>
+</div>

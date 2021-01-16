@@ -1,0 +1,100 @@
+                                                                                                            - LOGOWANIE
+                                                                                                            - REJESTRACJA
+                                                                                                            - REFRESH
+                                                                                                            - WYLOGOWANIE
+
+- WYSZUKANIE USEROW
+- EDYCJA DANYCH UZYTKOWNIKA
+- WYSWIETLENIE DANYCH UZYTKOWNIKA
+- USUNIECIE UZYTKOWNIKA
+- DODAWANIE ZDJECIA PROFILOWEGO
+- USUWANIE PROFILOWEGO
+
+- NOTATKI:
+                                                                                                            - DODAWANIE NOTATKI UZYTKOWNIKA
+                                                                                                            - WYSWIETLENIE NOTATEK UZYTKOWNIKA
+                                                                                                            - MODYFIKACJA NOTATKI
+                                                                                                            - USUWANIE NOTATKI
+    - DODANIE PLIKU DO NOTATEK
+    - USUWANIE PLIKU DO NOTATEK
+    - MODYFIKACJA PLIKU DO NOTATEK
+    - WYSZUKIWANIE TAGOW NOTATEK
+    - DODAWANIE TAGOW DO NOTATKI
+    - USUWANIE TAGOW NOTATKI
+    - WYSWIETLENIE TAGOW NOTATKI
+    - WYSWIETLENIE WSZYSTKICH NOTATEK Z TAGIEM
+    - WYSWIETLENIE WSZYSTKICH TAGOW KTORE UZYL USEROW
+
+- NOTATKI PRZEDMIOTU???
+
+                                                                                                            - WYDARZENIA:
+                                                                                                                - POKAZ POJEDYNCZE
+                                                                                                                - POKAZ WYDARZENIA
+                                                                                                                - DODAJ WYDARZENIE
+                                                                                                                - USUN WYDARZENIE
+                                                                                                                - EDYTUJ WYDARZENIE
+                                                                                                            - DATY WYDARZEN:
+                                                                                                                - DODAWANIE DATY WYDARZENIA
+                                                                                                                - USUWANIE
+                                                                                                                - EDYCJA
+
+PLAN ZAJEC:
+    - ARCHIWIZOWANE PLANY ZAJEC????
+                                                                                                                - DODAJ PLAN
+                                                                                                                - ZMODYFIKUJ PLAN
+                                                                                                                - USUŃ PLAN
+                                                                                                                - POKAZ PRZEDMIOTY
+                                                                                                                - DODAJ PRZEDMIOT DO PLANU
+                                                                                                                - ZMODYFIKUJ POJEDYNCZY PRZEDMIOT
+                                                                                                                - USUN PRZEDMIOT
+                                                                                                                - DODAJ DATE DO PRZEDMIOTU
+                                                                                                                - USUN DATE PRZEDMIOTU
+                                                                                                                - ZMODYFIKUJ DATE PRZEDMIOTU
+    - USUN DATY (GRUPA DAT) PRZEDMIOTU
+    - ZMODYFIKUJ DATY (GRUPA DAT) PRZEDMIOTU
+
+GRUPY:
+    - WYSZUKAJ GRUPĘ
+                                                                                                                - POKAŻ LISTĘ GRUP STUDENTA
+                                                                                                                - POKAŻ LISTĘ WSZYSTKICH GRUP
+                                                                                                                - POKAŻ POJEDYNCZĄ GRUPĘ
+                                                                                                                - POKAZ UZYTKOWNIKOW GRUPY
+    - POKAZ DANE O UZYTKOWNIKU GRUPY
+                                                                                                                - UTWORZ GRUPE
+                                                                                                                - DOLACZ DO GRUPY
+    - DODAJ UZYTKOWNIKA DO GRUPY
+                                                                                                                - USUN UZYTKOWNIKA Z GRUPY
+                                                                                                                - USUN GRUPE
+                                                                                                                - ZMODYFIKUJ ROLE UZYTKOWNIKA
+    - ZMODYFIKUJ DANE O GRUPIE
+                                                                                                                - WYSWIETL POSTY ZE WSZYSTKICH GRUP
+                                                                                                                - DODAJ POSTA DO GRUPY
+                                                                                                                - ZMODYFIKUJ POSTA GRUPY
+                                                                                                                - USUN POSTA Z GRUPY
+                                    - POKAZ POST Z GRUPY
+                                                                                                                - POKAZ LISTE POSTOW Z GRUPY
+    - WYSZUKAJ TAGI
+    - DODAJ TAG DO POSTA
+    - USUN TAG Z POSTA
+    - POKAZ TAGI POSTA
+    - POKAZ WSZYSTKIE POSTY O TAGU
+    - POKAZ WSZYSTKIE UNIKALNE TAGI W GRUPIE
+    - DODAJ PLIK DO POSTA
+    - USUN PLIK Z POSTA
+    - ZMODYFIKUJ PLIK POSTA
+    - POKAZ POJEDYNCZY PLIK DO POSTA
+    - POKAZ PLIKI DO POSTA
+                                                                                                                - DODAJ KOMENTARZ
+                                                                                                                - ZMODYFIKUJ KOMENTARZ
+                                                                                                                - USUN KOMENTARZ
+                                                                                                                - POKAZ KOMENTARZE DO POSTA
+    - DODAJ PLIK DO KOMENTARZA
+    - USUN PLIK Z KOMENTARZA
+    - ZMODYFIKUJ PLIK W KOMENTARZU
+    - POKAZ PLIK W KOMENTARZU
+    - POKAZ PLIKI W KOMENTARZU
+    - ZDJECIA GRUPY???
+
+
+
+data:image/jpeg;

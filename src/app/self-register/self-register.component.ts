@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, ValidatorFn, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthenticationService } from '../authentication.service';
@@ -46,6 +46,8 @@ export class SelfRegisterComponent implements OnInit {
     passwordControl = new FormControl('', [Validators.required]);
     confirmationPasswordControl = new FormControl();
     birthdateControl = new FormControl('', [Validators.required]);
+
+    @Output() loading = new EventEmitter();
 
     registerForm: FormGroup;
     apiKeyToFormControl = new Map()
@@ -96,8 +98,10 @@ export class SelfRegisterComponent implements OnInit {
                 console.log(loginResult);
                 this.authenticationService.setToken(loginResult.token);
                 this.router.navigateByUrl('/dashboard');
+                this.loading.emit(false);
             }, error => {
                 console.error(error);
+                this.loading.emit(false);
             })
     }
 
@@ -121,6 +125,7 @@ export class SelfRegisterComponent implements OnInit {
             VerySecureKey: 'abcd'
         }
 
+        this.loading.emit(true);
         this.authenticationService.register(newUserData)
             .subscribe(registerResult => {
                 this.login(newUserData.email, newUserData.password);
@@ -138,6 +143,7 @@ export class SelfRegisterComponent implements OnInit {
                 for(const [key, value] of Object.entries(this.apiErrors)) {
                     this.apiKeyToFormControl.get(key).setErrors({apiErrors: true});
                 }
+                this.loading.emit(false);
             })
     }
 }

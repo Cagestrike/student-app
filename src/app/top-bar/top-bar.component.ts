@@ -28,7 +28,7 @@ export class TopBarComponent implements OnInit {
         this.router.events.subscribe((val) => {
             if (val instanceof NavigationEnd) {
                 this.activePageName = this.router.url;
-                this.activePageName = this.activePageNameByRoute.get(this.router.url.split('/')[1]);
+                this.activePageName = this.activePageNameByRoute.get(this.router.url.split('/')[1].split('?')[0]);
             }
         });
     }
