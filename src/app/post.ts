@@ -1,7 +1,8 @@
 export interface Post {
     id;
     title;
-    author;
+    name;
+    secondName;
     authorId;
     post;
     updated_at;

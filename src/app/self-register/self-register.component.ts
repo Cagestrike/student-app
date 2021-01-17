@@ -4,6 +4,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { AuthenticationService } from '../authentication.service';
 import { formatDateToAPIFormat } from '../api-utils';
 import { Router } from '@angular/router';
+import { UserService } from '../user.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -68,7 +69,8 @@ export class SelfRegisterComponent implements OnInit {
     constructor(
         private formBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
-        private router: Router
+        private router: Router,
+        private userService: UserService
     ) { }
 
     ngOnInit() {
@@ -97,6 +99,7 @@ export class SelfRegisterComponent implements OnInit {
             .subscribe(loginResult => {
                 console.log(loginResult);
                 this.authenticationService.setToken(loginResult.token);
+                this.userService.setCurrentUser(loginResult["0"]);
                 this.router.navigateByUrl('/dashboard');
                 this.loading.emit(false);
             }, error => {

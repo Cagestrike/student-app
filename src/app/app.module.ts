@@ -64,6 +64,7 @@ import { GroupMemberListItemComponent } from './group-member-list-item/group-mem
 import { GroupsListComponent } from './groups-list/groups-list.component';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { PostCommentComponent } from './post-comment/post-comment.component';
+import { MyProfileComponent } from './my-profile/my-profile.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     dayGridPlugin,
@@ -103,6 +104,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         GroupsListComponent,
         PostDialogComponent,
         PostCommentComponent,
+        MyProfileComponent,
     ],
     imports: [
         BrowserModule,

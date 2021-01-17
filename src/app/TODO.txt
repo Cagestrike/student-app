@@ -4,11 +4,11 @@
                                                                                                             - WYLOGOWANIE
 
 - WYSZUKANIE USEROW
-- EDYCJA DANYCH UZYTKOWNIKA
-- WYSWIETLENIE DANYCH UZYTKOWNIKA
-- USUNIECIE UZYTKOWNIKA
-- DODAWANIE ZDJECIA PROFILOWEGO
-- USUWANIE PROFILOWEGO
+                                                                                                            - EDYCJA DANYCH UZYTKOWNIKA
+                                                                                                            - WYSWIETLENIE DANYCH UZYTKOWNIKA
+                                                                                                            - USUNIECIE UZYTKOWNIKA
+                                                                                                            - DODAWANIE ZDJECIA PROFILOWEGO
+                                                                                                            - USUWANIE PROFILOWEGO
 
 - NOTATKI:
                                                                                                             - DODAWANIE NOTATKI UZYTKOWNIKA
@@ -46,8 +46,8 @@ PLAN ZAJEC:
                                                                                                                 - ZMODYFIKUJ POJEDYNCZY PRZEDMIOT
                                                                                                                 - USUN PRZEDMIOT
                                                                                                                 - DODAJ DATE DO PRZEDMIOTU
-                                                                                                                - USUN DATE PRZEDMIOTU
-                                                                                                                - ZMODYFIKUJ DATE PRZEDMIOTU
+    - USUN DATE PRZEDMIOTU
+    - ZMODYFIKUJ DATE PRZEDMIOTU
     - USUN DATY (GRUPA DAT) PRZEDMIOTU
     - ZMODYFIKUJ DATY (GRUPA DAT) PRZEDMIOTU
 
@@ -69,7 +69,7 @@ GRUPY:
                                                                                                                 - DODAJ POSTA DO GRUPY
                                                                                                                 - ZMODYFIKUJ POSTA GRUPY
                                                                                                                 - USUN POSTA Z GRUPY
-                                    - POKAZ POST Z GRUPY
+                                                                                                                - POKAZ POST Z GRUPY
                                                                                                                 - POKAZ LISTE POSTOW Z GRUPY
     - WYSZUKAJ TAGI
     - DODAJ TAG DO POSTA
@@ -92,7 +92,3 @@ GRUPY:
     - POKAZ PLIK W KOMENTARZU
     - POKAZ PLIKI W KOMENTARZU
     - ZDJECIA GRUPY???
-
-
-
-data:image/jpeg;

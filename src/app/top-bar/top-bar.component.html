@@ -23,7 +23,7 @@
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu">
-            <button mat-menu-item><mat-icon>person</mat-icon> Mój profil</button>
+            <button mat-menu-item routerLink="/profile"><mat-icon>person</mat-icon> Mój profil</button>
             <button mat-menu-item (click)="logout()"><mat-icon>exit_to_app</mat-icon> Wyloguj się</button>
         </mat-menu>
     </div>

@@ -4,7 +4,7 @@
         <!-- <div mat-card-avatar class="example-header-image"></div> -->
         <div style="flex-grow: 1;">
             <mat-card-title>{{post.title}}</mat-card-title>
-            <mat-card-subtitle>{{post.author}} - {{post.created_at}}</mat-card-subtitle>
+            <mat-card-subtitle>{{post.name}} {{post.secondName}} - {{post.created_at}}</mat-card-subtitle>
         </div>
 
         <div *ngIf="hasManageAccessToPost()">
