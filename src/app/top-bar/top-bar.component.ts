@@ -16,10 +16,11 @@ export class TopBarComponent implements OnInit {
     @Input() currentRouterOutletComponent;
     user;
     activePageNameByRoute = new Map().set('dashboard', 'Strona główna')
-                                     .set('timetable', 'Plan zajęć')
-                                     .set('calendar', 'Kalendarz')
-                                     .set('notes', 'Notatki')
-                                     .set('groups', 'Grupy');
+        .set('timetable', 'Plan zajęć')
+        .set('calendar', 'Kalendarz')
+        .set('notes', 'Notatki')
+        .set('groups', 'Grupy')
+        .set('profile', 'Mój Profil');
 
     constructor(
         private router: Router,

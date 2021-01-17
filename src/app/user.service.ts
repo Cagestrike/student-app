@@ -1,17 +1,21 @@
+import { JsonPipe } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { BASE_API_URL } from './api-utils';
 import { AuthenticationService } from './authentication.service';
 
 const USER_DATA = 'user_details';
+const USER_PROFILE_PIC = 'user_profile_pic_url';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UserService {
     usersUrl = `${BASE_API_URL}/users`;
+    userPicturesUrl = `${BASE_API_URL}/userPictures`;
 
     constructor(
         private http: HttpClient,
@@ -19,9 +23,9 @@ export class UserService {
     ) { }
 
     getCurrentUser() {
-        return localStorage.getItem(USER_DATA) != null 
+        return localStorage.getItem(USER_DATA) != null
             ? JSON.parse(localStorage.getItem(USER_DATA))
-            : this.http.get<any>(this.usersUrl, { headers: new HttpHeaders({ Authorization: `Bearer ${this.authenticationService.getToken()}` }) })
+            : this.http.get<any>(this.usersUrl)
                 .subscribe(data => {
                     this.setCurrentUser(data);
                     this.getCurrentUser();
@@ -30,8 +34,60 @@ export class UserService {
                 })
     }
 
+    updateUser(user): Observable<any> {
+        return this.http.put(this.usersUrl, user);
+    }
+
+    deleteUser(): Observable<any> {
+        return this.http.delete(this.usersUrl);
+    }
+
+    getUserProfilePic(): Observable<any> {
+        return localStorage.getItem(USER_PROFILE_PIC) != null
+            ? of(JSON.parse(localStorage.getItem(USER_PROFILE_PIC)))
+            : this.http.get(this.userPicturesUrl)
+                .pipe(
+                    tap(userPicture => {
+                        localStorage.setItem(USER_PROFILE_PIC, JSON.stringify(userPicture))
+                        console.log()
+                    })
+                )
+    }
+
+    addUserProfilePic(data): Observable<any> {
+        const filedata: FormData = new FormData();
+        // console.log(data);
+        filedata.append('name', data, data.name);
+        // console.log(filedata.get('name'));
+        // return of(null);
+
+        return this.http.post(this.userPicturesUrl, filedata).pipe(
+            tap(userPicture => {
+                // localStorage.removeItem(USER_PROFILE_PIC);
+                // this.getUserProfilePic();
+            })
+        )
+    }
+
+    deleteUserPicture(id): Observable<any> {
+        return this.http.delete(`${this.userPicturesUrl}/${id}`).pipe(
+            tap(userPicture => {
+                // localStorage.removeItem(USER_PROFILE_PIC);
+                // this.getUserProfilePic();
+            })
+        );
+    }
+
+    getCurrentUserFromServer(): Observable<any> {
+        return this.http.get<any>(this.usersUrl);
+    }
+
     setCurrentUser(userData) {
         localStorage.setItem(USER_DATA, JSON.stringify(userData));
+    }
+
+    clearUserProfilePic() {
+        localStorage.removeItem(USER_PROFILE_PIC);
     }
 
     clearCurrentUser() {

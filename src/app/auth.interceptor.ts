@@ -22,10 +22,12 @@ export class AuthInterceptor implements HttpInterceptor {
         const token = this.authService.getToken();
         if (token) {
             request = request.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${this.authService.getToken()}`
-                }
+                headers: request.headers.set('Authorization', `Bearer ${this.authService.getToken()}`)
+                // setHeaders: {
+                //     Authorization: `Bearer ${this.authService.getToken()}`
+                // }
             });
+            // console.log(request);
         }
 
         // if (request.url.indexOf('refresh') !== -1) {
@@ -35,7 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
             catchError((err: HttpErrorResponse) => {
 
                 if (err.status === 401) {
-                    if(!err.url.includes('api/login') && !err.url.includes('api/register')) {
+                    if(!err.url.includes('api/login') && !err.url.includes('api/register') && !err.url.includes('userPictures')) {
                         console.log('unauthorized, logging out...');
                         this.authService.logout();
                     }
