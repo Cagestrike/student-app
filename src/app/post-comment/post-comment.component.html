@@ -1,17 +1,40 @@
-<mat-card class="comment" style="position: relative;">
-    <app-spinner *ngIf="isCommentLoading" [diameter]="32"></app-spinner>
-    <p style="margin: 0;" class="mat-body-2">{{comment.author}}</p>
-    <mat-card-content>
-        <p style="white-space: pre-wrap;" *ngIf="!isCommentEditMode">
-            {{comment.comment}}
-        </p>
-        <textarea cdkTextareaAutosize *ngIf="isCommentEditMode" class="comment__input" #commentTextarea minlength="1" maxlength="510"
-            (keydown)="onCommentKeyPress($event);" [(ngModel)]="commentText"></textarea>
-            <span style="cursor: pointer;" *ngIf="isCommentEditMode" (click)="updateComment();">
-                <mat-icon>send</mat-icon>
-            </span>
-    </mat-card-content>
-</mat-card>
+<div style="display: flex;">
+    <app-profile-picture *ngIf="comment.profilePic" [src]="comment.profilePic" style="margin-right: 4px;"></app-profile-picture>
+    <mat-card class="comment" style="position: relative;">
+        <app-spinner *ngIf="isCommentLoading" [diameter]="32"></app-spinner>
+        <p style="margin: 0;" class="mat-body-2">{{comment.name}} {{comment.secondName}}</p>
+        <mat-card-content style="max-width: 600px;">
+            <p style="white-space: pre-wrap; overflow: hidden; overflow-wrap: break-word; max-width: 600px;" *ngIf="!isCommentEditMode">
+                {{comment.comment}}
+            </p>
+            <textarea cdkTextareaAutosize *ngIf="isCommentEditMode" class="comment__input" #commentTextarea minlength="1" maxlength="510"
+                (keydown)="onCommentKeyPress($event);" [(ngModel)]="commentText"></textarea>
+                <span style="cursor: pointer;" *ngIf="isCommentEditMode" (click)="updateComment();">
+                    <mat-icon>send</mat-icon>
+                </span>
+
+                <div style="position: relative; display: flex;">
+                    <app-spinner *ngIf="isShowFilesLoading" [diameter]=16></app-spinner>
+                    <p class="mat-caption" *ngIf="!commentFiles" style="cursor: pointer; margin: 0;" (click)="getCommentFiles()">Pokaż załączniki</p>
+                    <p class="mat-caption" *ngIf="!isShowFileUpload && isCommentAuthor()" style="cursor: pointer; margin-left: 16px;" (click)="showFileUpload()">Załącz pliki</p>
+                </div>
+
+                <input type="file" *ngIf="isShowFileUpload" #commentFileInput style="margin: 8px 0;" (change)="onCommentFileChange($event)">
+
+                <div *ngIf="commentFiles" style="margin-bottom: 16px;">
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let file of commentFiles" [removable]="true" (removed)="deleteFile(file)" style="position: relative; overflow: hidden;">
+                            <app-spinner *ngIf="isSingleCommentFileLoading.has(file.id)" [diameter]=16></app-spinner>
+                            <a [href]="file.data" target="_blank">{{ (file.dataName.length > 15)? (file.dataName | slice:0:15)+'..':(file.dataName) }}</a>
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+
 <div style="display: flex;">
     <p class="mat-caption" (click)="editComment()" style="cursor: pointer;" *ngIf="hasManageAccessToComment() && !isCommentEditMode">Edytuj</p>
     <p class="mat-caption" (click)="cancelEdit()" style="cursor: pointer;" *ngIf="isCommentEditMode">Anuluj</p>

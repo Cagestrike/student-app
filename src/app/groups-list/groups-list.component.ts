@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { isGroupGod } from '../api-utils';
+import { isGroupAdmin, isGroupGod } from '../api-utils';
 import { AuthenticationService } from '../authentication.service';
 import { Group } from '../group';
 import { GroupMembersDialogComponent } from '../group-members-dialog/group-members-dialog.component';
@@ -81,5 +81,9 @@ export class GroupsListComponent implements OnInit {
 
     isGroupGod(role) {
         return isGroupGod(role);
+    }
+
+    isGroupAdmin(role) {
+        return isGroupAdmin(role);
     }
 }

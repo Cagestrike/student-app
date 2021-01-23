@@ -8,6 +8,7 @@ import { DayOfWeek, DAYS_OF_WEEK } from "../days-of-week";
 import { UniversityClassDate } from '../university-class-date';
 import { UniversityClassWithDates } from '../university-class-with-dates';
 import { EditUniversityClassDatesDialogComponent } from '../edit-university-class-dates-dialog/edit-university-class-dates-dialog.component';
+import { Router } from '@angular/router';
 
 // export class MyErrorStateMatcher implements ErrorStateMatcher {
 //     isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -60,6 +61,7 @@ export class NewUniversityClassDialogComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data,
         private universityClassService: UniversityClassService,
         public dialog: MatDialog,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -152,6 +154,13 @@ export class NewUniversityClassDialogComponent implements OnInit {
     }
 
     openEditUniversityClassDatesDialog() {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { datesEdit: 1 },
+                queryParamsHandling: 'merge',
+            }
+        );
         const dialogRef = this.dialog.open(EditUniversityClassDatesDialogComponent, {
             data: {
                 timetable: this.currentTimetable,
@@ -162,7 +171,14 @@ export class NewUniversityClassDialogComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            console.log(result);
+            this.router.navigate(
+                [],
+                {
+                    queryParams: { datesEdit: null },
+                    queryParamsHandling: 'merge',
+                }
+            );
+            this.dialogRef.close();
         });
     }
 

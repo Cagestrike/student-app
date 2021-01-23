@@ -74,6 +74,7 @@ export class TimetableComponent implements OnInit {
             },
             eventClick: (event) => { this.onEventClick(event); },
         };
+        this.clearQueryParams();
     }
 
     getDayOfWeek(val): string {
@@ -89,9 +90,17 @@ export class TimetableComponent implements OnInit {
     }
 
     startTimetableCreation(): void {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { timetableCreate: 1 },
+                queryParamsHandling: 'merge',
+            }
+        );
         const dialogRef = this.dialog.open(NewTimetableDialogComponent);
 
         dialogRef.afterClosed().subscribe(resultTimetable => {
+            this.clearQueryParams();
             if (resultTimetable) {
                 this.availableTimetables.unshift(resultTimetable.activity);
                 this.setCurrentTimetable(resultTimetable.activity);
@@ -102,6 +111,7 @@ export class TimetableComponent implements OnInit {
     getTimetables(): void {
         this.timetableService.getTimetables().subscribe(timetables => {
             console.log(timetables);
+            timetables = timetables.filter(timetable => timetable.activeFlag === '1');
             if (!timetables.length) {
                 this.currentStage = 'no timetable';
                 this.isPageLoading = false;
@@ -181,6 +191,13 @@ export class TimetableComponent implements OnInit {
     }
 
     openCreateClassDialog(): void {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { editClass: 1 },
+                queryParamsHandling: 'merge',
+            }
+        )
         const dialogRef = this.dialog.open(NewUniversityClassDialogComponent, {
             data: {
                 currentTimetable: this.currentTimetable
@@ -188,6 +205,7 @@ export class TimetableComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            this.clearQueryParams();
             if (result) {
                 this.universityClasses.push({
                     universityClass: result.activity,
@@ -197,15 +215,30 @@ export class TimetableComponent implements OnInit {
         });
     }
 
-    logDates() {
-        console.log(this.universityClasses);
-    }
-
     onEventClick(event): void {
         const universityClassToEdit: UniversityClass = event.event.extendedProps.universityClass;
     }
 
+    clearQueryParams() {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { editClass: null, timetableCreate: null, datesEdit: null },
+                queryParamsHandling: 'merge',
+                // skipLocationChange: true,
+
+            }
+        );
+    }
+
     openEditClassDialog(universityClassToEdit: UniversityClassWithDates): void {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { editClass: 1 },
+                queryParamsHandling: 'merge',
+            }
+        );
         const dialogRef = this.dialog.open(NewUniversityClassDialogComponent, {
             data: {
                 currentTimetable: this.currentTimetable,
@@ -215,6 +248,7 @@ export class TimetableComponent implements OnInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            this.clearQueryParams();
             if(result) {
                 console.log(result);
                 result.id = universityClassToEdit.universityClass.id;

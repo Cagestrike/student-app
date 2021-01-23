@@ -1,0 +1,47 @@
+<app-spinner *ngIf="isDialogLoading"></app-spinner>
+<div style="display: flex;">
+    <h2 mat-dialog-title style="flex-grow: 1;">Dodaj użytkowników do grupy</h2>
+
+    <mat-spinner *ngIf="isSearching" [diameter]=32></mat-spinner>
+</div>
+
+<mat-dialog-content>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Wyszukaj użytkowników</mat-label>
+        <input type="text" matInput [ngModel]="userSearchInputModel" (ngModelChange)="changed($event)">
+        <!-- <input type="text" matInput> -->
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+        <!-- <mat-card *ngIf="!currentlyDisplayedGroups.length && !isDialogLoading" class="group__card">
+            <div class="group__details-container">
+                <mat-card-header class="group__details">
+                    <mat-card-title>Nie znaleziono grup :(</mat-card-title>
+                </mat-card-header>
+            </div>
+        </mat-card> -->
+        <mat-card *ngFor="let user of resultUsers" class="group__card"style="position: relative;">
+            <app-spinner *ngIf="isUserLoading.has(user.id)" [diameter]=50></app-spinner>
+            <div class="group__details-container">
+                <mat-card-header class="group__details">
+                    <app-profile-picture mat-card-avatar [src]="user.profilePic"></app-profile-picture>
+                    <mat-card-title>{{user.name}} {{user.secondName}}</mat-card-title>
+                    <!-- <mat-card-subtitle style="margin: 0;">{{user.}}</mat-card-subtitle> -->
+                </mat-card-header>
+                <div class="group__actions">
+                    <!-- <button *ngIf="!groupIdsWhereRequestSentOut.has(group.id); else requestSentOut" mat-mini-fab color="primary" style="align-self: center; margin-right: 16px; background-color: #3498DB;"
+                        (click)="joinGroup(group);"> -->
+                    <button *ngIf="!userIdsWhereRequestSentOut.has(user.id); else requestSentOut" mat-mini-fab color="primary" style="align-self: center; margin-right: 16px; background-color: #3498DB;"
+                        (click)="addUser(user);">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <ng-template #requestSentOut>
+                        <p>Użytkownik został dodany</p>
+                    </ng-template>
+                </div>
+            </div>
+        </mat-card>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Zamknij</button>
+</mat-dialog-actions>

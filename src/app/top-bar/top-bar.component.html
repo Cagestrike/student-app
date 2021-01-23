@@ -19,6 +19,7 @@
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
         <!-- <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="logout();">Wyloguj</button> -->
+        <app-profile-picture></app-profile-picture>
         <button mat-button [matMenuTriggerFor]="userMenu" style="align-self: center; margin-right: 16px;">{{user.name}} {{user.secondName}}
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>

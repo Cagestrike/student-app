@@ -58,7 +58,10 @@ export class NotesComponent implements OnInit {
 
     openCreateNoteDialog() {
         const dialogRef = this.dialog.open(NoteDialogComponent, {
-            panelClass: 'my-custom-dialog-class'
+            panelClass: 'my-custom-dialog-class',
+            data: {
+                self: this
+            }
         });
 
         dialogRef.afterClosed().subscribe(result => {
@@ -74,8 +77,10 @@ export class NotesComponent implements OnInit {
         console.log(noteWithFiles);
 
         const dialogRef = this.dialog.open(NoteDialogComponent, {
+            panelClass: 'my-custom-dialog-class',
             data: {
-                noteWithFiles
+                noteWithFiles,
+                self: this
             }
         });
 
@@ -85,8 +90,10 @@ export class NotesComponent implements OnInit {
                 this.rerenderMasonryLayout();
                 return;
             }
-
-            this.notes[this.notes.findIndex(nt => nt.note.id === result.id)].note = result;
+            if(result) {
+                this.notes[this.notes.findIndex(nt => nt.note.id === result.id)].note = result;
+            }
+            
             this.rerenderMasonryLayout();
         });
     }

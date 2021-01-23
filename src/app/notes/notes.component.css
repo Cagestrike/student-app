@@ -1,5 +1,9 @@
-::ng-deep .my-custom-dialog-class mat-dialog-container{
-    overflow: unset;
+::ng-deep .my-custom-dialog-class mat-dialog-container {
+    overflow: auto;
+}
+
+mat-dialog-content {
+    overflow: auto !important;
 }
 
 .flex {

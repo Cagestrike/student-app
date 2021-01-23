@@ -1,7 +1,7 @@
 <div *ngFor="let group of groups" style="display: flex; flex-direction: column;">
     <div class="group__row" [style.background-color]="selectedGroupId === group.id ? 'lightgray' : 'white'">
+        <!-- <div mat-card-avatar class="example-header-image"></div> -->
         <div style="flex-grow: 1;" (click)="handleSelectedGroupId(group.id)">
-            <!-- <div mat-card-avatar class="example-header-image"></div> -->
             <h3 style="margin: 0">{{group.name}}</h3>
             <p style="margin: 0; color: rgba(0,0,0,.54);" *ngIf="group.role === 'unverified'">Oczekuje na weryfikację...</p>
             <p style="margin: 0; color: rgba(0,0,0,.54);" *ngIf="group.role === 'admin'">Jesteś administratorem</p>
@@ -9,6 +9,7 @@
             <!-- <h3 style="margin: 0;">{{group.name}}</h3> -->
             <!-- <p></p> -->
         </div>
+        <app-profile-picture *ngIf="group.picture" [src]="group.picture"></app-profile-picture>
         <div>
             <button mat-icon-button [matMenuTriggerFor]="menu">
                 <mat-icon>more_vert</mat-icon>
@@ -21,6 +22,10 @@
                 <button mat-menu-item (click)="leaveGroup(group.id)" *ngIf="!isGroupGod(group.role)">
                     <mat-icon>person_remove</mat-icon>
                     <span>Odejdź z grupy</span>
+                </button>
+                <button mat-menu-item routerLink="/group/{{group.id}}" *ngIf="isGroupGod(group.role) || isGroupAdmin(group.role)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Edytuj dane grupy</span>
                 </button>
                 <button mat-menu-item (click)="deleteGroup(group.id);" *ngIf="isGroupGod(group.role)">
                     <mat-icon>delete</mat-icon>

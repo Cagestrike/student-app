@@ -1,0 +1,47 @@
+<div class="container" style="position: relative">
+    <app-spinner *ngIf="isLoading" [diameter]="64"></app-spinner>
+
+    <div class="white__container box-shadow-for-containers" style="margin-top: 32px;">
+        <form [formGroup]="groupForm" class="user__details">
+            <mat-error *ngIf="groupForm.hasError('apiErrors')">
+                Coś poszło nie tak...
+            </mat-error>
+            <mat-form-field>
+                <mat-label>Nazwa Grupy</mat-label>
+                <input matInput placeholder="Nazwa grupy" type="text" name="name" [formControl]="nameControl">
+                <mat-error *ngIf="nameControl.hasError('apiErrors')">
+                    {{this.apiErrors.name}}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Opis Grupy</mat-label>
+                <input matInput placeholder="Opis..." type="text" name="description"
+                    [formControl]="descriptionControl">
+                <mat-error *ngIf="descriptionControl.hasError('apiErrors')">
+                    {{this.apiErrors.profileDesc}}
+                </mat-error>
+            </mat-form-field>
+            <div style="flex-grow: 1; margin: 0 auto;">
+                <button mat-stroked-button class="action-button active" (click)="updateGroupData()">Zapisz dane</button>
+            </div>
+
+            <button mat-raised-button color="warn" style="width: 50%; display:block; margin: 0 auto; margin-top: 32px;" (click)="deleteGroup()">Usuń grupę <mat-icon>delete</mat-icon></button>
+        </form>
+        <div class="user__photo" style="position: relative;">
+            <app-spinner *ngIf="isPhotoLoading"></app-spinner>
+            <div>
+                <mat-error *ngIf="imageErrors">
+                    {{imageErrors}}
+                </mat-error>
+                <p *ngIf="!currentGroupPicture">Brak zdjęcia grupy, dodaj nowe</p>
+                <img [src]="currentGroupPicture" style="max-width: 90%;">
+                <input type="file" #groupPictureInput accept=".png,.jpg,.jpeg" (change)="onGroupPictureChanged($event)">
+                <div style="display: flex; margin: 16px 0;" *ngIf="newPictureUploaded">
+                    <button mat-raised-button color="primary" style="display:block; margin: 0 auto;" (click)="saveNewPhoto()">Zapisz</button>
+                    <button mat-raised-button style="display:block; margin: 0 auto;" (click)="cancelNewPhoto()">Anuluj</button>
+                </div>
+                <!-- <button mat-raised-button *ngIf="!newPictureUploaded && currentUserPicture"  color="warn" style="display:block; margin: 16px auto;" (click)="deletePhoto()">Usuń zdjęcie <mat-icon>delete</mat-icon></button> -->
+            </div>
+        </div>
+    </div>
+</div>

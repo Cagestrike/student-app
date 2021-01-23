@@ -15,9 +15,11 @@ import { UserService } from '../user.service';
 })
 export class PostComponent implements OnInit {
     @Input() post: Post;
+    postFiles;
     @Input() relatedGroup: Group;
     @Output() postDelete = new EventEmitter();
     @ViewChild('commentTextarea') commentArea;
+    @ViewChild('postFileInput') postFileInput;
     isPostLoading;
     areCommentsLoading;
     isWriteCommentMode;
@@ -25,6 +27,8 @@ export class PostComponent implements OnInit {
     commentText;
     apiErrors;
     comments: PostComment[] = [];
+    isFilesLoading;
+    isShowFileUpload: boolean;
 
     constructor(
         private groupService: GroupService,
@@ -49,12 +53,76 @@ export class PostComponent implements OnInit {
                 })
                 this.areCommentsLoading = false;
             }, error => {
-                console.log(error);
                 this.snackBar.open(error.error, null, {
                     duration: 3500
                 });
                 this.areCommentsLoading = false;
             });
+    }
+
+    getPostFiles() {
+        this.isFilesLoading = true;
+        this.groupService.getPostFiles(this.relatedGroup.id, this.post.id).subscribe(result => {
+            console.log(result);
+            this.postFiles = result;
+            this.isFilesLoading = false;
+        }, error => {
+            console.log(error);
+            this.isFilesLoading = false;
+        })
+    }
+
+    showFileUpload() {
+        this.isShowFileUpload = true;
+    }
+
+    onPostFileChange(event) {
+        console.log(event);
+        if (event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.uploadFile(file);
+        }
+    }
+
+    uploadFile(file) {
+        this.isFilesLoading = true;
+        this.groupService.addPostFile(this.relatedGroup.id, this.post.id, file)
+            .subscribe(result => {
+                console.log(result);
+                if(!this.postFiles) {
+                    this.postFiles = [];
+                }
+                this.postFiles.push(result.post);
+                this.postFileInput.nativeElement.value = null;
+                this.isFilesLoading = false;
+            }, error => {
+                console.log(error);
+                let err = '';
+                for(let msg of error.error.error.data) {
+                    err += msg + '\n';
+                }
+                this.snackBar.open(err, null, {
+                    duration: 6000
+                });
+                this.postFileInput.nativeElement.value = null;
+                this.isFilesLoading = false;
+            })
+    }
+
+    isSinglePostLoading = new Set<number>();
+    deleteFile(file) {
+        this.isSinglePostLoading.add(file.id);
+        this.groupService.deletePostFile(this.relatedGroup.id, this.post.id, file.id)
+            .subscribe(result => {
+                this.isSinglePostLoading.delete(file.id);
+                this.postFiles.splice(this.postFiles.findIndex(postFile => postFile.id === file.id), 1);
+            }, error => {
+                console.log(error);
+                this.snackBar.open('Coś poszło nie tak...', null, {
+                    duration: 3500
+                });
+                this.isSinglePostLoading.delete(file.id);
+            })
     }
 
     onCommentDelete(commentId) {
@@ -127,10 +195,14 @@ export class PostComponent implements OnInit {
 
     hasManageAccessToPost(): boolean {
         return (
-            this.post.authorId === this.userService.getCurrentUser().id
+            this.isPostAuthor()
             || this.relatedGroup.role === 'god'
             || this.relatedGroup.role === 'admin'
         );
+    }
+
+    isPostAuthor() {
+        return this.post.authorId === this.userService.getCurrentUser().id
     }
 
     setWriteCommentMode(): void {

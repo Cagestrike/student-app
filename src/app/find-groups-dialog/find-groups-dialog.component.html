@@ -30,7 +30,8 @@
         <mat-card *ngFor="let group of currentlyDisplayedGroups" class="group__card">
             <div class="group__details-container">
                 <mat-card-header class="group__details">
-                    <!-- <div mat-card-avatar class="example-header-image"></div> -->
+                    <app-profile-picture *ngIf="group.picture" [src]="group.picture"></app-profile-picture>
+                    <div mat-card-avatar class="example-header-image"></div>
                     <mat-card-title>{{group.name}}</mat-card-title>
                     <mat-card-subtitle style="margin: 0;">{{group.description}}</mat-card-subtitle>
                 </mat-card-header>

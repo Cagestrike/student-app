@@ -1,5 +1,5 @@
 
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators, FormGroup, FormGroupDirective, NgForm } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -7,6 +7,8 @@ import { Note } from '../note';
 import Quill from 'quill';
 import { NoteService } from '../note.service';
 import { NoteWithFiles } from '../note-with-files';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotesComponent } from '../notes/notes.component';
 var DirectionAttribute = Quill.import('attributors/attribute/direction');
 Quill.register(DirectionAttribute, true);
 // var AlignClass = Quill.import('attributors/class/align');
@@ -47,16 +49,21 @@ export class NoteDialogComponent implements OnInit {
     noteForm = new FormGroup({
         title: this.noteTitleControl,
     });
+    noteFiles: FileList;
+    @ViewChild('noteFilesInput') noteFilesInput;
 
     isLoading = false;
+    areFilesLoading;
     htmlNoteContent;
     editor;
     noteToEdit: NoteWithFiles;
+    notesComponent: NotesComponent
 
     constructor(
         public dialogRef: MatDialogRef<NoteDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data,
-        private noteService: NoteService
+        private noteService: NoteService,
+        private snackBar: MatSnackBar
     ) { }
 
     ngOnInit(): void {
@@ -86,12 +93,69 @@ export class NoteDialogComponent implements OnInit {
             theme: 'snow'
         });
         const noteWithFilesToEdit: NoteWithFiles = this.data?.noteWithFiles;
+        this.notesComponent = this.data?.self;
         this.noteToEdit = noteWithFilesToEdit;
         if (this.noteToEdit) {
             this.noteTitleControl.setValue(this.noteToEdit.note.title);
             this.editor.root.innerHTML = this.noteToEdit.note.note;
             this.isEditMode = true;
         }
+    }
+
+    onNoteFilesChange(event): void {
+        console.log(event);
+        this.noteFiles = null;
+        if (event.target.files.length > 0) {
+            const files: FileList = event.target.files;
+            this.noteFiles = files;
+            this.saveFiles(files);
+            // console.log(files);
+            // const reader = new FileReader();
+
+            // reader.onload = () => {
+            //     console.log(reader.result);
+            //     this.noteFiles.push(reader.result);
+            //     // this.currentUserPicture = reader.result;
+            // }
+            // this.noteFiles = [];
+            // for(let i = 0; i < files.length; i++) {
+            //     reader.readAsDataURL(files[i]);
+            // }
+        }
+    }
+
+    deleteFile(file): void {
+        this.areFilesLoading = true;
+        this.noteService.deleteFileFromNote(file.id).subscribe(result => {
+            this.areFilesLoading = false;
+            this.noteToEdit.files.splice(this.noteToEdit.files.findIndex(noteFile => file.id === noteFile.id), 1);
+        }, error => {
+            console.log(error);
+            this.areFilesLoading = false;
+        })
+    }
+
+    saveFiles(files) {
+        const file = files[0];
+        this.areFilesLoading = true;
+        this.noteService.addFileToNote(file, this.noteToEdit.note.id)
+            .subscribe(result => {
+                console.log(result);
+                this.noteToEdit.files.push(result.userPicture);
+                this.areFilesLoading = false;
+                this.noteFilesInput.nativeElement.value = null;
+            }, error => {
+                console.log(error);
+                let err = '';
+                for(let msg of error.error.error.data) {
+                    err += msg + '\n';
+                }
+                this.snackBar.open(err, null, {
+                    duration: 6000
+                });
+                this.areFilesLoading = false;
+                this.noteFilesInput.nativeElement.value = null;
+            })
     }
 
     deleteNote(): void {
@@ -125,7 +189,10 @@ export class NoteDialogComponent implements OnInit {
                     console.log(result);
                     this.isLoading = false;
                     note.id = this.noteToEdit.note.id;
-                    this.dialogRef.close(note);
+                    this.snackBar.open('Zapisano pomyślnie', null, {
+                        duration: 3500
+                    });
+                    // this.dialogRef.close(note);
                 }, error => {
                     console.log(error);
                     this.genericError = error;
@@ -136,7 +203,12 @@ export class NoteDialogComponent implements OnInit {
                 .subscribe(result => {
                     console.log(result);
                     this.isLoading = false;
-                    this.dialogRef.close(note);
+                    this.notesComponent.rerenderMasonryLayout();
+                    this.notesComponent.getNotes();
+                    this.snackBar.open('Zapisano pomyślnie', null, {
+                        duration: 3500
+                    });
+                    // this.dialogRef.close(note);
                 }, error => {
                     console.log(error);
                     this.genericError = error;

@@ -65,6 +65,10 @@ import { GroupsListComponent } from './groups-list/groups-list.component';
 import { PostDialogComponent } from './post-dialog/post-dialog.component';
 import { PostCommentComponent } from './post-comment/post-comment.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
+import { ProfilePictureComponent } from './profile-picture/profile-picture.component';
+import {MatChipsModule} from '@angular/material/chips';
+import { AddMembersDialogComponent } from './add-members-dialog/add-members-dialog.component';
+import { GroupDetailsComponent } from './group-details/group-details.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     dayGridPlugin,
@@ -105,6 +109,9 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         PostDialogComponent,
         PostCommentComponent,
         MyProfileComponent,
+        ProfilePictureComponent,
+        AddMembersDialogComponent,
+        GroupDetailsComponent,
     ],
     imports: [
         BrowserModule,
@@ -136,6 +143,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         MatMenuModule,
         MatSnackBarModule,
         MatListModule,
+        MatChipsModule,
     ],
     providers: [
         AuthGuard,

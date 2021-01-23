@@ -17,16 +17,13 @@ export class PostCommentComponent implements OnInit {
     @ViewChild('commentTextarea') commentArea;
     apiErrors;
     isCommentLoading;
-    // private commentTextareaPlaceholder;
-
-    // @ViewChild('commentTextarea', { static: false }) set commentArea(content) {
-    //     if (content) { // initially setter gets called with undefined
-    //         this.commentTextareaPlaceholder = content;
-    //     }
-    // }
-
+    isShowFilesLoading
+    commentFiles;
     isCommentEditMode;
     commentText;
+    isShowFileUpload;
+    isSingleCommentFileLoading = new Set<number>();
+    @ViewChild('commentFileInput') commentFileInput;
 
     constructor(
         private userService: UserService,
@@ -41,8 +38,12 @@ export class PostCommentComponent implements OnInit {
         return (
             isGroupAdmin(this.groupRole)
             || isGroupGod(this.groupRole)
-            || this.comment.authorId === this.userService.getCurrentUser().id
+            || this.isCommentAuthor()
         );
+    }
+
+    isCommentAuthor() {
+        return this.comment.authorId === this.userService.getCurrentUser().id
     }
 
     editComment(): void {
@@ -61,6 +62,71 @@ export class PostCommentComponent implements OnInit {
         } else if (event.key === 'Enter') {
             this.updateComment();
         }
+    }
+
+    getCommentFiles() {
+        this.isShowFilesLoading = true;
+        this.groupService.getCommentFiles(this.groupId, this.comment.id).subscribe(result => {
+            console.log(result);
+            this.commentFiles = result;
+            this.isShowFilesLoading = false;
+        }, error => {
+            console.log(error);
+            this.isShowFilesLoading = false;
+        })
+    }
+
+    onCommentFileChange(event) {
+        console.log(event);
+        if(event.target.files.length > 0) {
+            const file = event.target.files[0];
+            this.uploadFile(file);
+        }
+    }
+
+    uploadFile(file) {
+        this.isShowFilesLoading = true;
+        this.groupService.addFileToComment(this.groupId, this.comment.id, file)
+            .subscribe(result => {
+                console.log(result);
+                if(!this.commentFiles) {
+                    this.commentFiles = [];
+                }
+                this.commentFiles.push(result.post);
+                this.commentFileInput.nativeElement.value = null;
+                this.isShowFilesLoading = false;
+            }, error => {
+                console.log(error.error);
+                let err = '';
+                error.error = JSON.parse(error.error);
+                for(let msg of error.error.data) {
+                    err += msg + '\n';
+                }
+                this.snackBar.open(err, null, {
+                    duration: 6000
+                });
+                this.commentFileInput.nativeElement.value = null;
+                this.isShowFilesLoading = false;
+            })
+    }
+
+    showFileUpload() {
+        this.isShowFileUpload = true;
+    }
+    
+    deleteFile(file) {
+        this.isSingleCommentFileLoading.add(file.id);
+        this.groupService.deleteCommentFile(this.groupId, this.comment.id, file.id)
+            .subscribe(result => {
+                this.isSingleCommentFileLoading.delete(file.id);
+                this.commentFiles.splice(this.commentFiles.findIndex(postFile => postFile.id === file.id), 1);
+            }, error => {
+                console.log(error);
+                this.snackBar.open('Coś poszło nie tak...', null, {
+                    duration: 3500
+                });
+                this.isSingleCommentFileLoading.delete(file.id);
+            })
     }
 
     updateComment() {

@@ -23,6 +23,7 @@ export class AppComponent {
             if (val instanceof NavigationEnd) {
                 this.isLoggedIn = this.authService.isLoggedIn();
                 if(this.isLoggedIn) {
+                    this.authService.stopRefreshTokenTimer();
                     this.authService.startRefreshTokenTimer();
                 }
             }

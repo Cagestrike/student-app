@@ -3,7 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
-import { isGroupGod } from '../api-utils';
+import { AddMembersDialogComponent } from '../add-members-dialog/add-members-dialog.component';
+import { isGroupAdmin, isGroupGod } from '../api-utils';
 import { Group } from '../group';
 import { GroupMembersDialogComponent } from '../group-members-dialog/group-members-dialog.component';
 import { GroupService } from '../group.service';
@@ -34,7 +35,6 @@ export class PostsComponent implements OnInit {
 
     log() {
         console.log(this.group);
-
         console.log(this.availableGroups);
         console.log(this.availableGroupsById);
     }
@@ -168,12 +168,38 @@ export class PostsComponent implements OnInit {
         });
     }
 
+    openAddMembersDialog(group): void {
+        console.log(group);
+
+        const dialogRef = this.dialog.open(AddMembersDialogComponent, {
+            // width: '50vw',
+            data: {
+                group: this.group,
+            }
+        });
+
+        // dialogRef.afterClosed().subscribe(result => {
+        //     if (result) {
+        //         this.posts.unshift(result.post);
+        //         console.log(this.posts)
+        //     }
+        // });
+    }
+
+    editGroup(group: Group): void {
+        console.log(group);
+        this.router.navigate(['group/' + group.id]);
+    }
+
     getRelatedGroupByPost(post: Post): Group {
-        return this.availableGroupsById.get(post.Groups_idGroup);
+        return this.availableGroupsById.get(+post.Groups_idGroup);
     }
 
     isGroupGod(role) {
         return isGroupGod(role);
     }
 
+    isGroupAdmin(role) {
+        return isGroupAdmin(role);
+    }
 }

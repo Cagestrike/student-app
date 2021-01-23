@@ -11,6 +11,7 @@ import { UniversityClassDate } from './university-class-date';
 export class UniversityClassService {
     private universityClassesUrl = `${BASE_API_URL}/activities`;
     private universityClassDatesUrl = `${BASE_API_URL}/activitiesDate`;
+    private periodicityDatesUrl = `${BASE_API_URL}/activitiesDates`;
     private universityClassUrl = `${BASE_API_URL}/activity`;
     constructor(
         private http: HttpClient
@@ -39,5 +40,13 @@ export class UniversityClassService {
 
     getUniversityClassDates(universityClassId, timetableId): Observable<any> {
         return this.http.get(`${this.universityClassUrl}/${universityClassId}/${timetableId}`);
+    }
+
+    deletePeriodicityDates(periodicityDatesId): Observable<any> {
+        return this.http.delete(`${this.periodicityDatesUrl}/${periodicityDatesId}`);
+    }
+
+    deleteSingleDate(id): Observable<any> {
+        return this.http.delete(`${this.universityClassDatesUrl}/${id}`);
     }
 }

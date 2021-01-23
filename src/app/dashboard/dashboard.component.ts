@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { parseNotesToNotesWithFiles } from '../api-utils';
 import { EventService } from '../event.service';
 import { Group } from '../group';
 import { GroupService } from '../group.service';
@@ -72,6 +73,7 @@ export class DashboardComponent implements OnInit {
         this.noteService.getNotes()
             .subscribe(notes => {
                 this.isNoteLoading = false;
+                notes = parseNotesToNotesWithFiles(notes)
                 this.latestNote = notes[0];
             }, error => {
                 console.log(error);
@@ -82,7 +84,7 @@ export class DashboardComponent implements OnInit {
     getTimetables() {
         this.areTimetablesLoading = true;
         this.timetableService.getTimetables().subscribe(timetables => {
-            console.log(timetables);
+            timetables = timetables.filter(timetable => timetable.activeFlag === '1');
             if (!timetables.length) {
                 this.areTimetablesLoading = false;
                 return;

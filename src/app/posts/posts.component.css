@@ -5,7 +5,7 @@
 
 .post__action--content {
     display: grid;
-    grid-template-columns: 1fr 3fr 2fr;
+    grid-template-columns: 1fr 3fr 1fr;
 }
 
 .mat-form-field-wrapper {
@@ -21,7 +21,7 @@ mat-form-field * {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .create-post__button {

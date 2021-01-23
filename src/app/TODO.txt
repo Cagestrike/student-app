@@ -3,7 +3,7 @@
                                                                                                             - REFRESH
                                                                                                             - WYLOGOWANIE
 
-- WYSZUKANIE USEROW
+                                                                                                            - WYSZUKANIE USEROW
                                                                                                             - EDYCJA DANYCH UZYTKOWNIKA
                                                                                                             - WYSWIETLENIE DANYCH UZYTKOWNIKA
                                                                                                             - USUNIECIE UZYTKOWNIKA
@@ -15,9 +15,8 @@
                                                                                                             - WYSWIETLENIE NOTATEK UZYTKOWNIKA
                                                                                                             - MODYFIKACJA NOTATKI
                                                                                                             - USUWANIE NOTATKI
-    - DODANIE PLIKU DO NOTATEK
-    - USUWANIE PLIKU DO NOTATEK
-    - MODYFIKACJA PLIKU DO NOTATEK
+                                                                                                            - DODANIE PLIKU DO NOTATEK
+                                                                                                            - USUWANIE PLIKU DO NOTATEK
     - WYSZUKIWANIE TAGOW NOTATEK
     - DODAWANIE TAGOW DO NOTATKI
     - USUWANIE TAGOW NOTATKI
@@ -37,7 +36,7 @@
                                                                                                                 - EDYCJA
 
 PLAN ZAJEC:
-    - ARCHIWIZOWANE PLANY ZAJEC????
+                                                                                                                - ARCHIWIZOWANE PLANY ZAJEC????
                                                                                                                 - DODAJ PLAN
                                                                                                                 - ZMODYFIKUJ PLAN
                                                                                                                 - USUŃ PLAN
@@ -46,10 +45,9 @@ PLAN ZAJEC:
                                                                                                                 - ZMODYFIKUJ POJEDYNCZY PRZEDMIOT
                                                                                                                 - USUN PRZEDMIOT
                                                                                                                 - DODAJ DATE DO PRZEDMIOTU
-    - USUN DATE PRZEDMIOTU
-    - ZMODYFIKUJ DATE PRZEDMIOTU
-    - USUN DATY (GRUPA DAT) PRZEDMIOTU
-    - ZMODYFIKUJ DATY (GRUPA DAT) PRZEDMIOTU
+                                                                                                                - USUN DATE PRZEDMIOTU
+    - ZMODYFIKUJ DATE PRZEDMIOTU - wyjebane
+                                                                                                                - USUN DATY (GRUPA DAT) PRZEDMIOTU
 
 GRUPY:
                                                                                                                 - WYSZUKAJ GRUPĘ
@@ -57,14 +55,14 @@ GRUPY:
                                                                                                                 - POKAŻ LISTĘ WSZYSTKICH GRUP
                                                                                                                 - POKAŻ POJEDYNCZĄ GRUPĘ
                                                                                                                 - POKAZ UZYTKOWNIKOW GRUPY
-    - POKAZ DANE O UZYTKOWNIKU GRUPY
+    - POKAZ DANE O UZYTKOWNIKU GRUPY ??????
                                                                                                                 - UTWORZ GRUPE
                                                                                                                 - DOLACZ DO GRUPY
-    - DODAJ UZYTKOWNIKA DO GRUPY
+                                                                                                                - DODAJ UZYTKOWNIKA DO GRUPY
                                                                                                                 - USUN UZYTKOWNIKA Z GRUPY
                                                                                                                 - USUN GRUPE
                                                                                                                 - ZMODYFIKUJ ROLE UZYTKOWNIKA
-    - ZMODYFIKUJ DANE O GRUPIE
+                                                                                                                - ZMODYFIKUJ DANE O GRUPIE
                                                                                                                 - WYSWIETL POSTY ZE WSZYSTKICH GRUP
                                                                                                                 - DODAJ POSTA DO GRUPY
                                                                                                                 - ZMODYFIKUJ POSTA GRUPY
@@ -77,18 +75,15 @@ GRUPY:
     - POKAZ TAGI POSTA
     - POKAZ WSZYSTKIE POSTY O TAGU
     - POKAZ WSZYSTKIE UNIKALNE TAGI W GRUPIE
-    - DODAJ PLIK DO POSTA
-    - USUN PLIK Z POSTA
-    - ZMODYFIKUJ PLIK POSTA
-    - POKAZ POJEDYNCZY PLIK DO POSTA
-    - POKAZ PLIKI DO POSTA
+
+                                                                                                                - DODAJ PLIK DO POSTA
+                                                                                                                - USUN PLIK Z POSTA
+                                                                                                                - POKAZ PLIKI DO POSTA
                                                                                                                 - DODAJ KOMENTARZ
                                                                                                                 - ZMODYFIKUJ KOMENTARZ
                                                                                                                 - USUN KOMENTARZ
                                                                                                                 - POKAZ KOMENTARZE DO POSTA
-    - DODAJ PLIK DO KOMENTARZA
-    - USUN PLIK Z KOMENTARZA
-    - ZMODYFIKUJ PLIK W KOMENTARZU
-    - POKAZ PLIK W KOMENTARZU
-    - POKAZ PLIKI W KOMENTARZU
-    - ZDJECIA GRUPY???
+                                                                                                                - DODAJ PLIK DO KOMENTARZA
+                                                                                                                - USUN PLIK Z KOMENTARZA
+                                                                                                                - POKAZ PLIKI W KOMENTARZU
+                                                                                                                - ZDJECIA GRUPY???

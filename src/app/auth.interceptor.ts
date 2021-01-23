@@ -37,7 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
             catchError((err: HttpErrorResponse) => {
 
                 if (err.status === 401) {
-                    if(!err.url.includes('api/login') && !err.url.includes('api/register') && !err.url.includes('userPictures')) {
+                    if(!err.url.includes('api/login') && !err.url.includes('api/register') && !err.url.includes('userPictures') && !err.url.includes('userNotesData')) {
                         console.log('unauthorized, logging out...');
                         this.authService.logout();
                     }

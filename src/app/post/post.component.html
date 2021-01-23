@@ -1,11 +1,11 @@
 <mat-card class="post__container" style="position: relative; overflow: hidden;">
     <app-spinner *ngIf="isPostLoading"></app-spinner>
-    <mat-card-header style="display: flex;">
-        <!-- <div mat-card-avatar class="example-header-image"></div> -->
-        <div style="flex-grow: 1;">
+    <div style="display: flex;">
+        <mat-card-header style="flex-grow: 1;">
+            <app-profile-picture mat-card-avatar [src]="post.profilePic"></app-profile-picture>
             <mat-card-title>{{post.title}}</mat-card-title>
             <mat-card-subtitle>{{post.name}} {{post.secondName}} - {{post.created_at}}</mat-card-subtitle>
-        </div>
+        </mat-card-header>
 
         <div *ngIf="hasManageAccessToPost()">
             <button mat-icon-button [matMenuTriggerFor]="menu">
@@ -22,13 +22,32 @@
                 </button>
             </mat-menu>
         </div>
-    </mat-card-header>
-    <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+    </div>
+    <!-- <img mat-card-image  -->
     <mat-card-content style=" margin: 0;">
         <p style="white-space: pre-wrap;">{{post.post}}</p>
         <div style="position: relative;">
             <div style="height: 8px;">
                 <mat-divider></mat-divider>
+            </div>
+            <div>
+                <div style="display: flex; position: relative;">
+                    <app-spinner *ngIf="isFilesLoading" [diameter]=16></app-spinner>
+                    <p class="mat-caption" *ngIf="!postFiles" style="cursor: pointer;" (click)="getPostFiles()">Pokaż załączniki</p>
+                    <p class="mat-caption" *ngIf="!isShowFileUpload && isPostAuthor()" style="cursor: pointer; margin-left: 16px;" (click)="showFileUpload()">Załącz pliki</p>
+                </div>
+
+                <input type="file" *ngIf="isShowFileUpload" #postFileInput style="margin: 8px 0;" (change)="onPostFileChange($event)">
+
+                <div *ngIf="postFiles" style="margin-bottom: 16px;">
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let file of postFiles" [removable]="true" (removed)="deleteFile(file)" style="position: relative; overflow: hidden;">
+                            <app-spinner *ngIf="isSinglePostLoading.has(file.id)" [diameter]=16></app-spinner>
+                            <a [href]="file.data" target="_blank">{{ (file.dataName.length > 15)? (file.dataName | slice:0:15)+'..':(file.dataName) }}</a>
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
             </div>
             <div *ngFor="let comment of comments">
                 <app-post-comment [comment]="comment" [groupRole]="relatedGroup.role" [groupId]="relatedGroup.id" (commentDelete)="onCommentDelete($event)"></app-post-comment>

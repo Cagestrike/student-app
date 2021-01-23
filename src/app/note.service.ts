@@ -9,6 +9,7 @@ import { BASE_API_URL } from './api-utils';
 })
 export class NoteService {
     private userNotesUrl = `${BASE_API_URL}/userNotes`;
+    private userNotesFileUrl = `${BASE_API_URL}/userNotesData`
 
     constructor(
         private http: HttpClient
@@ -28,5 +29,17 @@ export class NoteService {
 
     updateNote(note: Note, noteId): Observable<any> {
         return this.http.put<any>(`${this.userNotesUrl}/${noteId}`, note);
+    }
+
+    addFileToNote(data, noteId): Observable<any> {
+        const filedata: FormData = new FormData();
+        // filedata.append('dataName', data, data.name);
+        filedata.append('data', data, data.name);
+        console.log(filedata)
+        return this.http.post(`${this.userNotesFileUrl}/${noteId}`, filedata);
+    }
+
+    deleteFileFromNote(fileId): Observable<any> {
+        return this.http.delete(`${this.userNotesFileUrl}/${fileId}`);
     }
 }

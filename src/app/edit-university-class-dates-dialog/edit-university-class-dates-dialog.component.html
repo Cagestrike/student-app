@@ -48,30 +48,45 @@
 
     <div style="position: relative;">
         <app-spinner *ngIf="areDatesLoading"></app-spinner>
-        <mat-accordion *ngFor="let universityClassDate of currentUniversityClassDates | keyvalue">
-            <mat-expansion-panel style="margin-bottom: 16px;">
-                <mat-expansion-panel-header>
-                    <mat-panel-title>
-                        <div *ngIf="universityClassDate.value[0].periodicity == 1">
-                            Co tydzień w: {{getDayOfWeek(universityClassDate.value[0].start_date)}}
-                            {{getTime(universityClassDate.value[0].start_date)}} -
-                            {{getTime(universityClassDate.value[0].end_date)}}.
-                        </div>
-                        <div *ngIf="universityClassDate.value[0].periodicity == 0">
-                            Pojedyncze wystąpienie: {{formatDate(universityClassDate.value[0].start_date)}}
-                            {{getTime(universityClassDate.value[0].start_date)}} -
-                            {{getTime(universityClassDate.value[0].end_date)}}
-                        </div>
-                    </mat-panel-title>
-                    <mat-panel-description *ngIf="universityClassDate.value[0].periodicity == 1">
-                        Początek: {{formatDate(universityClassDate.value[0].start_date)}}
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                <div *ngFor="let periodicityDate of universityClassDate.value">
-                    {{formatDate(periodicityDate.start_date)}} {{getTime(periodicityDate.start_date)}} -
-                    {{getTime(periodicityDate.end_date)}}
+        <mat-accordion *ngFor="let universityClassDate of currentUniversityClassDates | keyvalue" style="position: relative;">
+            <div style="position: relative;">
+                <app-spinner *ngIf="isSingleDateCurrentlyLoading(universityClassDate.key)" [diameter]=32></app-spinner>
+                <mat-expansion-panel>
+                    
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div *ngIf="universityClassDate.value[0].periodicity == 1">
+                                Co tydzień w: {{getDayOfWeek(universityClassDate.value[0].start_date)}}
+                                {{getTime(universityClassDate.value[0].start_date)}} -
+                                {{getTime(universityClassDate.value[0].end_date)}}.
+                            </div>
+                            <div *ngIf="universityClassDate.value[0].periodicity == 0">
+                                Pojedyncze wystąpienie: {{formatDate(universityClassDate.value[0].start_date)}}
+                                {{getTime(universityClassDate.value[0].start_date)}} -
+                                {{getTime(universityClassDate.value[0].end_date)}}
+                            </div>
+                        </mat-panel-title>
+                        <mat-panel-description *ngIf="universityClassDate.value[0].periodicity == 1">
+                            Początek: {{formatDate(universityClassDate.value[0].start_date)}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <span *ngFor="let periodicityDate of universityClassDate.value">
+                        <span style="display: flex;">
+                            <p style="flex-grow: 1;">{{formatDate(periodicityDate.start_date)}} {{getTime(periodicityDate.start_date)}} - {{getTime(periodicityDate.end_date)}}</p>
+                            <!-- <p class="mat-caption" style="margin: 0 8px 0; cursor: pointer;">Edytuj</p> -->
+                            <p class="mat-caption" style="margin: 0; cursor: pointer;" (click)="deleteSingleDate(periodicityDate, universityClassDate.key)">Usuń</p>
+                        </span>
+                        <mat-divider></mat-divider>
+                    </span>
+                </mat-expansion-panel>
+                <div style="margin-bottom: 16px;" *ngIf="universityClassDate.value[0].periodicity == 1">
+                    <button mat-button color="warn" (click)="deletePeriodicityDates(universityClassDate)">Usuń grupę dat</button>
                 </div>
-            </mat-expansion-panel>
+                <div style="margin-bottom: 16px;" *ngIf="universityClassDate.value[0].periodicity == 0">
+                    <!-- <button mat-button>Edytuj datę</button> -->
+                    <button mat-button color="warn" (click)="deletePeriodicityDates(universityClassDate)">Usuń datę</button>
+                </div>
+            </div>
         </mat-accordion>
     </div>
 

@@ -1,6 +1,7 @@
 .post__container {
     border-radius: 19px;
     width: 85%;
+    max-width: 85%;
     margin: 16px auto;
 }
 

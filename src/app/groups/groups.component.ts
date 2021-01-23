@@ -48,6 +48,7 @@ export class GroupsComponent implements OnInit {
         this.groupService.getMyGroups(this.userService.getCurrentUser().id)
             .subscribe(result => {
                 this.myGroups = result;
+                console.log(this.myGroups)
                 this.myManagedGroups = this.myGroups.filter(group => group.role === 'admin' || group.role === 'god');
                 this.myVerifiedGroups = this.myGroups.filter(group => group.role !== 'unverified');
                 this.myVerifiedGroups.forEach(group => {

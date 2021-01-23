@@ -16,6 +16,7 @@ const USER_PROFILE_PIC = 'user_profile_pic_url';
 export class UserService {
     usersUrl = `${BASE_API_URL}/users`;
     userPicturesUrl = `${BASE_API_URL}/userPictures`;
+    searchUsersUrl = `${BASE_API_URL}/searchUsers`;
 
     constructor(
         private http: HttpClient,
@@ -56,17 +57,9 @@ export class UserService {
 
     addUserProfilePic(data): Observable<any> {
         const filedata: FormData = new FormData();
-        // console.log(data);
         filedata.append('name', data, data.name);
-        // console.log(filedata.get('name'));
-        // return of(null);
 
-        return this.http.post(this.userPicturesUrl, filedata).pipe(
-            tap(userPicture => {
-                // localStorage.removeItem(USER_PROFILE_PIC);
-                // this.getUserProfilePic();
-            })
-        )
+        return this.http.post(this.userPicturesUrl, filedata);
     }
 
     deleteUserPicture(id): Observable<any> {
@@ -92,5 +85,9 @@ export class UserService {
 
     clearCurrentUser() {
         localStorage.removeItem(USER_DATA);
+    }
+
+    searchUsers(term): Observable<any> {
+        return this.http.get(`${this.searchUsersUrl}/${term}`);
     }
 }

@@ -8,4 +8,5 @@ export interface Post {
     updated_at;
     created_at;
     Groups_idGroup;
+    profilePic;
 }

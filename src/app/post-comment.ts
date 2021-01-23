@@ -1,7 +1,9 @@
 export interface PostComment {
     id;
-    author;
+    name;
+    secondName
     authorId;
+    profilePic;
     Posts_idPost;
     comment;
     created_at;

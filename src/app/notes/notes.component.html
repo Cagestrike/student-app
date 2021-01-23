@@ -10,6 +10,6 @@
 
 <ngx-masonry [ordered]="true">
     <div ngxMasonryItem *ngFor="let note of notes" class="note-container box-shadow-for-containers" (click)="openEditNoteDialog(note);">
-        <app-note [note]="note.note"></app-note>
+        <app-note [note]="note"></app-note>
     </div>
 </ngx-masonry>

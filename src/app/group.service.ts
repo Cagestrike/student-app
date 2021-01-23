@@ -14,11 +14,16 @@ export class GroupService {
     private myGroupsUrl = `${BASE_API_URL}/getUsersGroups`;
     private postsUrl = `${BASE_API_URL}/posts`;
     private postUrl = `${BASE_API_URL}/post`;
+    private postFilesUrl = `${BASE_API_URL}/postData`
     private allPostsUrl = `${BASE_API_URL}/AllGroupsPosts`;
     private groupUserUrl = `${BASE_API_URL}/groupUser`;
     private groupUsersUrl = `${BASE_API_URL}/groupUsers`;
     private commentsUrl = `${BASE_API_URL}/comments`;
     private commentUrl = `${BASE_API_URL}/comment`;
+    private groupUserPicUrl = `${BASE_API_URL}/groupUserPic`;
+    private commentFilesUrl = `${BASE_API_URL}/commentDatas`;
+    private commentFileUrl = `${BASE_API_URL}/commentData`;
+
     constructor(
         private http: HttpClient,
     ) { }
@@ -31,6 +36,10 @@ export class GroupService {
         return this.http.delete<any>(`${this.groupsUrl}/${groupId}`)
     }
 
+    getGroupDetails(groupId): Observable<any> {
+        return this.http.get(`${this.groupsUrl}/${groupId}`);
+    }
+
     getMyGroups(currentUserId): Observable<any> {
         return this.http.get<any>(`${this.myGroupsUrl}/${currentUserId}`);
     }
@@ -39,12 +48,26 @@ export class GroupService {
         return this.http.post(this.groupsUrl, group);
     }
 
+    updateGroup(groupId, group: Group): Observable<any> {
+        return this.http.put(`${this.groupsUrl}/${groupId}`, group);
+    }
+
+    addGroupPhoto(data, groupId): Observable<any> {
+        const filedata: FormData = new FormData();
+        filedata.append('picture', data, data.name);
+        return this.http.post(`${this.groupUserPicUrl}/${groupId}`, filedata);
+    }
+
     joinGroup(groupId): Observable<any> {
         return this.http.post(`${this.joinGroupUrl}/${groupId}`, null);
     }
 
     removeUserFromGroup(userId, groupId): Observable<any> {
         return this.http.delete(`${this.groupUserUrl}/${userId}/${groupId}`);
+    }
+
+    addUserToGroup(userId, groupId): Observable<any> {
+        return this.http.post(`${this.groupUserUrl}/${userId}/${groupId}`, null);
     }
 
     getPostsFromGroup(groupId): Observable<any> {
@@ -83,6 +106,20 @@ export class GroupService {
         return this.http.put(`${this.postUrl}/${groupId}/${postId}`, post);
     }
 
+    getPostFiles(groupId, postId): Observable<any> {
+        return this.http.get(`${this.postFilesUrl}/${groupId}/${postId}`);
+    }
+
+    addPostFile(groupId, postId, data): Observable<any> {
+        const filedata: FormData = new FormData();
+        filedata.append('data', data, data.name);
+        return this.http.post(`${this.postFilesUrl}/${groupId}/${postId}`, filedata);
+    }
+
+    deletePostFile(groupId, postId, postFileId): Observable<any> {
+        return this.http.delete(`${this.postFilesUrl}/${groupId}/${postId}/${postFileId}`)
+    }
+
     addComment(comment, groupId, postId): Observable<any> {
         return this.http.post(`${this.commentUrl}/${groupId}/${postId}`, comment);
     }
@@ -93,6 +130,20 @@ export class GroupService {
 
     deleteComment(groupId, commentId): Observable<any> {
         return this.http.delete(`${this.commentUrl}/${groupId}/${commentId}`);
+    }
+
+    getCommentFiles(groupId, commentId): Observable<any> {
+        return this.http.get(`${this.commentFilesUrl}/${groupId}/${commentId}`);
+    }
+
+    addFileToComment(groupId, commentId, data): Observable<any> {
+        const filedata: FormData = new FormData();
+        filedata.append('data', data, data.name);
+        return this.http.post(`${this.commentFileUrl}/${groupId}/${commentId}`, filedata);
+    }
+
+    deleteCommentFile(groupId, commentId, commentDataId): Observable<any> {
+        return this.http.delete(`${this.commentFileUrl}/${groupId}/${commentId}/${commentDataId}`);
     }
 
     getPostComments(groupId, postId): Observable<any> {
