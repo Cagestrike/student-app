@@ -168,13 +168,13 @@ export class PostComponent implements OnInit {
         this.groupService.deletePost(this.post)
             .subscribe(result => {
                 this.postDelete.emit(this.post.id);
-                this.isCommentLoading = false;
+                this.isPostLoading = false;
             }, error => {
                 console.log(error);
                 this.snackBar.open(error.error, null, {
                     duration: 3500
                 });
-                this.isCommentLoading = false;
+                this.isPostLoading = false;
             })
     }
 

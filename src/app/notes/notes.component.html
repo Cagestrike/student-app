@@ -9,7 +9,7 @@
 <app-spinner *ngIf="isLoading"></app-spinner>
 
 <ngx-masonry [ordered]="true">
-    <div ngxMasonryItem *ngFor="let note of notes" class="note-container box-shadow-for-containers" (click)="openEditNoteDialog(note);">
+    <div ngxMasonryItem *ngFor="let note of currentNotes" class="note-container box-shadow-for-containers" (click)="openEditNoteDialog(note);">
         <app-note [note]="note"></app-note>
     </div>
 </ngx-masonry>

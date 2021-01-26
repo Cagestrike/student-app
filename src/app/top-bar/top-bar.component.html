@@ -7,6 +7,12 @@
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="calendarCreateEvent();">Stwórz nowe wydarzenie</button>
     </div>
     <div *ngIf="currentRouterOutletComponent?.openCreateNoteDialog" class="action-buttons">
+        <mat-form-field appearance="fill">
+            <mat-select (selectionChange)="onNoteTagChange($event);" [value]="-1">
+                <mat-option [value]="-1">Pokaż wszystkie</mat-option>
+                <mat-option *ngFor="let tag of currentRouterOutletComponent?.getNoteTags()" [value]="tag.id">{{tag.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="noteCreate();">Nowa Notatka</button>
     </div>
     <div *ngIf="currentRouterOutletComponent?.currentStage === 'current timetable'" class="action-buttons">

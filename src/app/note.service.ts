@@ -10,6 +10,8 @@ import { BASE_API_URL } from './api-utils';
 export class NoteService {
     private userNotesUrl = `${BASE_API_URL}/userNotes`;
     private userNotesFileUrl = `${BASE_API_URL}/userNotesData`
+    private noteTagsUrl = `${BASE_API_URL}/noteTags`;
+    private noteTagUrl = `${BASE_API_URL}/noteTag`;
 
     constructor(
         private http: HttpClient
@@ -33,13 +35,31 @@ export class NoteService {
 
     addFileToNote(data, noteId): Observable<any> {
         const filedata: FormData = new FormData();
-        // filedata.append('dataName', data, data.name);
         filedata.append('data', data, data.name);
-        console.log(filedata)
         return this.http.post(`${this.userNotesFileUrl}/${noteId}`, filedata);
     }
 
     deleteFileFromNote(fileId): Observable<any> {
         return this.http.delete(`${this.userNotesFileUrl}/${fileId}`);
+    }
+
+    getAllNoteTags(): Observable<any> {
+        return this.http.get(this.noteTagsUrl);
+    }
+
+    getNoteTags(noteId): Observable<any> {
+        return this.http.get(`${this.noteTagsUrl}/${noteId}`);
+    }
+
+    addTagToNote(noteId, tagName): Observable<any> {
+        return this.http.post(`${this.noteTagUrl}/${noteId}`, {"name": tagName});
+    }
+    
+    deleteTag(tagId): Observable<any> {
+        return this.http.delete(`${this.noteTagUrl}/${tagId}`);
+    }
+
+    getNotesWithTag(tagId): Observable<any> {
+        return this.http.get(`${this.noteTagUrl}/${tagId}`);
     }
 }

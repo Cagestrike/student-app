@@ -18,4 +18,5 @@ mat-dialog-content {
     border-radius: 19px;
     max-height: 400px;
     overflow: hidden;
+    cursor: pointer;
 }

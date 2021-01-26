@@ -69,6 +69,7 @@ import { ProfilePictureComponent } from './profile-picture/profile-picture.compo
 import {MatChipsModule} from '@angular/material/chips';
 import { AddMembersDialogComponent } from './add-members-dialog/add-members-dialog.component';
 import { GroupDetailsComponent } from './group-details/group-details.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     dayGridPlugin,
@@ -144,6 +145,7 @@ FullCalendarModule.registerPlugins([ // register FullCalendar plugins
         MatSnackBarModule,
         MatListModule,
         MatChipsModule,
+        MatAutocompleteModule,
     ],
     providers: [
         AuthGuard,

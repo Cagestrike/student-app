@@ -8,6 +8,7 @@ import { UserEvent } from '../user-event';
 import { UserEventDate } from '../user-event-date';
 import { UserEventWithDates } from '../user-event-with-dates';
 import { parseEventsToUserEventsWithDates } from '../api-utils';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-calendar',
@@ -35,7 +36,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
     constructor(
         public dialog: MatDialog,
-        private eventService: EventService
+        private eventService: EventService,
+        private router: Router
     ) { }
 
     ngAfterViewInit(): void {
@@ -53,6 +55,13 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     }
 
     openEditEventDialog(eventToEdit: UserEvent, eventDateToEdit: UserEventDate, otherEventDates: UserEventDate[]): void {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { eventDialog: 1 },
+                queryParamsHandling: 'merge',
+            }
+        );
         const dialogRef = this.dialog.open(NewCalendarEventDialogComponent, {
             data: {
                 eventToEdit,
@@ -62,6 +71,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            this.clearQueryParams();
             if (result.deleted) {
                 this.eventsWithDates.splice(this.eventsWithDates.findIndex(userEvent => userEvent.userEvent.id === eventToEdit.id), 1);
                 this.buildCalendarEvents();
@@ -144,10 +154,28 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         this.calendar.getApi().prev();
     }
 
+    clearQueryParams() {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { eventDialog: null, },
+                queryParamsHandling: 'merge',
+            }
+        );
+    }
+
     openCreateEventDialog(): void {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { eventDialog: 1 },
+                queryParamsHandling: 'merge',
+            }
+        );
         const dialogRef = this.dialog.open(NewCalendarEventDialogComponent);
 
         dialogRef.afterClosed().subscribe(result => {
+            this.clearQueryParams();
             this.eventsWithDates.push({ userEvent: result.userEvent, dates: [result.userEventDate] });
             this.buildCalendarEvents();
         });

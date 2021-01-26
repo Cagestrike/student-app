@@ -39,7 +39,8 @@
                 <div *ngFor="let universityClassWithDates of universityClasses" class="university-class__row">
                     <div style="flex-grow: 1;">
                         <h3 style="margin: 0;">{{universityClassWithDates.universityClass.name}}</h3>
-                        <p>{{universityClassWithDates.universityClass.place}}</p>
+                        <p style="margin: 0">{{universityClassWithDates.universityClass.place}}</p>
+                        <button mat-button style="margin-right: auto;" (click)="openEditUniversityClassDatesDialog(universityClassWithDates);">Zarządzaj datami</button>
                     </div>
                     <div>
                         <button mat-mini-fab color="primary" class="button" (click)="openEditClassDialog(universityClassWithDates);">

@@ -21,6 +21,27 @@
     </h2> -->
 
     <mat-dialog-content>
+        <mat-form-field style="position: relative; width: 100%;" *ngIf="noteToEdit?.note?.id">
+            <app-spinner *ngIf="areTagsLoading" [diameter]=32></app-spinner>
+            <mat-label>Tagi</mat-label>
+            <mat-chip-list #chipList aria-label="Nadaj tagi">
+                <mat-chip *ngFor="let tag of tags" [selectable]="selectable" [removable]="removable"
+                    (removed)="remove(tag)" style="position: relative">
+                    <app-spinner *ngIf="isTagLoading.has(tag.id)" [diameter]=16></app-spinner>
+                    {{tag.name}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Nowy tag..." #tagInput [formControl]="tagControl" [matAutocomplete]="auto"
+                    [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    (matChipInputTokenEnd)="add($event)">
+            </mat-chip-list>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag.name">
+                    {{tag.name}}
+                </mat-option>
+
+            </mat-autocomplete>
+        </mat-form-field>
         <div id="editor" style="height: 35vh;"></div>
         <div style="position: relative;">
             <app-spinner *ngIf="areFilesLoading" [diameter]=40></app-spinner>
@@ -33,10 +54,9 @@
                     </mat-chip>
                 </mat-chip-list>
             </div>
-            <input type="file" *ngIf="noteToEdit?.note?.id" #noteFilesInput style="margin-top: 16px;" (change)="onNoteFilesChange($event)">
+            <input type="file" *ngIf="noteToEdit?.note?.id" #noteFilesInput style="margin-top: 16px;"
+                (change)="onNoteFilesChange($event)">
         </div>
-
-
 
         <!-- <button mat-flat-button (click)="saveFiles();" color="primary" class="button">Zapisz pliki</button> -->
     </mat-dialog-content>

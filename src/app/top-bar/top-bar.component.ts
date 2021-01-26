@@ -58,6 +58,11 @@ export class TopBarComponent implements OnInit {
         this.currentRouterOutletComponent.setCurrentTimetable(event.value);
     }
 
+    onNoteTagChange(event) {
+        console.log(event);
+        this.currentRouterOutletComponent.filterNotesByTag(event.value);
+    }
+
     noteCreate(): void {
         this.currentRouterOutletComponent.openCreateNoteDialog();
     }

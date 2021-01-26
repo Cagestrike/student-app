@@ -6,3 +6,11 @@
     position: relative;
     overflow: hidden;
 }
+
+::ng-deep .fc-daygrid-event {
+    cursor: pointer;
+}
+
+::ng-deep .fc-event-main {
+    cursor: pointer;
+}

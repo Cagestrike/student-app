@@ -9,6 +9,12 @@ import { SafeHtmlPipe } from '../safe-html.pipe';
 import { NgxMasonryComponent } from 'ngx-masonry';
 import { NoteWithFiles } from '../note-with-files';
 import { parseNotesToNotesWithFiles } from '../api-utils';
+import { Router } from '@angular/router';
+
+export interface NoteTag {
+    id;
+    name;
+}
 
 @Component({
     selector: 'app-notes',
@@ -17,28 +23,70 @@ import { parseNotesToNotesWithFiles } from '../api-utils';
     encapsulation: ViewEncapsulation.None,
 })
 export class NotesComponent implements OnInit {
-    notes: NoteWithFiles[] = [];
+    allNotes: NoteWithFiles[] = [];
+    currentNotes: NoteWithFiles[] = [];
     @ViewChild(NgxMasonryComponent) masonry: NgxMasonryComponent;
     isLoading = true;
+    noteTags: NoteTag[] = [];
 
     constructor(
         public dialog: MatDialog,
-        private noteService: NoteService
+        private noteService: NoteService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
         this.getNotes();
+        this.getAllNoteTags();
+    }
+
+    getAllNoteTags() {
+        this.noteService.getAllNoteTags().subscribe(result => {
+            console.log(result);
+            this.noteTags = result;
+        }, error => {
+            console.log(error);
+        })
+    }
+
+    getNoteTags() {
+        return this.noteTags;
+    }
+
+    filterNotesByTag(tagId) {
+        console.log(this.allNotes);
+        console.log(this.currentNotes);
+        if(tagId == -1) {
+            this.currentNotes = this.allNotes;
+            this.rerenderMasonryLayout();
+        } else {
+            this.isLoading = true;
+            this.noteService. getNotesWithTag(tagId).subscribe(result => {
+                console.log(result);
+                const noteIds = new Set<number>();
+                result.forEach(note => {
+                    noteIds.add(note.id);
+                })
+                console.log(noteIds);
+                this.currentNotes = this.allNotes.filter(note => noteIds.has(note.note.id));
+                this.rerenderMasonryLayout()
+                this.isLoading = false;
+            }, error => {
+                console.log(error);
+                this.isLoading = false;
+            })
+        }
     }
 
     getNotes(): void {
         this.isLoading = true;
         this.noteService.getNotes()
             .subscribe(notes => {
-                this.notes = parseNotesToNotesWithFiles(notes);
+                this.currentNotes = parseNotesToNotesWithFiles(notes);
+                this.allNotes = this.currentNotes;
                 this.rerenderMasonryLayout();
                 this.isLoading = false;
-                console.log(notes);
-                console.log(this.notes);
+                console.log(this.allNotes);
             }, error => {
                 this.isLoading = false;
                 console.log(error);
@@ -50,50 +98,73 @@ export class NotesComponent implements OnInit {
         this.masonry.layout();
     }
 
-    updateNote(note: Note) {
-        // const noteIndexToUpdate = this.notes.findIndex(noteToFind => noteToFind.id === note.id);
-        // this.notes[noteIndexToUpdate] = note;
-        // this.rerenderMasonryLayout();
+    clearQueryParams() {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { noteDialog: null, },
+                queryParamsHandling: 'merge',
+            }
+        );
     }
 
     openCreateNoteDialog() {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { noteDialog: 1 },
+                queryParamsHandling: 'merge',
+            }
+        );
         const dialogRef = this.dialog.open(NoteDialogComponent, {
             panelClass: 'my-custom-dialog-class',
             data: {
-                self: this
+                self: this,
+                availableTags: this.noteTags
             }
         });
 
         dialogRef.afterClosed().subscribe(result => {
+            this.clearQueryParams();
+            this.getAllNoteTags();
             if (result) {
                 this.rerenderMasonryLayout();
                 this.getNotes();
             }
-            // this.notes.unshift({note: result, files: []});
         })
     }
 
     openEditNoteDialog(noteWithFiles: NoteWithFiles) {
-        console.log(noteWithFiles);
-
+        this.router.navigate(
+            [],
+            {
+                queryParams: { noteDialog: 1 },
+                queryParamsHandling: 'merge',
+            }
+        );
         const dialogRef = this.dialog.open(NoteDialogComponent, {
             panelClass: 'my-custom-dialog-class',
             data: {
                 noteWithFiles,
+                availableTags: this.noteTags,
                 self: this
             }
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            if (result.deleted) {
-                this.notes.splice(this.notes.findIndex(nt => nt.note.id === result.deletedNoteId), 1);
+            this.clearQueryParams();
+            this.getAllNoteTags();
+            if (result?.deleted) {
+                this.allNotes.splice(this.allNotes.findIndex(nt => nt.note.id === result.deletedNoteId), 1);
+                this.currentNotes.splice(this.currentNotes.findIndex(nt => nt.note.id === result.deletedNoteId), 1);
                 this.rerenderMasonryLayout();
                 return;
             }
             if(result) {
-                this.notes[this.notes.findIndex(nt => nt.note.id === result.id)].note = result;
+                this.allNotes[this.allNotes.findIndex(nt => nt.note.id === result.id)].note = result;
+                this.currentNotes[this.currentNotes.findIndex(nt => nt.note.id === result.id)].note = result;
             }
-            
+
             this.rerenderMasonryLayout();
         });
     }

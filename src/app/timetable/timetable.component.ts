@@ -17,6 +17,7 @@ import { AuthenticationService } from '../authentication.service';
 import { NewTimetableDialogComponent } from '../new-timetable-dialog/new-timetable-dialog.component';
 import { UniversityClassWithDates } from '../university-class-with-dates';
 import { UniversityClassDate } from '../university-class-date';
+import { EditUniversityClassDatesDialogComponent } from '../edit-university-class-dates-dialog/edit-university-class-dates-dialog.component';
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -134,11 +135,6 @@ export class TimetableComponent implements OnInit {
             console.log(this.universityClasses);
             this.buildCalendarEvents();
             this.areClassesLoading = false;
-            // const calendarEvents = this.universityClasses.map(universityClass => {
-            //     return this.mapUniversityClassToEvent(universityClass);
-            // }).forEach(event => {
-            //     this.calendarComponent.getApi().addEvent(event);
-            // });
         });
     }
 
@@ -225,10 +221,37 @@ export class TimetableComponent implements OnInit {
             {
                 queryParams: { editClass: null, timetableCreate: null, datesEdit: null },
                 queryParamsHandling: 'merge',
-                // skipLocationChange: true,
-
             }
         );
+    }
+    
+    openEditUniversityClassDatesDialog(universityClassWithDates: UniversityClassWithDates) {
+        this.router.navigate(
+            [],
+            {
+                queryParams: { datesEdit: 1 },
+                queryParamsHandling: 'merge',
+            }
+        );
+        const dialogRef = this.dialog.open(EditUniversityClassDatesDialogComponent, {
+            data: {
+                timetable: this.currentTimetable,
+                universityClass: universityClassWithDates.universityClass,
+                universityClassDates: universityClassWithDates.dates,
+                timetableComponent: this
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            this.router.navigate(
+                [],
+                {
+                    queryParams: { datesEdit: null },
+                    queryParamsHandling: 'merge',
+                }
+            );
+            // this.dialogRef.close();
+        });
     }
 
     openEditClassDialog(universityClassToEdit: UniversityClassWithDates): void {
