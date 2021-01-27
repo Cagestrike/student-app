@@ -1,6 +1,9 @@
 <div class="top-bar">
+    <button mat-mini-fab color="primary" class="hamburger__menu" (click)="toggleSideNavbar();">
+        <mat-icon>menu</mat-icon>
+      </button>
     <h2 style="margin: 0 8px; align-self: center; flex-grow: 1;">{{activePageName}}</h2>
-    <div *ngIf="currentRouterOutletComponent?.calendar" class="action-buttons">
+    <div *ngIf="currentRouterOutletComponent?.calendar" class="action-buttons calendar">
         <button mat-flat-button (click)="calendarPrevious();"><</button>
         <h2 style="margin: 0;">{{currentRouterOutletComponent.getDate()}}</h2>
         <button mat-flat-button (click)="calendarNext();">></button>
@@ -15,7 +18,7 @@
         </mat-form-field>
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="noteCreate();">Nowa Notatka</button>
     </div>
-    <div *ngIf="currentRouterOutletComponent?.currentStage === 'current timetable'" class="action-buttons">
+    <div *ngIf="currentRouterOutletComponent?.currentStage === 'current timetable'" class="action-buttons timetable">
         <mat-form-field appearance="fill">
             <mat-select (selectionChange)="onTimetableSelectChange($event);" [value]="currentRouterOutletComponent.currentTimetable">
                 <mat-option *ngFor="let timetable of currentRouterOutletComponent?.getAvailableTimetables()" [value]="timetable">{{timetable.name}}</mat-option>
@@ -24,9 +27,9 @@
         <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="timetableCreate();">Nowy Plan Zajęć</button>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
-        <!-- <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="logout();">Wyloguj</button> -->
-        <app-profile-picture></app-profile-picture>
-        <button mat-button [matMenuTriggerFor]="userMenu" style="align-self: center; margin-right: 16px;">{{user.name}} {{user.secondName}}
+        <button mat-button [matMenuTriggerFor]="userMenu" style="align-self: center; margin-right: 16px;">
+            <app-profile-picture></app-profile-picture>
+            <span class="username">{{user.name}} {{user.secondName}}</span>
             <mat-icon>keyboard_arrow_down</mat-icon>
         </button>
         <mat-menu #userMenu="matMenu">

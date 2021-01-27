@@ -88,3 +88,59 @@
 .button-delete {
     border-radius: 0;
 }
+
+.timetable_actions {
+    display: none;
+    margin-top: 8px;
+}
+
+.timetable {
+    width: 75%; 
+    margin: 16px; 
+    border-radius: 19px 19px 0 0; 
+    position: relative;
+}
+
+.current-timetable__container {
+    display: flex;
+}
+
+.university-classes {
+    width: 25%; 
+    margin: 16px; 
+    border-radius: 19px 19px 0 0;
+}
+
+@media (max-width: 768px) {
+    .timetable_actions {
+        display: flex;
+        justify-content: center;
+    }
+
+    .timetable {
+        width: 97%;
+        margin: 0 4px;
+    }
+
+    .university-classes {
+        width: 97%;
+        margin: 0 4px;
+    }
+
+    .current-timetable__container {
+        flex-direction: column-reverse;
+    }
+
+    ::ng-deep .fc-col-header-cell.fc-day {
+        overflow: hidden;
+    }
+
+    ::ng-deep .fc-event-title.fc-sticky {
+        overflow-wrap: break-word;
+    }
+
+    ::ng-deep .fc-timegrid-event.fc-event-time {
+        white-space: unset;
+        overflow-wrap: break-word;
+    }
+}

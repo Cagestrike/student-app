@@ -17,3 +17,25 @@
 .button__color {
     background-color: #3498DB;
 }
+
+.align__center {
+    align-self: center;
+}
+
+@media (max-width: 768px) {
+    .modal-box__form-row {
+        flex-direction: column;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    .align__center {
+        align-self: unset;
+    }
+
+    .form__field {
+        margin-bottom: 16px;
+    }
+}

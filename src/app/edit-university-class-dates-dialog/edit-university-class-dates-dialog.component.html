@@ -11,14 +11,13 @@
             {{genericError}}
         </mat-error>
         <div class="modal-box__form-row">
-            <mat-form-field style="margin-right: 16px;">
+            <mat-form-field class="field-margin">
                 <mat-label>Kiedy zaczyna się przedmiot?</mat-label>
                 <input matInput [min]="minClassStartDate" [max]="maxClassEndDate" name="classStartDate" type="date"
                     [formControl]="classStartDateControl" required>
-
             </mat-form-field>
 
-            <mat-form-field style="margin-right: 16px; width: 15%;">
+            <mat-form-field class="field-margin field-small">
                 <mat-label>Początek</mat-label>
                 <input matInput name="classStartTime" type="time" [formControl]="classStartTimeControl" required>
                 <mat-error *ngIf="classStartTimeControl.hasError('apiErrors')">
@@ -26,7 +25,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field style=" margin-right: 16px; width: 15%;">
+            <mat-form-field class="field-margin field-small">
                 <mat-label>Koniec</mat-label>
                 <input matInput name="classEndTime" type="time" [formControl]="classEndTimeControl" required>
                 <mat-error *ngIf="classEndTimeControl.hasError('apiErrors')">
@@ -34,13 +33,14 @@
                 </mat-error>
             </mat-form-field>
 
-            <button mat-mini-fab color="primary" class="button" (click)="addDate();">
+            <button mat-mini-fab color="primary" class="button add-date-button__icon" (click)="addDate();">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
         <div class="modal-box__form-row">
             <mat-checkbox (change)="handleWeeklyCheckbox($event)" style="align-self:center;" name="allDayEvent"
                 [formControl]="weeklyCheckboxControl">Powtarza się co tydzień?</mat-checkbox>
+            <button mat-flat-button color="primary" class="button add-date-button__text" (click)="addDate();">Dodaj datę</button>
         </div>
     </form>
 
@@ -52,22 +52,21 @@
             <div style="position: relative;">
                 <app-spinner *ngIf="isSingleDateCurrentlyLoading(universityClassDate.key)" [diameter]=32></app-spinner>
                 <mat-expansion-panel>
-                    
-                    <mat-expansion-panel-header>
+                    <mat-expansion-panel-header [collapsedHeight]="innerWidth <= 768 ? '150px' : '100px'" expandedHeight="150px">
                         <mat-panel-title>
                             <div *ngIf="universityClassDate.value[0].periodicity == 1">
-                                Co tydzień w: {{getDayOfWeek(universityClassDate.value[0].start_date)}}
+                                Co tydzień w: <br> {{getDayOfWeek(universityClassDate.value[0].start_date)}} <br>
                                 {{getTime(universityClassDate.value[0].start_date)}} -
                                 {{getTime(universityClassDate.value[0].end_date)}}.
                             </div>
                             <div *ngIf="universityClassDate.value[0].periodicity == 0">
-                                Pojedyncze wystąpienie: {{formatDate(universityClassDate.value[0].start_date)}}
+                                Pojedyncze wystąpienie: <br> {{formatDate(universityClassDate.value[0].start_date)}} <br>
                                 {{getTime(universityClassDate.value[0].start_date)}} -
                                 {{getTime(universityClassDate.value[0].end_date)}}
                             </div>
                         </mat-panel-title>
-                        <mat-panel-description *ngIf="universityClassDate.value[0].periodicity == 1">
-                            Początek: {{formatDate(universityClassDate.value[0].start_date)}}
+                        <mat-panel-description *ngIf="universityClassDate.value[0].periodicity == 1 && innerWidth > 768">
+                            Początek: <br> {{formatDate(universityClassDate.value[0].start_date)}}
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <span *ngFor="let periodicityDate of universityClassDate.value">

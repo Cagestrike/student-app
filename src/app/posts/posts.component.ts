@@ -152,8 +152,12 @@ export class PostsComponent implements OnInit {
     }
 
     createPost(): void {
+        let width = '50vw';
+        if(window.innerWidth <= 768) {
+            width = '95vw'
+        }
         const dialogRef = this.dialog.open(PostDialogComponent, {
-            width: '50vw',
+            width: width,
             data: {
                 selectedGroup: this.group,
                 availableGroups: this.availableGroups

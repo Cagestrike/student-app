@@ -168,4 +168,8 @@ export class NotesComponent implements OnInit {
             this.rerenderMasonryLayout();
         });
     }
+
+    onNoteTagChange(event) {
+        this.filterNotesByTag(event.value);
+    }
 }

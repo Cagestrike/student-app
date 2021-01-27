@@ -42,6 +42,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.getEvents();
+        this.getDate();
     }
 
     ngOnInit(): void { }
@@ -181,12 +182,19 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         });
     }
 
+    currentCalendarDate;
     getDate(): string {
-        return formatDate(this.calendar.getApi().getDate(), {
+        this.currentCalendarDate = formatDate(this.calendar.getApi()?.getDate(), {
             month: 'long',
             year: 'numeric',
             locale: 'pl'
         });
+        return this.currentCalendarDate;
+        // return formatDate(this.calendar.getApi()?.getDate(), {
+        //     month: 'long',
+        //     year: 'numeric',
+        //     locale: 'pl'
+        // });
     }
 
 }

@@ -24,6 +24,7 @@ export class GroupsComponent implements OnInit {
     areMyGroupsLoading;
     selectedGroupId;
     selectedGroup;
+    selectedIndex = 0;
 
     constructor(
         public dialog: MatDialog,
@@ -107,6 +108,7 @@ export class GroupsComponent implements OnInit {
             // const url = this.router.createUrlTree([], {relativeTo: this.activatedRoute, queryParams: {group: this.selectedGroupId}}).toString()
             // this.location.go(`${url}`);
         }
+        this.selectedIndex = 0;
     }
 
     createGroup(): void {

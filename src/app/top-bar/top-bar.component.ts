@@ -14,6 +14,8 @@ registerLocaleData(localePl, 'pl');
 export class TopBarComponent implements OnInit {
     @Input() activePageName;
     @Input() currentRouterOutletComponent;
+    @Output() navbarToggle = new EventEmitter();
+
     user;
     activePageNameByRoute = new Map().set('dashboard', 'Strona główna')
         .set('timetable', 'Plan zajęć')
@@ -36,6 +38,10 @@ export class TopBarComponent implements OnInit {
                 this.activePageName = this.activePageNameByRoute.get(this.router.url.split('/')[1].split('?')[0]);
             }
         });
+    }
+
+    toggleSideNavbar() {
+        this.navbarToggle.emit();
     }
 
     calendarNext(): void {

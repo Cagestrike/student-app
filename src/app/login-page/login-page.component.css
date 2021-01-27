@@ -19,6 +19,8 @@
     width: 70%;
     height: 80%;
     display: flex;
+    position: relative; 
+    overflow: hidden;
 }
 
 .social-login-wrapper {
@@ -55,7 +57,22 @@
     background-color: #3498DB;
 }
 
-.form-wrapper {
-    /* border: solid red 1px; */
-    /* overflow: scroll; */
+@media (max-width: 768px) {
+    .login-box {
+        flex-direction: column;
+        height: 90vh;
+        width: 80vw;
+        justify-content: center;
+        align-items: center;
+        overflow: unset;
+    }
+
+    .social-login-wrapper {
+        display: none;
+    }
+
+    .login-wrapper {
+        border-radius: 19px;
+        width: 100%;
+    }
 }

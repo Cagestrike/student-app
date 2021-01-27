@@ -15,7 +15,7 @@
             </mat-error>
         </mat-form-field>
         <div class="modal-box__form-row">
-            <mat-form-field style="flex: 1; margin-right: 16px;">
+            <mat-form-field class="start-date__field">
                 <mat-label>Początek</mat-label>
                 <input matInput [(ngModel)]="timetableStartDate" [formControl]="startDateControl"
                     name="timetableStartDate" type="date" required>
@@ -23,7 +23,7 @@
                     Data początku jest <strong>wymagana</strong>
                 </mat-error>
             </mat-form-field>
-            <mat-form-field style="flex: 1;">
+            <mat-form-field>
                 <mat-label>Koniec</mat-label>
                 <input matInput [(ngModel)]="timetableEndDate" [formControl]="endDateControl" name="timetableEndDate"
                     type="date" required>

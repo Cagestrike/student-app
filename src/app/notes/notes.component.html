@@ -7,6 +7,18 @@
     </div>
 </div> -->
 <app-spinner *ngIf="isLoading"></app-spinner>
+<div class="note__actions">
+    <mat-form-field appearance="fill">
+        <mat-label>Filtruj po tagu...</mat-label>
+        <mat-select (selectionChange)="onNoteTagChange($event);" [value]="-1">
+            <mat-option [value]="-1">Pokaż wszystkie</mat-option>
+            <mat-option *ngFor="let tag of getNoteTags()" [value]="tag.id">{{tag.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button mat-mini-fab class="button" style="margin-left: auto;" (click)="openCreateNoteDialog();">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
 
 <ngx-masonry [ordered]="true">
     <div ngxMasonryItem *ngFor="let note of currentNotes" class="note-container box-shadow-for-containers" (click)="openEditNoteDialog(note);">

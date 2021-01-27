@@ -18,3 +18,23 @@
     align-items: center; 
     width: 100%;
 }
+
+.hamburger__menu {
+    display: none;
+    align-self: center;
+    background-color: #3498DB;
+}
+
+@media (max-width: 768px) {
+    .hamburger__menu {
+        display: block;
+    }
+
+    .username {
+        display: none;
+    }
+
+    .action-buttons {
+        display: none;
+    }
+}

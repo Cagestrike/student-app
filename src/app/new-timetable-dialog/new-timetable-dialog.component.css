@@ -81,3 +81,17 @@
 .action-button {
     width: 10%;
 }
+
+.start-date__field {
+    margin-right: 16px;
+}
+
+@media (max-width: 768px) {
+    .modal-box__form-row {
+        flex-direction: column;
+    }
+
+    .start-date__field {
+        margin-right: 0;
+    }
+}

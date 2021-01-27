@@ -30,3 +30,33 @@
     flex-direction: column;
     padding: 16px;
 }
+
+.delete-button {
+    width: 50%; 
+    display:block; 
+    margin: 0 auto; 
+    margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+    .white__container {
+        flex-direction: column-reverse;
+    }
+
+    .user__details {
+        margin: 16px auto;
+    }
+
+    .user__photo {
+        margin: 0 auto;
+        width: 100%;
+    }
+
+    input[type="file"] {
+        max-width: 100%;
+    }
+
+    .delete-button {
+        width: unset;
+    }
+}

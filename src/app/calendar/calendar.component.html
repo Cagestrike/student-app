@@ -1,4 +1,16 @@
 <div class="calendar__wrapper">
     <app-spinner *ngIf="isLoading"></app-spinner>
+    <div class="calendar__actions">
+        <div style="display: flex; justify-content: center; align-content: center; flex-grow: 1;">
+            <button mat-flat-button (click)="calendarPrevious();"><</button>
+            <h2 style="margin: 0; align-self: center;">{{currentCalendarDate}}</h2>
+            <button mat-flat-button (click)="calendarNext();">></button>
+        </div>
+
+        <button mat-mini-fab color="primary" class="button" style="align-self: center;" (click)="openCreateEventDialog();">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+
     <full-calendar #calendar [options]="calendarOptions"></full-calendar>
 </div>

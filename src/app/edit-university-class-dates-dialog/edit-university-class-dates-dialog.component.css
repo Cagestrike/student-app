@@ -11,3 +11,43 @@ mat-form-field {
 .button {
     background-color: #3498DB;
 }
+
+.field-margin {
+    margin-right: 16px;
+}
+
+.field-small {
+    width: 15%;
+}
+
+.add-date-button__icon {
+    display: block;
+}
+
+.add-date-button__text {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .modal-box__form-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .add-date-button__icon {
+        display: none;
+    }
+    
+    .add-date-button__text {
+        display: block;
+        margin-bottom: 8px 0;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }
+
+    mat-form-field.field-small {
+        width: 100%;
+    }
+}

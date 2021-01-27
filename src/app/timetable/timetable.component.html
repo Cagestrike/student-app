@@ -8,28 +8,37 @@
 </div>
 
 
-<div style="display: flex;" *ngIf="currentStage == 'current timetable'">
-    <div style="width: 75%; margin: 16px; border-radius: 19px 19px 0 0; position: relative;">
+<div class="current-timetable__container" *ngIf="currentStage == 'current timetable'">
+    <div class="timetable">
         <h4 style="margin: 0;">Twój aktualny plan zajęć</h4>
         <div style="position: relative; overflow: hidden;">
             <app-spinner *ngIf="areClassesLoading"></app-spinner>
             <div class="timetable__header">
                 <h1 style="margin: 0; padding: 16px 0; flex-grow: 1;">{{currentTimetable.name}} ({{currentTimetable.start_date + ' - ' + currentTimetable.end_date}})</h1>
-                <!-- <button mat-flat-button color="primary" class="button" style="align-self: center;" (click)="deleteTimetable();">X</button> -->
                 <button mat-mini-fab color="primary" class="button" style="align-self: center; margin-right: 16px;" (click)="deleteTimetable();">
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>
             <div style="background-color: white; ">
                 <full-calendar 
-                style="height: 30vh;" 
                 #calendar
                 [options]="calendarOptions"
                 ></full-calendar>
             </div>
         </div>
     </div>
-    <div style="width: 25%; margin: 16px; border-radius: 19px 19px 0 0;">
+    <div class="university-classes">
+        <div class="timetable_actions">
+            <mat-form-field appearance="fill">
+                <mat-label>Wybierz plan zajęć</mat-label>
+                <mat-select (selectionChange)="onTimetableSelectChange($event);" [value]="currentTimetable">
+                    <mat-option *ngFor="let timetable of getAvailableTimetables()" [value]="timetable">{{timetable.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button mat-mini-fab color="primary" class="button" style="align-self: center; margin-left: 8px;" (click)="startTimetableCreation();">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
         <h4 style="margin: 0;">Twoje przedmioty</h4>
         <div class="university-classes__container" style="position: relative;">
             <app-spinner *ngIf="areClassesLoading"></app-spinner>
@@ -46,13 +55,10 @@
                         <button mat-mini-fab color="primary" class="button" (click)="openEditClassDialog(universityClassWithDates);">
                             <mat-icon>edit</mat-icon>
                         </button>
-                        <!-- <button mat-flat-button color="primary" class="button action-button" style="align-self: flex-start;" (click)="openEditClassDialog(universityClass);">Edytuj</button> -->
-                        <!-- <button mat-flat-button color="primary" class="button action-button" style="align-self: flex-start;" (click)="openCreateClassDialog();">Usuń</button> -->
                     </div>
                 </div>
             </ng-template>
             <button mat-flat-button color="primary" class="button button-radius" style="align-self: center;" (click)="openCreateClassDialog();">Dodaj nowy przedmiot</button>
-            <!-- <button mat-flat-button color="primary" class="button button-radius" style="align-self: center;" (click)="logDates();">log</button> -->
         </div>
     </div>
 </div>

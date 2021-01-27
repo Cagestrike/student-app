@@ -1,3 +1,17 @@
 .app-container {
     display: flex;
 }
+
+.top-bar-with-main-content__container {
+    display: flex; 
+    flex-direction: column; 
+    width: 100%; 
+    min-height: 100vh; 
+    background-color: #eeeeee;
+}
+
+@media (max-width: 768px) {
+    .top-bar-with-main-content__container {
+        margin-left: 0 !important;
+    }
+}

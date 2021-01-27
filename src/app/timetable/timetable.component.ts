@@ -138,6 +138,10 @@ export class TimetableComponent implements OnInit {
         });
     }
 
+    onTimetableSelectChange(event) {
+        this.setCurrentTimetable(event.value);
+    }
+
     buildCalendarEvents() {
         const eventArray = this.buildEventArrayFromUniversityClasses(this.universityClasses);
         this.calendarComponent.getApi().removeAllEventSources();

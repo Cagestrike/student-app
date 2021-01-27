@@ -14,7 +14,7 @@
             {{genericError}}
         </mat-error>
         <div class="modal-box__form-row">
-            <mat-form-field style=" margin-right: 16px;">
+            <mat-form-field class="field-margin">
                 <mat-label>Nazwa</mat-label>
                 <input matInput type="text" maxlength="100" maxlength="200" name="className" class="form__item"
                     [formControl]="classNameControl" required>
@@ -25,7 +25,7 @@
                     {{this.apiErrors.name}}
                 </mat-error>
             </mat-form-field>
-            <mat-form-field style="margin-right: 16px;">
+            <mat-form-field class="field-margin">
                 <mat-label>Miejsce</mat-label>
                 <input matInput type="text" maxlength="100" name="classRoom" [formControl]="classRoomControl" required>
                 <mat-error *ngIf="classRoomControl.hasError('required')">
@@ -35,7 +35,7 @@
                     {{this.apiErrors.place}}
                 </mat-error>
             </mat-form-field>
-            <mat-form-field style="width: 15%;">
+            <mat-form-field class="color-field">
                 <mat-label>Kolor</mat-label>
                 <input matInput name="classColor" type="color" [formControl]="classColorControl">
                 <mat-error *ngIf="classColorControl.hasError('apiErrors')">
@@ -45,7 +45,7 @@
         </div>
 
         <div class="modal-box__form-row">
-            <mat-form-field style=" margin-right: 16px;">
+            <mat-form-field class="field-margin">
                 <mat-label>Opis</mat-label>
                 <input matInput type="text" maxlength="255" name="classDescription"
                     [formControl]="classDescriptionControl">
@@ -54,26 +54,6 @@
                 </mat-error>
             </mat-form-field>
         </div>
-
-        <!-- <div class="modal-box__form-row">
-            <mat-form-field style="margin-right: 16px;">
-                <mat-label>Kiedy zaczyna się przedmiot?</mat-label>
-                <input matInput name="classStartDate"  type="date" [formControl]="classStartDateControl"  required>
-            </mat-form-field>
-
-            <mat-form-field style="margin-right: 16px; width: 15%;">
-                <mat-label>Początek</mat-label>
-                <input matInput name="classStartTime" type="time" [formControl]="classStartTimeControl"  required>
-            </mat-form-field>
-
-            <mat-form-field style=" margin-right: 16px; width: 15%;">
-                <mat-label>Koniec</mat-label>
-            </mat-form-field>
-
-        </div>
-        <div class="modal-box__form-row">
-            <mat-checkbox (change)="handleWeeklyCheckbox($event)" style="align-self:center;" name="allDayEvent" [formControl]="weeklyCheckboxControl">Powtarza się co tydzień?</mat-checkbox>
-        </div> -->
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">

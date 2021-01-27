@@ -1,6 +1,6 @@
-<div class="container" style="position: relative">
-    <app-spinner *ngIf="isLoading" [diameter]="64"></app-spinner>
+<app-spinner *ngIf="isLoading" [diameter]="64"></app-spinner>
 
+<div class="container">
     <h1 style="margin-left: 48px; margin-top: 16px;">Witaj, {{user?.name}}</h1>
     <div class="white__container box-shadow-for-containers">
         <form [formGroup]="userForm" class="user__details">
@@ -43,9 +43,9 @@
                 <button mat-stroked-button class="action-button active" (click)="updateUserData()">Zapisz dane</button>
             </div>
 
-            <button mat-raised-button color="warn" style="width: 50%; display:block; margin: 0 auto; margin-top: 32px;" (click)="deleteUser()">Usuń konto <mat-icon>delete</mat-icon></button>
+            <button mat-raised-button color="warn" class="delete-button" (click)="deleteUser()">Usuń konto <mat-icon>delete</mat-icon></button>
         </form>
-        <div class="user__photo" style="position: relative;">
+        <div class="user__photo" style="position: relative; overflow: hidden;">
             <app-spinner *ngIf="isPhotoLoading"></app-spinner>
             <div>
                 <mat-error *ngIf="imageErrors">

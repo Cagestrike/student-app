@@ -14,3 +14,9 @@
 .group__actions {
 
 }
+
+@media (max-width: 768px) {
+    .group__card {
+        width: 100%;
+    }
+}

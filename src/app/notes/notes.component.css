@@ -20,3 +20,23 @@ mat-dialog-content {
     overflow: hidden;
     cursor: pointer;
 }
+
+.note__actions {
+    display: none;
+}
+
+.button {
+    background-color: #3498DB !important;
+}
+
+@media (max-width: 768px) {
+    .note__actions {
+        display: flex;
+        margin-top: 8px;
+    }
+
+    .note-container {
+        width: 45%;
+        margin: 4px;
+    }
+}

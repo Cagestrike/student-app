@@ -8,6 +8,27 @@
     /* transition: 3s linear; */
 }
 
+.groups {
+    display: flex; 
+    max-width: 95vw;
+}
+
+.my__groups {
+    width: 25%; 
+    margin: 16px; 
+    border-radius: 19px 19px 0 0;
+}
+
+
+.posts__container {
+    width: 75%; 
+    max-width: 75%; 
+    margin: 16px; 
+    border-radius: 19px 19px 0 0; 
+    position: relative; 
+    height: 100%;
+}
+
 .group__row {
     padding: 8px;
     display: flex;
@@ -20,5 +41,31 @@
 
 .button-radius {
     border-radius: 14px;
+}
+
+.groups.groups__tab {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .groups {
+        display: none;
+    }
+
+    .groups.groups__tab {
+        display: unset;
+        width: 100%;
+    }
+
+    .posts__container {
+        max-width: unset;
+        width: 95%;
+    }
+
+    .my__groups {
+        width: 95%; 
+        margin: 16px auto; 
+        border-radius: 19px 19px 0 0;
+    }
 }
 

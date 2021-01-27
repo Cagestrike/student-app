@@ -54,3 +54,17 @@
     overflow: hidden;
 }
 
+
+@media (max-width: 768px) {
+    .events {
+        grid-template-columns: 1fr;
+    }
+
+    .col-3-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .container {
+        margin-bottom: 24px;
+    }
+}

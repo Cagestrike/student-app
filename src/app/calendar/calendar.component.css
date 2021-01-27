@@ -14,3 +14,25 @@
 ::ng-deep .fc-event-main {
     cursor: pointer;
 }
+
+.calendar__actions {
+    display: none;
+}
+
+.button {
+    background-color: #3498DB;
+}
+
+@media (max-width: 768px) {
+    .calendar__actions {
+        display: flex;
+    }
+
+    ::ng-deep .fc-header-toolbar.fc-toolbar {
+        display: none !important;
+    }
+
+    .calendar__wrapper {
+        margin: 16px 4px;
+    }
+}

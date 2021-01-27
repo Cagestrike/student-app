@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, HostListener, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -62,9 +62,14 @@ export class EditUniversityClassDatesDialogComponent implements OnInit {
         this.maxClassEndDate = this.currentTimetable.end_date;
 
         console.log(this.currentUniversityClassDates);
+        this.innerWidth = window.innerWidth;
     }
-
-
+    
+    innerWidth;
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+      this.innerWidth = window.innerWidth;
+    }
 
     addDate() {
         if (this.newDateForm.invalid) {

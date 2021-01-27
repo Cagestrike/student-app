@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { CalendarComponent } from "./calendar/calendar.component";
+import { SideNavbarComponent } from './side-navbar/side-navbar.component';
 
 @Component({
     selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent {
     navbarWidth = '72px';
     activePageName = 'Strona główna';
     currentRouterOutletComponent;
+    @ViewChild('sideNavbar') sideNavbar: SideNavbarComponent;
 
     constructor(
         private authService: AuthenticationService,
@@ -37,5 +39,9 @@ export class AppComponent {
     onRouterOutletActivate(event) {
         this.currentRouterOutletComponent = event;
         console.log(this.currentRouterOutletComponent);
+    }
+
+    onNavbarToggle() {
+        this.sideNavbar.toggleSideNavbar();
     }
 }

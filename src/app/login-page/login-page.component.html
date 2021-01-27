@@ -1,6 +1,6 @@
 <div class="hero-image">
     <div class="bg-blur">
-        <div class="login-box" style="position: relative; overflow: hidden;">
+        <div class="login-box">
             <app-spinner *ngIf="isLoading"></app-spinner>
             <div class="social-login-wrapper">
                 <app-social-login></app-social-login>
@@ -12,7 +12,7 @@
                     <button mat-stroked-button class="action-button" [class.active]="!isLoginMode"
                         (click)="onRegisterButtonClick($event)">Rejestracja</button>
                 </div>
-                <div class="form-wrapper">
+                <div>
                     <app-self-login *ngIf="isLoginMode" (loading)="handleLoading($event)"></app-self-login>
                     <app-self-register *ngIf="!isLoginMode" (loading)="handleLoading($event)"></app-self-register>
                 </div>
